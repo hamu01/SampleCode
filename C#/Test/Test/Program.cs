@@ -9,6 +9,7 @@ namespace Test
         static void Main(string[] args)
         {
             List<string> l1 = new List<string>();
+            l1.Add("");
             List<string> l2 = new List<string>();
             List<string> l3 = new List<string>();
 
@@ -17,6 +18,7 @@ namespace Test
                          select new List<string> { a, b };
 
             Console.WriteLine("Welcome to Advanced .NET Debugging!");
+            Console.Out.WriteLine("","");
             Console.ReadKey();
         }
     }

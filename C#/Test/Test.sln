@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 14
-VisualStudioVersion = 14.0.24720.0
+VisualStudioVersion = 14.0.25123.0
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Test", "Test\Test.csproj", "{9A2185EC-27F3-4AC0-9172-04AF9B88DBAC}"
 EndProject
@@ -22,6 +22,8 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SimpleAlloc", "SimpleAlloc\SimpleAlloc.csproj", "{8B007758-ABC0-4199-9B89-4F140459EA5B}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Roots", "Roots\Roots.csproj", "{14AEB94B-D81E-4DF2-AB5F-70943594B1A6}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "05Heap", "05Heap\05Heap.csproj", "{59B0CBAB-F4C5-4A09-9F66-CF74649E84BC}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -57,6 +59,10 @@ Global
 		{14AEB94B-D81E-4DF2-AB5F-70943594B1A6}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{14AEB94B-D81E-4DF2-AB5F-70943594B1A6}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{14AEB94B-D81E-4DF2-AB5F-70943594B1A6}.Release|Any CPU.Build.0 = Release|Any CPU
+		{59B0CBAB-F4C5-4A09-9F66-CF74649E84BC}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{59B0CBAB-F4C5-4A09-9F66-CF74649E84BC}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{59B0CBAB-F4C5-4A09-9F66-CF74649E84BC}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{59B0CBAB-F4C5-4A09-9F66-CF74649E84BC}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -68,5 +74,6 @@ Global
 		{D7892D64-DF22-418D-9AEB-676CC5220A52} = {65F22FD9-832C-43E5-A00E-8010A3FE3975}
 		{8B007758-ABC0-4199-9B89-4F140459EA5B} = {18DC1308-C39F-48CD-B2B6-5766316983B7}
 		{14AEB94B-D81E-4DF2-AB5F-70943594B1A6} = {18DC1308-C39F-48CD-B2B6-5766316983B7}
+		{59B0CBAB-F4C5-4A09-9F66-CF74649E84BC} = {18DC1308-C39F-48CD-B2B6-5766316983B7}
 	EndGlobalSection
 EndGlobal
