@@ -1,0 +1,8 @@
+{
+  "profiles": {
+    "Sock": {
+      "commandName": "Project",
+      "commandLineArgs": "-i -b6000 10.200.50.57 5000"
+    }
+  }
+}
