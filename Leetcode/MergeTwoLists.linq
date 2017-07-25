@@ -9,6 +9,7 @@ void Main()
 		p.val.Dump();
 		p = p.next;
 	}
+	Console.WriteLine ();
 	
 	l1 = new ListNode(1);
 	l2 = new ListNode(1);
@@ -17,6 +18,7 @@ void Main()
 		p.val.Dump();
 		p = p.next;
 	}
+	Console.WriteLine ();
 	
 	l1 = null;
 	l2 = new ListNode(1);
@@ -25,6 +27,7 @@ void Main()
 		p.val.Dump();
 		p = p.next;
 	}
+	Console.WriteLine ();
 	
 	l1 = null;
 	l2 = null;
@@ -35,13 +38,14 @@ void Main()
 	}
 	Console.WriteLine ();
 	
-	l1 = new ListNode(1);	l1.next = new ListNode(2);	l1.next.next = new ListNode(3);
-	l2 = new ListNode(2);	l2.next = new ListNode(2);	l2.next.next = new ListNode(3);
-	var p = MergeTwoLists(l1,l2);
+	l1 = new ListNode(1);	l1.next = new ListNode(2);	l1.next.next = new ListNode(4);
+	l2 = new ListNode(1);	l2.next = new ListNode(2);	l2.next.next = new ListNode(3);
+	p = MergeTwoLists(l1,l2);
 	while(p != null) {
 		p.val.Dump();
 		p = p.next;
 	}
+	Console.WriteLine ();
 	
 }
 
