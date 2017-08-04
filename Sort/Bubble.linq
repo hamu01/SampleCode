@@ -2,6 +2,11 @@
 
 void Main()
 {
+	//Run();
+	Time();
+}
+
+public void Run() {
 	int length = 10;
 	int[] a = new int[length];
 	Random random = new Random();
@@ -15,15 +20,24 @@ void Main()
 	string.Join(",", a).Dump();
 }
 
-// Define other methods and classes here
-public bool Assert(int[] a) {
-	for (int i = 1; i < a.Length-1; i++)
+public void Time() {
+	long total = 0;
+	int count = 100;
+	for (int j = 0; j < count; j++)
 	{
-		if(a[i-1] > a[i] || a[i] > a[i+1]) {
-			return false;
+		int length = 10000;
+		int[] a = new int[length];
+		Random random = new Random();
+		for (int i = 0; i < length; i++)
+		{
+			a[i] = random.Next(10, 1000);
 		}
+		Stopwatch watch = Stopwatch.StartNew();
+		Sort(a);
+		long elapsed = watch.ElapsedMilliseconds;
+		total += elapsed;
 	}
-	return true;
+	(total/count).Dump();
 }
 
 public void Sort(int[] a) {
@@ -38,4 +52,14 @@ public void Sort(int[] a) {
 			}
 		}
 	}
+}
+
+public bool Assert(int[] a) {
+	for (int i = 1; i < a.Length-1; i++)
+	{
+		if(a[i-1] > a[i] || a[i] > a[i+1]) {
+			return false;
+		}
+	}
+	return true;
 }

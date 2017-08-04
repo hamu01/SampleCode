@@ -19,10 +19,26 @@ public void Sort(int[] a) {
 	int length = a.Length;
 	int middle = length/2;
 	while(length > 0) {
+		for (int i = 0; i < middle; i++)
+		{
+			if(a[i] > a[middle]) {
+				
+			}
+		}
+		for (int i = middle+1; i < length; i++)
+		{
+			if(a[i] < a[middle]) {
+				
+			}
+		}
 		length = length / 2;
 		middle = length - length/2;
 		middle = length + length/2;
 	}
+}
+
+private void Partition() {
+
 }
 
 public bool Assert(int[] a) {

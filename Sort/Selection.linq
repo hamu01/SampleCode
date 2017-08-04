@@ -2,6 +2,11 @@
 
 void Main()
 {
+	//Run();
+	Time();
+}
+
+public void Run() {
 	int length = 10;
 	int[] a = new int[length];
 	Random random = new Random();
@@ -13,6 +18,26 @@ void Main()
 	Sort(a);
 	Assert(a).Dump();
 	string.Join(",", a).Dump();
+}
+
+public void Time() {
+	long total = 0;
+	int count = 100;
+	for (int j = 0; j < count; j++)
+	{
+		int length = 10000;
+		int[] a = new int[length];
+		Random random = new Random();
+		for (int i = 0; i < length; i++)
+		{
+			a[i] = random.Next(10, 1000);
+		}
+		Stopwatch watch = Stopwatch.StartNew();
+		Sort(a);
+		long elapsed = watch.ElapsedMilliseconds;
+		total += elapsed;
+	}
+	(total/count).Dump();
 }
 
 public void Sort(int[] a) {
