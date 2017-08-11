@@ -2,14 +2,14 @@
 
 void Main()
 {
-	Run();
-	Time("normal");
-	Time("reverse");
-	Time("random");
+//	Run();
+//	Time("normal");
+//	Time("reverse");
+	Time("random", 1, 10000000);
 }
 
 public void Run() {
-	int length = 20;
+	int length = 10;
 	int[] a = GetArray("random", length);
 	string.Join(",", a).Dump();
 	Sort(a);
@@ -17,10 +17,8 @@ public void Run() {
 	string.Join(",", a).Dump();
 }
 
-public void Time(string sortType) {
+public void Time(string sortType, int count = 100, int length = 10000) {
 	long total = 0;
-	int count = 100;
-	int length = 10000;
 	for (int i = 0; i < count; i++)
 	{
 		int[] a = GetArray(sortType, length);
@@ -31,7 +29,7 @@ public void Time(string sortType) {
 	string.Format("sort {0} elements need {1} ms in average of {2}", length, total/count, sortType).Dump();
 }
 
-public void Sort(int[] a) {
+public void MySort(int[] a) {
 	int length = a.Length;
 	while(length > 1) {
 		length = length / 2;
@@ -49,6 +47,34 @@ public void Sort(int[] a) {
 				}
 			}
 		}
+	}
+}
+
+public void Sort(int[] a) {
+	// Sort a[] into increasing order.
+	int N = a.Length;
+	int h = 1;
+	// 1, 4, 13, 40, 121, 364, 1093, ...
+	while (h < N/3) {
+		h = 3*h + 1; 
+	}
+	while (h >= 1)
+	{ 
+		// h-sort the array.
+		for (int i = h; i < N; i++) { 
+			// Insert a[i] among a[i-h], a[i-2*h], a[i-3*h]... .
+			for (int j = i; j >= h; j -= h) {
+				if(a[j] > a[j-h]) {
+					break;
+				}
+				else {
+					int temp = a[j];
+					a[j] = a[j-h];
+					a[j-h] = temp;
+				}
+			}
+		}
+		h = h/3;
 	}
 }
 

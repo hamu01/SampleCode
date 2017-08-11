@@ -2,10 +2,10 @@
 
 void Main()
 {
-	Run();
-	Time("normal");
-	Time("reverse");
-	Time("random");
+//	Run();
+//	Time("normal");
+//	Time("reverse");
+	Time("random", 1, 10000000);
 }
 
 public void Run() {
@@ -17,10 +17,8 @@ public void Run() {
 	string.Join(",", a).Dump();
 }
 
-public void Time(string sortType){
+public void Time(string sortType, int count = 100, int length = 10000){
 	long total = 0;
-	int count = 100;
-	int length = 10000;
 	for (int j = 0; j < count; j++)
 	{
 		int[] a = GetArray(sortType, length);
