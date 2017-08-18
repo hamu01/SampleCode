@@ -2,12 +2,9 @@
 
 void Main()
 {
-//	Run();
+	Run();
 //	Time("normal");
 //	Time("reverse");
-//	Time("random");
-	Time("normal", 1, 10000000);
-	Time("reverse", 1, 10000000);
 	Time("random", 1, 10000000);
 }
 
@@ -35,23 +32,13 @@ public void Time(string sortType, int count = 100, int length=10000) {
 private int[] aud;
 
 public void Sort(int[] a) {
-	aud = new int[a.Length];
-	Sort(a, 0, a.Length-1);
-}
-
-private void Sort(int[] a, int low, int high) {
-	if(low >= high) {
-		return;
-	}
-	int middle = (low+high) / 2;
-	Sort(a, low, middle);
-	Sort(a, middle+1, high);
-	if(a[middle] > a[middle+1]) {
-		if(high - low > 2) {
-			Merge(a, low, middle, high);
-		}
-		else {
-			InsertionSort(a, low, high);
+	int N = a.Length;
+	aud = new int[N];
+	for (int k = 1; k < N; k = k * 2)
+	{
+		for (int i = 0; i < N -k ; i = i + 2 * k)
+		{
+			Merge(a, i, i + k - 1, Math.Min(i + 2 * k - 1, N - 1));
 		}
 	}
 }
@@ -76,23 +63,6 @@ private void Merge(int[] a, int low, int middle, int high) {
 		}
 		else {
 			a[k] = aud[j++];
-		}
-	}
-}
-
-public void InsertionSort(int[] a, int low, int high) {
-	for (int i = low+1; i < high+1; i++)
-	{
-		for (int j = i; j > low; j--)
-		{
-			if(a[j] < a[j-1]) {
-				int temp = a[j];
-				a[j] = a[j-1];
-				a[j-1] = temp;
-			}
-			else {
-				break;
-			}
 		}
 	}
 }

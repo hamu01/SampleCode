@@ -2,14 +2,17 @@
 
 void Main()
 {
-	Run();
+//	Run();
 	Time("normal");
 	Time("reverse");
 	Time("random");
+//	Time("normal", 1, 10000000);
+//	Time("reverse", 1, 10000000);
+//	Time("random", 1, 10000000);
 }
 
 public void Run() {
-	int length = 20;
+	int length = 16;
 	int[] a = GetArray("random", length);
 	string.Join(",", a).Dump();
 	Sort(a);
@@ -17,10 +20,8 @@ public void Run() {
 	string.Join(",", a).Dump();
 }
 
-public void Time(string sortType) {
+public void Time(string sortType, int count = 100, int length=10000) {
 	long total = 0;
-	int count = 100;
-	int length = 10000;
 	for (int i = 0; i < count; i++)
 	{
 		int[] a = GetArray(sortType, length);
@@ -31,30 +32,86 @@ public void Time(string sortType) {
 	string.Format("sort {0} elements need {1} ms in average of {2}", length, total/count, sortType).Dump();
 }
 
-public void Sort(int[] a) {
-	int length = a.Length;
-	int middle = length/2;
-	while(length > 0) {
-		for (int i = 0; i < middle; i++)
-		{
-			if(a[i] > a[middle]) {
-				
-			}
-		}
-		for (int i = middle+1; i < length; i++)
-		{
-			if(a[i] < a[middle]) {
-				
-			}
-		}
-		length = length / 2;
-		middle = length - length/2;
-		middle = length + length/2;
+private int[] temp;
+  
+public void Sort(int[] a)
+{
+ 	temp = new int[a.Length];
+	for (int k = 0; k < a.Length; k++)
+	{
+		temp[k] = a[k];
 	}
+	Sort(a, 0, a.Length - 1);
 }
 
-private void Partition() {
+private void Sort(int[] a, int low, int high)
+{
+	if (low >= high)
+	{
+		return;
+	}
+	int j = Partition(a, low, high);
+	Sort(a, low, j - 1);
+	Sort(a, j + 1, high);
+}
 
+private int Partition(int[] a, int low, int high)
+{
+	int i = low;
+	int j = high + 1;
+	int result = a[low];
+	while (true)
+	{
+		while (a[++i] < result)
+		{
+			if (i == high)
+			{
+				break;
+			}
+		}
+		while (a[--j] > result)
+		{
+//			if (j == low)
+//			{
+//				break;
+//			}
+		}
+		if (i >= j)
+		{
+			break;
+		}
+		int temp = a[i];
+		a[i] = a[j];
+		a[j] = temp;
+	}
+	int temp1 = a[low];
+	a[low] = a[j];
+	a[j] = temp1;
+	return j;
+}
+
+private int Partition_Bad(int[] a, int low, int high)
+{
+	for (int k = low; k < high + 1; k++)
+	{
+		temp[k] = a[k];
+	}
+	int result = a[low];
+	int i = low;
+	int j = high;
+	for (int k = low + 1; k < high + 1; k++)
+	{
+		if(temp[k] <= result)
+		{
+			a[i++] = temp[k];
+		}
+		else if (temp[k] > result)
+		{
+			a[j--] = temp[k];
+		}
+	}
+	a[j] = result;
+	return j;
 }
 
 public int[] GetArray(string sortType, int length) {
