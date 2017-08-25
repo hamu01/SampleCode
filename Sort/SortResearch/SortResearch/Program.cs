@@ -21,7 +21,7 @@ namespace SortResearch
 
         public static void Run(ISort sort)
         {
-            int length = 11;
+            int length = 10;
             int[] a = GetArray("random", length);
             string.Join(",", a).Dump();
             sort.Sort(a);

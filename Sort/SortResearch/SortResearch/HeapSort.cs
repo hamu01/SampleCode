@@ -4,7 +4,7 @@ namespace SortResearch
 {
     public class HeapSort : ISort
     {
-        public void Sort(int[] a)
+        public void Sort1(int[] a)
         {
             //IMinPQ pg = new MinUnorderArrayPQ(a.Length);
             //IMinPQ pg = new MinOrderArrayPQ(a.Length);
@@ -18,11 +18,62 @@ namespace SortResearch
                 a[i] = pg.RemoveMin();
             }
         }
+
+        public void Sort(int[] a)
+        {
+            int N = a.Length;
+            for (int k = N / 2; k >= 1; k--)
+            {
+                Sink(a, k, N);
+            }
+            while (N > 1)
+            {
+                Exch(a, 1, N--);
+                Sink(a, 1, N);
+            }
+        }
+
+        private void Sink(int[] pq, int k, int len)
+        {
+            while (2 * k <= len)
+            {
+                int j = 2 * k;
+                if (j + 1 <= len && Compare(pq, j + 1, j))
+                {
+                    j = j + 1;
+                }
+                if (Compare(pq, j, k))
+                {
+                    Exch(pq, j, k);
+                }
+                else
+                {
+                    break;
+                }
+                k = j;
+            }
+        }
+
+        private bool Compare(int[] pq, int i, int j)
+        {
+            i--;
+            j--;
+            return pq[i] > pq[j];
+        }
+
+        private void Exch(int[] pq, int i, int j)
+        {
+            i--;
+            j--;
+            int temp = pq[i];
+            pq[i] = pq[j];
+            pq[j] = temp;
+        }
     }
 
     public interface IMinPQ
     {
-        void Insert(int i);
+        void Insert(int item);
 
         int RemoveMin();
 
@@ -35,41 +86,42 @@ namespace SortResearch
     {
         private int[] pq;
 
-        private int len = 1;
+        private int len;
 
         public MinHeapPQ(int max)
         {
             pq = new int[max + 1];
         }
 
-        public void Insert(int i)
+        public void Insert(int item)
         {
-            pq[len++] = i;
-            Swim(len - 1);
+            pq[++len] = item;
+            Swim(len);
         }
 
         public int RemoveMin()
         {
-            if (len <= 1)
+            if (len <= 0)
             {
                 throw new InvalidOperationException("pq is empty, can not remove");
             }
             int min = pq[1];
-            pq[1] = pq[len - 1];
-            pq[len - 1] = min;
-            pq[--len] = 0;
+            pq[1] = pq[len];
+            pq[len] = min;
+            pq[len] = 0;
+            len--;
             Sink(1);
             return min;
         }
 
         public int Size()
         {
-            return len-1;
+            return len - 1;
         }
 
         public bool IsEmpty()
         {
-            return len <= 1;
+            return len <= 0;
         }
 
         private void Swim(int k)
@@ -85,10 +137,10 @@ namespace SortResearch
 
         private void Sink(int k)
         {
-            while (2 * k < len)
+            while (2 * k <= len)
             {
                 int j = 2 * k;
-                if (j + 1 < len && pq[j+1] < pq[j])
+                if (j + 1 < len && pq[j + 1] < pq[j])
                 {
                     j = j + 1;
                 }

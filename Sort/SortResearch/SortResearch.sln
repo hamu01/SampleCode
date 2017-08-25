@@ -5,6 +5,8 @@ VisualStudioVersion = 15.0.26228.9
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SortResearch", "SortResearch\SortResearch.csproj", "{BD032FC2-D95A-4A36-82D2-0E262ECF2C79}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Multiway", "Multiway\Multiway.csproj", "{0EF1389D-D800-4DA6-8876-34F3F74ABD1F}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -15,6 +17,10 @@ Global
 		{BD032FC2-D95A-4A36-82D2-0E262ECF2C79}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{BD032FC2-D95A-4A36-82D2-0E262ECF2C79}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{BD032FC2-D95A-4A36-82D2-0E262ECF2C79}.Release|Any CPU.Build.0 = Release|Any CPU
+		{0EF1389D-D800-4DA6-8876-34F3F74ABD1F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0EF1389D-D800-4DA6-8876-34F3F74ABD1F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0EF1389D-D800-4DA6-8876-34F3F74ABD1F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0EF1389D-D800-4DA6-8876-34F3F74ABD1F}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
