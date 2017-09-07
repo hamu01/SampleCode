@@ -12,10 +12,13 @@ namespace SearchResearch
             //SampleClient sampleClient = new SampleClient();
             //sampleClient.Run(st);
 
-            PerformanceClient perfClient = new PerformanceClient();
-            perfClient.Run(GetSt(), "tinyTale.txt", 1);
-            perfClient.Run(GetSt(), "tale.txt", 1);
-            perfClient.Run(GetSt(), "leipzig1M.txt", 1);
+            OrderSampleClient orderSampleClient = new OrderSampleClient();
+            orderSampleClient.Run(GetOrderSt());
+
+            //PerformanceClient perfClient = new PerformanceClient();
+            //perfClient.Run(GetSt(), "tinyTale.txt", 1);
+            //perfClient.Run(GetSt(), "tale.txt", 1);
+            //perfClient.Run(GetSt(), "leipzig1M.txt", 1);
 
             Console.ReadLine();
         }
@@ -24,8 +27,73 @@ namespace SearchResearch
         {
             STBase<string, int> st;
             //st = new SequentialSearchST<string, int>();
-            st = new BinarySearchST<string, int>(10000000);
+            //st = new BinarySearchST<string, int>(10000000);
+            st = new BinarySearchTreeSt_Loop<string, int>();
             return st;
+        }
+
+        private static OrderedSTBase<string, int> GetOrderSt()
+        {
+            OrderedSTBase<string, int> st;
+            //st = new BinarySearchST<string, int>(10000000);
+            //st = new BinarySearchTreeSt_Loop<string, int>();
+            st = new BinarySearchTreeSt_Recur<string, int>();
+            return st;
+        }
+    }
+
+    public class OrderSampleClient
+    {
+        public void Run(OrderedSTBase<string, int> st)
+        {
+            string s = "SEARCHEXAMPLE";
+            //string s = "SEBRCHEXBMPLE";
+            var chars = s.ToCharArray();
+            for (int i = 0; i < chars.Length; i++)
+            {
+                st.Put(chars[i].ToString(), i);
+            }
+            foreach (string key in st.Keys())
+            {
+                Console.Write("{0}", key);
+            }
+            Console.WriteLine();
+
+            //string key = "T";
+
+            //string floorValue = st.Floor(key);
+            //Console.WriteLine("{0} floor value is {1}", key, floorValue);
+
+            //string ceilingValue = st.Ceiling(key);
+            //Console.WriteLine("{0} ceiling value is {1}", key, ceilingValue);
+
+            //int rank = 3;
+            //key = st.Select(rank);
+            //Console.WriteLine("Rank {0} key is {1}", rank, key);
+
+            //key = "I";
+            //rank = st.Rank(key);
+            //Console.WriteLine("Key {0} rank is {1}", key, rank);
+
+
+            //while (!st.IsEmpty())
+            //{
+            //    st.DeleteMin();
+            //    st.DeleteMax();
+            //    foreach (string key in st.Keys())
+            //    {
+            //        Console.Write("{0}", key);
+            //    }
+            //    Console.WriteLine();
+            //}
+            //st.Delete("E");
+            //foreach (string key in st.Keys())
+            //{
+            //    Console.Write("{0}", key);
+            //}
+
+            var keys = st.Keys("E", "P");
+            Console.WriteLine(string.Join(",", keys));
         }
     }
 
