@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
 
@@ -28,7 +29,9 @@ namespace SearchResearch
             STBase<string, int> st;
             //st = new SequentialSearchST<string, int>();
             //st = new BinarySearchST<string, int>(10000000);
-            st = new BinarySearchTreeSt_Loop<string, int>();
+            //st = new BinarySearchTree_Loop<string, int>();
+            //st = new BinarySearchTree_Recur<string, int>();
+            st = new ReadBlackBST<string, int>();
             return st;
         }
 
@@ -37,7 +40,8 @@ namespace SearchResearch
             OrderedSTBase<string, int> st;
             //st = new BinarySearchST<string, int>(10000000);
             //st = new BinarySearchTreeSt_Loop<string, int>();
-            st = new BinarySearchTreeSt_Recur<string, int>();
+            //st = new BinarySearchTree_Recur<string, int>();
+            st = new ReadBlackBST<string, int>();
             return st;
         }
     }
@@ -78,7 +82,7 @@ namespace SearchResearch
 
             //while (!st.IsEmpty())
             //{
-            //    st.DeleteMin();
+            //    //st.DeleteMin();
             //    st.DeleteMax();
             //    foreach (string key in st.Keys())
             //    {
@@ -86,14 +90,59 @@ namespace SearchResearch
             //    }
             //    Console.WriteLine();
             //}
-            //st.Delete("E");
-            //foreach (string key in st.Keys())
+
+
+            st.Delete("E");
+            foreach (string key in st.Keys())
+            {
+                Console.Write("{0}", key);
+            }
+            Console.WriteLine();
+
+            //var indics = GetIndics(s, "random");
+            //var indics = GetIndics(s, "order");
+            //foreach (var index in indics)
             //{
-            //    Console.Write("{0}", key);
+            //    string k = s[index].ToString();
+            //    Console.WriteLine("delete {0}", k);
+            //    st.Delete(k);
+            //    foreach (string key in st.Keys())
+            //    {
+            //        Console.Write("{0}", key);
+            //    }
+            //    Console.WriteLine();
             //}
 
-            var keys = st.Keys("E", "P");
-            Console.WriteLine(string.Join(",", keys));
+            //var keys = st.Keys("E", "P");
+            //Console.WriteLine(string.Join(",", keys));
+        }
+
+        private static List<int> GetIndics(string s, string type)
+        {
+            List<int> indics = new List<int>();
+            Random random = new Random();
+            for (int i = 0; i < s.Length; i++)
+            {
+                if (type == "random")
+                {
+                    int r;
+                    while (true)
+                    {
+                        r = random.Next(0, s.Length);
+                        if (!indics.Contains(r))
+                        {
+                            indics.Add(r);
+                            break;
+                        }
+                    }
+                }
+                else
+                {
+                    indics.Add(i);
+                }
+                
+            }
+            return indics;
         }
     }
 

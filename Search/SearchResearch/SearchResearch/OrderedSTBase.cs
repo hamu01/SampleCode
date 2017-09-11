@@ -27,7 +27,7 @@ namespace SearchResearch
             Delete(Max());
         }
 
-        public virtual int Size(TKey lo, TKey hi)
+        public int Size(TKey lo, TKey hi)
         {
             if (hi.CompareTo(lo) < 0)
             {
@@ -47,7 +47,14 @@ namespace SearchResearch
 
         public override IEnumerable<TKey> Keys()
         {
-            return Keys(Min(), Max());
+            if (!IsEmpty())
+            {
+                return Keys(Min(), Max());
+            }
+            else
+            {
+                return new List<TKey>();
+            }
         }
     }
 }

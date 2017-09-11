@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace SearchResearch
 {
-    public class BinarySearchTreeSt_Loop<TKey, TValue> : OrderedSTBase<TKey, TValue> where TKey : IComparable
+    public class BinarySearchTree_Loop<TKey, TValue> : OrderedSTBase<TKey, TValue> where TKey : IComparable
     {
         private Node<TKey, TValue> _root;
 
@@ -139,6 +139,7 @@ namespace SearchResearch
             throw new NotImplementedException();
         }
 
+        //TODO : 需要重构，不能依赖于Keys()方法
         public override IEnumerable<TKey> Keys(TKey lo, TKey hi)
         {
             IEnumerable<TKey> allKeys = Keys();
@@ -153,6 +154,7 @@ namespace SearchResearch
             return keys;
         }
 
+        //TODO : 需要重构为循环的方式
         public override IEnumerable<TKey> Keys()
         {
             List<TKey> keys = new List<TKey>();
@@ -273,35 +275,11 @@ namespace SearchResearch
             keys.Add(node.Key);
             Keys(node.Right, keys);
         }
-
-        public class Node<TKey, TValue>
-        {
-            public Node()
-            {
-
-            }
-
-            public Node(TKey key, TValue value)
-            {
-                Key = key;
-                Value = value;
-            }
-
-            public TKey Key { get; set; }
-
-            public TValue Value { get; set; }
-
-            public int N { get; set; }
-
-            public Node<TKey, TValue> Left { get; set; }
-
-            public Node<TKey, TValue> Right { get; set; }
-        }
     }
 
-    public class BinarySearchTreeSt_Recur<TKey, TValue> : OrderedSTBase<TKey, TValue> where TKey : IComparable
+    public class BinarySearchTree_Recur<TKey, TValue> : OrderedSTBase<TKey, TValue> where TKey : IComparable
     {
-        private Node<TKey, TValue> _root;
+        protected Node<TKey, TValue> _root;
 
         public override void Put(TKey key, TValue value)
         {
@@ -368,10 +346,14 @@ namespace SearchResearch
 
         public override TKey Min()
         {
+            if (IsEmpty())
+            {
+                throw new InvalidOperationException();
+            }
             return Min(_root).Key;
         }
 
-        private Node<TKey, TValue> Min(Node<TKey, TValue> x)
+        protected Node<TKey, TValue> Min(Node<TKey, TValue> x)
         {
             if (x.Left == null)
             {
@@ -385,6 +367,10 @@ namespace SearchResearch
 
         public override TKey Max()
         {
+            if (IsEmpty())
+            {
+                throw new InvalidOperationException();
+            }
             return Max(_root).Key;
         }
 
@@ -673,30 +659,41 @@ namespace SearchResearch
             //x返回后即将原节点替换，并且设置好了其左右子树，并更新好了N
             return x;
         }
-        
-        public class Node<TKey, TValue>
+    }
+
+    public class Node<TKey, TValue>
+    {
+        public Node()
         {
-            public Node()
-            {
 
-            }
-
-            public Node(TKey key, TValue value, int n)
-            {
-                Key = key;
-                Value = value;
-                N = n;
-            }
-
-            public TKey Key { get; set; }
-
-            public TValue Value { get; set; }
-
-            public int N { get; set; }
-
-            public Node<TKey, TValue> Left { get; set; }
-
-            public Node<TKey, TValue> Right { get; set; }
         }
+
+        public Node(TKey key, TValue value)
+        {
+            Key = key;
+            Value = value;
+        }
+
+        public Node(TKey key, TValue value, int n) : this(key,value)
+        {
+            N = n;
+        }
+
+        public Node(TKey key, TValue value, int n, bool color) : this(key,value, n)
+        {
+            Color = color;
+        }
+
+        public TKey Key { get; set; }
+
+        public TValue Value { get; set; }
+
+        public int N { get; set; }
+
+        public bool Color { get; set; }
+
+        public Node<TKey, TValue> Left { get; set; }
+
+        public Node<TKey, TValue> Right { get; set; }
     }
 }
