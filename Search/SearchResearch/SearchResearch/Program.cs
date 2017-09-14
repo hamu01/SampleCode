@@ -9,17 +9,16 @@ namespace SearchResearch
     {
         static void Main(string[] args)
         {
-            //STBase<string, int> st = GetSt();
             //SampleClient sampleClient = new SampleClient();
-            //sampleClient.Run(st);
+            //sampleClient.Run(GetSt());
 
-            OrderSampleClient orderSampleClient = new OrderSampleClient();
-            orderSampleClient.Run(GetOrderSt());
+            //OrderSampleClient orderSampleClient = new OrderSampleClient();
+            //orderSampleClient.Run(GetOrderSt());
 
-            //PerformanceClient perfClient = new PerformanceClient();
-            //perfClient.Run(GetSt(), "tinyTale.txt", 1);
-            //perfClient.Run(GetSt(), "tale.txt", 1);
-            //perfClient.Run(GetSt(), "leipzig1M.txt", 1);
+            PerformanceClient perfClient = new PerformanceClient();
+            perfClient.Run(GetSt(), "tinyTale.txt", 1);
+            perfClient.Run(GetSt(), "tale.txt", 1);
+            perfClient.Run(GetSt(), "leipzig1M.txt", 1);
 
             Console.ReadLine();
         }
@@ -31,7 +30,10 @@ namespace SearchResearch
             //st = new BinarySearchST<string, int>(10000000);
             //st = new BinarySearchTree_Loop<string, int>();
             //st = new BinarySearchTree_Recur<string, int>();
-            st = new ReadBlackBST<string, int>();
+            //st = new RedBlackBST<string, int>();
+            //st = new SeparateChainingHashST<string, int>(54997);
+            st = new SeparateChainingHashST<string, int>();
+            //st = new LinearProbingHashST<string, int>();
             return st;
         }
 
@@ -41,7 +43,7 @@ namespace SearchResearch
             //st = new BinarySearchST<string, int>(10000000);
             //st = new BinarySearchTreeSt_Loop<string, int>();
             //st = new BinarySearchTree_Recur<string, int>();
-            st = new ReadBlackBST<string, int>();
+            st = new RedBlackBST<string, int>();
             return st;
         }
     }
@@ -140,7 +142,7 @@ namespace SearchResearch
                 {
                     indics.Add(i);
                 }
-                
+
             }
             return indics;
         }
@@ -151,6 +153,7 @@ namespace SearchResearch
         public void Run(STBase<string, int> st)
         {
             string s = "SEARCHEXAMPLE";
+            //string s = "SEARCHX";
             var chars = s.ToCharArray();
             for (int i = 0; i < chars.Length; i++)
             {
@@ -158,8 +161,25 @@ namespace SearchResearch
             }
             foreach (string key in st.Keys())
             {
-                Console.WriteLine("{0} {1}", key, st.Get(key));
+                Console.Write("{0}:{1} ", key, st.Get(key));
             }
+            Console.WriteLine();
+
+            //st.Delete("C");
+            //var v = st.Get("H");
+            //Console.WriteLine(v);
+
+            //for (int i = 0; i < chars.Length; i++)
+            //{
+            //    string k = chars[i].ToString();
+            //    Console.WriteLine("Delete {0}", k);
+            //    st.Delete(k);
+            //    foreach (string key in st.Keys())
+            //    {
+            //        Console.Write("{0}:{1} ", key, st.Get(key));
+            //    }
+            //    Console.WriteLine();
+            //}
         }
     }
 
@@ -173,7 +193,7 @@ namespace SearchResearch
             using (StreamReader reader = new StreamReader(stream))
             {
                 string content = reader.ReadToEnd();
-                string[] lines = content.Split('\n');
+                string[] lines = content.Split('\n', '\r');
                 foreach (string line in lines)
                 {
                     if (!string.IsNullOrEmpty(line))

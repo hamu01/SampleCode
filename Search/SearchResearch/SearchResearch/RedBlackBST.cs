@@ -2,7 +2,7 @@ using System;
 
 namespace SearchResearch
 {
-    public class ReadBlackBST<TKey, TValue> : BinarySearchTree_Recur<TKey, TValue> where TKey : IComparable
+    public class RedBlackBST<TKey, TValue> : BinarySearchTree_Recur<TKey, TValue> where TKey : IComparable
     {
         private static readonly bool RED = true;
         private static readonly bool BLACK = false;
