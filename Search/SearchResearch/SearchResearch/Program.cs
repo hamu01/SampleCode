@@ -9,21 +9,21 @@ namespace SearchResearch
     {
         static void Main(string[] args)
         {
-            //SampleClient sampleClient = new SampleClient();
-            //sampleClient.Run(GetSt());
+            SampleClient sampleClient = new SampleClient();
+            sampleClient.Run(GetSt(20));
 
             //OrderSampleClient orderSampleClient = new OrderSampleClient();
             //orderSampleClient.Run(GetOrderSt());
 
-            PerformanceClient perfClient = new PerformanceClient();
-            perfClient.Run(GetSt(), "tinyTale.txt", 1);
-            perfClient.Run(GetSt(), "tale.txt", 1);
-            perfClient.Run(GetSt(), "leipzig1M.txt", 1);
+            //PerformanceClient perfClient = new PerformanceClient();
+            //perfClient.Run(GetSt(23), "tinyTale.txt", 1);
+            //perfClient.Run(GetSt(10677), "tale.txt", 1);
+            //perfClient.Run(GetSt(54997), "leipzig1M.txt", 1);
 
             Console.ReadLine();
         }
 
-        private static STBase<string, int> GetSt()
+        private static STBase<string, int> GetSt(int cap)
         {
             STBase<string, int> st;
             //st = new SequentialSearchST<string, int>();
@@ -31,8 +31,7 @@ namespace SearchResearch
             //st = new BinarySearchTree_Loop<string, int>();
             //st = new BinarySearchTree_Recur<string, int>();
             //st = new RedBlackBST<string, int>();
-            //st = new SeparateChainingHashST<string, int>(54997);
-            st = new SeparateChainingHashST<string, int>();
+            st = new SeparateChainingHashST<string, int>(cap);
             //st = new LinearProbingHashST<string, int>();
             return st;
         }
