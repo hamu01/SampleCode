@@ -6,7 +6,9 @@ namespace Basic
     {
         static void Main(string[] args)
         {
-           
+            BagDemo();
+
+            Console.ReadLine();
         }
 
         private static void SearchDemo()
@@ -15,6 +17,28 @@ namespace Basic
             int target = 3;
             Search search = new Search();
             search.BinarySearch(input, target).Dump();
+        }
+
+        private static void BagDemo()
+        {
+            Bag<int> bag = new Bag<int>();
+            bag.IsEmpty().Dump();
+            for (int i = 0; i < 10; i++)
+            {
+                bag.Add(i+1);
+            }
+            bag.Size().Dump();
+            bag.IsEmpty().Dump();
+
+            foreach (int i in bag)
+            {
+                i.Dump();
+            }
+
+            foreach (int i in bag)
+            {
+                i.Dump();
+            }
         }
 
         private static void ListDemo()
@@ -65,7 +89,9 @@ namespace Basic
 
         private static void StackDemo()
         {
-            Stack<int> stack = new Stack<int>();
+            Stack<int> stack;
+            stack = new Stack_Array<int>();
+            //stack = new Stack_LinkList<int>();
             stack.Push(1);
             stack.Push(2);
             stack.Push(3);

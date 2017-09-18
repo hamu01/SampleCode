@@ -13,7 +13,7 @@ namespace GraphResearch
         public Graph(int V)
         {
             _V = V;
-            BuildGraph();
+            BuildGraph(_V);
         }
 
         public Graph(string path)
@@ -28,34 +28,43 @@ namespace GraphResearch
                 {
                     _V = v;
                 }
+                BuildGraph(_V);
                 int e;
                 if (int.TryParse(lines[1], out e))
                 {
-                    _E = e;
-                }
-                BuildGraph();
-                for (int i = 2; i < lines.Length; i++)
-                {
-                    var line = lines[i];
-                    var vertices = line.Split(' ');
-                    int v1, v2;
-                    if (int.TryParse(vertices[0], out v1) && int.TryParse(vertices[1], out v2))
+                    //_E = e;
+                    for (int i = 0; i < e; i++)
                     {
-                        AddEdge(v1, v2);
+                        var line = lines[i+2];
+                        var vertices = line.Split(' ');
+                        int v1, v2;
+                        if (int.TryParse(vertices[0], out v1) && int.TryParse(vertices[1], out v2))
+                        {
+                            AddEdge(v1, v2);
+                        }
                     }
                 }
             }
         }
 
-        public abstract int V();
+        public virtual int V()
+        {
+            return _V;
+        }
 
-        public abstract int E();
+        public virtual int E()
+        {
+            return _E;
+        }
 
-        public abstract void AddEdge(int v, int w);
+        public virtual void AddEdge(int v, int w)
+        {
+            _E++;
+        }
 
         public abstract IEnumerable<int> Adj(int v);
 
-        protected abstract void BuildGraph();
+        protected abstract void BuildGraph(int v);
 
         public static int Degree(Graph G, int v)
         {
@@ -106,141 +115,6 @@ namespace GraphResearch
                 s += "\n";
             }
             return s;
-        }
-    }
-
-    public class AdjacencyMatricGraph : Graph
-    {
-        private bool[][] _edges;
-        
-        public AdjacencyMatricGraph(int V)
-            : base(V)
-        {
-           
-        }
-
-        public AdjacencyMatricGraph(string path)
-            : base(path)
-        {
-           
-        }
-
-        public override int V()
-        {
-            return _V;
-        }
-
-        public override int E()
-        {
-            return _E;
-        }
-
-        public override void AddEdge(int v, int w)
-        {
-            _edges[v][w] = true;
-            _edges[w][v] = true;
-        }
-
-        public override IEnumerable<int> Adj(int v)
-        {
-            List<int> adjacencies = new List<int>();
-            for (int i = 0; i < _edges[v].Length; i++)
-            {
-                if (_edges[v][i])
-                {
-                    adjacencies.Add(i);
-                }
-            }
-            return adjacencies;
-        }
-
-        protected override void BuildGraph()
-        {
-            _edges = new bool[_V][];
-            for (int i = 0; i < _V; i++)
-            {
-                _edges[i] = new bool[_V];
-            }
-            for (int i = 0; i < _V; i++)
-            {
-                _edges[i][i] = true;
-            }
-        }
-    }
-
-    public class EdgeArrayGraph : Graph
-    {
-        public EdgeArrayGraph(int V)
-            : base(V)
-        {
-        }
-
-        public EdgeArrayGraph(string path)
-            : base(path)
-        {
-        }
-
-        public override int V()
-        {
-            throw new System.NotImplementedException();
-        }
-
-        public override int E()
-        {
-            throw new System.NotImplementedException();
-        }
-
-        public override void AddEdge(int v, int w)
-        {
-            throw new System.NotImplementedException();
-        }
-
-        public override IEnumerable<int> Adj(int v)
-        {
-            throw new System.NotImplementedException();
-        }
-
-        protected override void BuildGraph()
-        {
-            throw new NotImplementedException();
-        }
-    }
-
-    public class AdjacencyListGraph : Graph
-    {
-        public AdjacencyListGraph(int V)
-            : base(V)
-        {
-        }
-
-        public AdjacencyListGraph(string path)
-            : base(path)
-        {
-        }
-
-        public override int V()
-        {
-            throw new System.NotImplementedException();
-        }
-
-        public override int E()
-        {
-            throw new System.NotImplementedException();
-        }
-
-        public override void AddEdge(int v, int w)
-        {
-            throw new System.NotImplementedException();
-        }
-
-        public override IEnumerable<int> Adj(int v)
-        {
-            throw new System.NotImplementedException();
-        }
-
-        protected override void BuildGraph()
-        {
-            throw new NotImplementedException();
         }
     }
 }

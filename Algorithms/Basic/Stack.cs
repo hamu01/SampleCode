@@ -2,12 +2,22 @@
 
 namespace Basic
 {
-    public class Stack<T>
+    public abstract class Stack<T>
+    {
+        public abstract void Push(T item);
+
+        public abstract T Pop();
+
+        public abstract bool IsEmpty();
+
+        public abstract int Size();
+    }
+
+    public class Stack_LinkList<T> : Stack<T>
     {
         private Node<T> _start;
 
-        //add an item
-        public void Push(T item)
+        public override void Push(T item)
         {
             var node = new Node<T>() { Value = item };
             if (_start != null)
@@ -17,8 +27,7 @@ namespace Basic
             _start = node;
         }
 
-        //remove the most recently added item
-        public T Pop()
+        public override T Pop()
         {
             if (_start != null)
             {
@@ -32,14 +41,12 @@ namespace Basic
             }
         }
 
-        //is the stack empty?
-        public bool IsEmpty()
+        public override bool IsEmpty()
         {
             return _start == null;
         }
 
-        //number of items in the stack
-        public int Size()
+        public override int Size()
         {
             int i = 0;
             var node = _start;
@@ -51,16 +58,16 @@ namespace Basic
             return i;
         }
     }
-
-
-    public class Stack1<T>
+    
+    public class Stack_Array<T> : Stack<T>
     {
         private const int initLength = 10;
+
         private T[] _list = new T[initLength];
+
         private int _start = 0;
 
-        //add an item
-        public void Push(T item)
+        public override void Push(T item)
         {
             if (_start >= _list.Length)
             {
@@ -71,8 +78,7 @@ namespace Basic
             _list[_start++] = item;
         }
 
-        //remove the most recently added item
-        public T Pop()
+        public override T Pop()
         {
             if (_start > 0)
             {
@@ -84,15 +90,14 @@ namespace Basic
             }
         }
 
-        //is the stack empty?
-        public bool IsEmpty()
+        public override bool IsEmpty()
         {
             return _start <= 0;
         }
 
-        //number of items in the stack
-        public int Size()
+        public override int Size()
         {
             return _start;
         }
     }
+}
