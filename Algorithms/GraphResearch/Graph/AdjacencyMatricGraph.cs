@@ -5,17 +5,17 @@ namespace GraphResearch
     public class AdjacencyMatricGraph : Graph
     {
         private bool[][] _edges;
-        
+
         public AdjacencyMatricGraph(int V)
             : base(V)
         {
-           
+
         }
 
         public AdjacencyMatricGraph(string path)
             : base(path)
         {
-           
+
         }
 
         public override void AddEdge(int v, int w)
@@ -30,7 +30,7 @@ namespace GraphResearch
             List<int> adjacencies = new List<int>();
             for (int i = 0; i < _edges[v].Length; i++)
             {
-                if (_edges[v][i])
+                if (_edges[v][i] && i != v)
                 {
                     adjacencies.Add(i);
                 }

@@ -25,7 +25,6 @@ namespace GraphResearch
         public override IEnumerable<int> Adj(int v)
         {
             List<int> adjacencies = new List<int>();
-            adjacencies.Add(v);
             foreach (var edge in _edges)
             {
                 if (edge.Source == v)

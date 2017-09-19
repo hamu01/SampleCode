@@ -36,6 +36,10 @@ namespace GraphResearch
                     for (int i = 0; i < e; i++)
                     {
                         var line = lines[i+2];
+                        if (line.StartsWith("/"))
+                        {
+                            continue;
+                        }
                         var vertices = line.Split(' ');
                         int v1, v2;
                         if (int.TryParse(vertices[0], out v1) && int.TryParse(vertices[1], out v2))
