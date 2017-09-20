@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Diagnostics;
 
 using Basic;
@@ -9,7 +10,15 @@ namespace GraphResearch
     {
         static void Main(string[] args)
         {
-            SampleClient sampleClient = new SampleClient();
+            //RunUndirected();
+            RunDirected();
+
+            Console.ReadKey();
+        }
+
+        private static void RunUndirected()
+        {
+            UndirectedSampleClient sampleClient = new UndirectedSampleClient();
             //sampleClient.RunSearch("tinyG.txt");
             //sampleClient.RunPath("sample.txt");
             //sampleClient.RunCC("tinyG.txt");
@@ -18,14 +27,52 @@ namespace GraphResearch
             //sampleClient.RunSymbolGraph("routes.txt", ' ');
             sampleClient.RunDegreeOfSeperation("routes.txt", ' ', "JFK");
 
-            //PerfClient perfClient = new PerfClient();
-            //perfClient.Run("mediumG.txt");
+            UndirectedPerfClient perfClient = new UndirectedPerfClient();
+            perfClient.Run("mediumG.txt");
+        }
 
-            Console.ReadKey();
+        private static void RunDirected()
+        {
+            DirectedSampleClient sampleClient = new DirectedSampleClient();
+            //sampleClient.RunSearch("tinyDG.txt", new int[] { 1,2,6 });
+            //sampleClient.RunCycle("sampleDG.txt");
+            sampleClient.RunCycle("tinyDG.txt");
         }
     }
 
-    public class SampleClient
+    public class DirectedSampleClient
+    {
+        public void RunSearch(string path, IEnumerable<int> sources)
+        {
+            Digraph G = new Digraph(path);
+            DirectedDFS dfs = new DirectedDFS(G, sources);
+            for (int v = 0; v < G.V(); v++)
+            {
+                if (dfs.Marked(v))
+                {
+                    Console.Write("{0} ", v);
+                }
+            }
+            Console.WriteLine();
+        }
+
+        public void RunCycle(string path)
+        {
+            Digraph G = new Digraph(path);
+            DirectedCycle c = new DirectedCycle(G);
+            if (c.HasCycle())
+            {
+                Console.WriteLine(string.Join("->", c.Cycle()));
+            }
+            else
+            {
+                Console.WriteLine("No cycle");
+            }
+            Console.WriteLine(c.HasCycle());
+        }
+    }
+
+    public class UndirectedSampleClient
     {
         public void RunSearch(string path)
         {
@@ -139,7 +186,7 @@ namespace GraphResearch
             SymbolGraph sg = new SymbolGraph(filename, delim);
             Graph G = sg.G();
             int s = sg.Index(source);
-            BreadthFirstPaths paths = new BreadthFirstPaths(G,s);
+            BreadthFirstPaths paths = new BreadthFirstPaths(G, s);
             string target;
             while (!string.IsNullOrEmpty(target = Console.ReadLine()))
             {
@@ -168,7 +215,7 @@ namespace GraphResearch
         }
     }
 
-    public class PerfClient
+    public class UndirectedPerfClient
     {
         public void Run(string path)
         {
