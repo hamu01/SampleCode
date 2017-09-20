@@ -15,7 +15,8 @@ namespace GraphResearch
             //sampleClient.RunCC("tinyG.txt");
             //sampleClient.RunCycle("cycle.txt");
             //sampleClient.RunTwoColor("cycle.txt");
-            sampleClient.RunSymbolGraph("routes.txt", " ");
+            //sampleClient.RunSymbolGraph("routes.txt", ' ');
+            sampleClient.RunDegreeOfSeperation("routes.txt", ' ', "JFK");
 
             //PerfClient perfClient = new PerfClient();
             //perfClient.Run("mediumG.txt");
@@ -119,7 +120,7 @@ namespace GraphResearch
             Console.WriteLine(c.IsBipartite());
         }
 
-        public void RunSymbolGraph(string filename, string delim)
+        public void RunSymbolGraph(string filename, char delim)
         {
             SymbolGraph sg = Factory.GetSymbolGraph(filename, delim);
             Graph G = sg.G();
@@ -129,6 +130,39 @@ namespace GraphResearch
                 foreach (int w in G.Adj(sg.Index(source)))
                 {
                     Console.WriteLine(" " + sg.Name(w));
+                }
+            }
+        }
+
+        public void RunDegreeOfSeperation(string filename, char delim, string source)
+        {
+            SymbolGraph sg = new SymbolGraph(filename, delim);
+            Graph G = sg.G();
+            int s = sg.Index(source);
+            BreadthFirstPaths paths = new BreadthFirstPaths(G,s);
+            string target;
+            while (!string.IsNullOrEmpty(target = Console.ReadLine()))
+            {
+                if (sg.Contains(target))
+                {
+                    int t = sg.Index(target);
+                    if (paths.HasPathTo(t))
+                    {
+                        var path = paths.PathTo(t);
+                        foreach (var v in path)
+                        {
+                            var vertice = sg.Name(v);
+                            Console.WriteLine(" {0}", vertice);
+                        }
+                    }
+                    else
+                    {
+                        Console.WriteLine("Not Connected");
+                    }
+                }
+                else
+                {
+                    Console.WriteLine("Not in database");
                 }
             }
         }
@@ -212,9 +246,9 @@ namespace GraphResearch
             return t;
         }
 
-        public static SymbolGraph GetSymbolGraph(string filename, string delim)
+        public static SymbolGraph GetSymbolGraph(string filename, char delim)
         {
-            SymbolGraph sg = null;
+            SymbolGraph sg = new SymbolGraph(filename, delim);
             return sg;
         }
     }
