@@ -35,8 +35,10 @@ namespace GraphResearch
         {
             DirectedSampleClient sampleClient = new DirectedSampleClient();
             //sampleClient.RunSearch("tinyDG.txt", new int[] { 1,2,6 });
-            //sampleClient.RunCycle("sampleDG.txt");
-            sampleClient.RunCycle("tinyDG.txt");
+            //sampleClient.RunCycle("sampleDG1.txt");
+            //sampleClient.RunCycle("tinyDG.txt");
+            //sampleClient.RunTopological("tinyDG.txt");
+            sampleClient.RunTopological("tinyDAG.txt");
         }
     }
 
@@ -69,6 +71,20 @@ namespace GraphResearch
                 Console.WriteLine("No cycle");
             }
             Console.WriteLine(c.HasCycle());
+        }
+
+        public void RunTopological(string path)
+        {
+            Digraph G = new Digraph(path);
+            Topological topo = new Topological(G);
+            if (topo.IsDAG())
+            {
+                Console.WriteLine(string.Join(",", topo.Order()));
+            }
+            else
+            {
+                Console.WriteLine("Not DAG");
+            }
         }
     }
 
