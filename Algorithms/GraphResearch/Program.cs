@@ -38,7 +38,8 @@ namespace GraphResearch
             //sampleClient.RunCycle("sampleDG1.txt");
             //sampleClient.RunCycle("tinyDG.txt");
             //sampleClient.RunTopological("tinyDG.txt");
-            sampleClient.RunTopological("tinyDAG.txt");
+            //sampleClient.RunTopological("tinyDAG.txt");
+            sampleClient.RunScc("scc.txt");
         }
     }
 
@@ -84,6 +85,25 @@ namespace GraphResearch
             else
             {
                 Console.WriteLine("Not DAG");
+            }
+        }
+
+        public void RunScc(string path)
+        {
+            Digraph G = new Digraph(path);
+            SCC scc = new KosarajuSCC(G);
+            Bag<int>[] components = new Bag<int>[scc.Count()];
+            for (int i = 0; i < scc.Count(); i++)
+            {
+                components[i] = new Bag<int>();
+            }
+            for (int i = 0; i < G.V(); i++)
+            {
+                components[scc.Id(i)].Add(i);
+            }
+            for (int i = 0; i < scc.Count(); i++)
+            {
+                Console.WriteLine(string.Join(",", components[i]));
             }
         }
     }
