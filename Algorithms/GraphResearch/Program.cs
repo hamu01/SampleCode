@@ -39,7 +39,8 @@ namespace GraphResearch
             //sampleClient.RunCycle("tinyDG.txt");
             //sampleClient.RunTopological("tinyDG.txt");
             //sampleClient.RunTopological("tinyDAG.txt");
-            sampleClient.RunScc("scc.txt");
+            //sampleClient.RunScc("scc.txt");
+            sampleClient.RunTransitiveClosure("tinyDG.txt", 6, 0);
         }
     }
 
@@ -104,6 +105,20 @@ namespace GraphResearch
             for (int i = 0; i < scc.Count(); i++)
             {
                 Console.WriteLine(string.Join(",", components[i]));
+            }
+        }
+
+        public void RunTransitiveClosure(string path, int v, int w)
+        {
+            Digraph G = new Digraph(path);
+            TransitiveClosure closure = new TransitiveClosure(G);
+            if (closure.Reachable(v, w))
+            {
+                Console.WriteLine("reach");
+            }
+            else
+            {
+                Console.WriteLine("not reach");
             }
         }
     }
