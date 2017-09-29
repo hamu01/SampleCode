@@ -32,7 +32,6 @@ namespace GraphResearch
                 int e;
                 if (int.TryParse(lines[1], out e))
                 {
-                    //_E = e;
                     for (int i = 0; i < e; i++)
                     {
                         var line = lines[i+2];

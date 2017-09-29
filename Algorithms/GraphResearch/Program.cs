@@ -44,6 +44,20 @@ namespace GraphResearch
         }
     }
 
+    public class MstSampleClient
+    {
+        public void RunMst(string path)
+        {
+            EdgeWeightedGraph G = new EdgeWeightedGraph(path);
+            MST mst = Factory.GetMST(G);
+            foreach (var e in mst.Edges())
+            {
+                Console.WriteLine(e);
+            }
+            Console.WriteLine(mst.Weight());
+        }
+    }
+
     public class DirectedSampleClient
     {
         public void RunSearch(string path, IEnumerable<int> sources)
@@ -348,6 +362,13 @@ namespace GraphResearch
         {
             SymbolGraph sg = new SymbolGraph(filename, delim);
             return sg;
+        }
+
+        public static MST GetMST(EdgeWeightedGraph G)
+        {
+            MST mst;
+            mst = new LazyPrimMST(G);
+            return mst;
         }
     }
 }
