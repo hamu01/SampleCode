@@ -11,7 +11,8 @@ namespace GraphResearch
         static void Main(string[] args)
         {
             //RunUndirected();
-            RunDirected();
+            //RunDirected();
+            RunMst();
 
             Console.ReadKey();
         }
@@ -41,6 +42,17 @@ namespace GraphResearch
             //sampleClient.RunTopological("tinyDAG.txt");
             //sampleClient.RunScc("scc.txt");
             sampleClient.RunTransitiveClosure("tinyDG.txt", 6, 0);
+        }
+
+        public static void RunMst()
+        {
+            //MstSampleClient client = new MstSampleClient();
+            //client.RunMst("tinyEWG.txt");
+
+            MstPerfClient perfClient = new MstPerfClient();
+            perfClient.Run("tinyEWG.txt");
+            perfClient.Run("mediumEWG.txt");
+            perfClient.Run("largeEWG.txt");
         }
     }
 
@@ -280,6 +292,20 @@ namespace GraphResearch
         }
     }
 
+    public class MstPerfClient
+    {
+        public void Run(string path)
+        {
+            Stopwatch watch1 = Stopwatch.StartNew();
+            EdgeWeightedGraph G = new EdgeWeightedGraph(path);
+            Console.WriteLine(watch1.Elapsed);
+
+            Stopwatch watch = Stopwatch.StartNew();
+            MST mst = Factory.GetMST(G);
+            Console.WriteLine(watch.Elapsed);
+        }
+    }
+
     public class UndirectedPerfClient
     {
         public void Run(string path)
@@ -368,6 +394,7 @@ namespace GraphResearch
         {
             MST mst;
             mst = new LazyPrimMST(G);
+            //mst = new PrimMST(G);
             return mst;
         }
     }

@@ -22,11 +22,11 @@ namespace GraphResearch
 
         public EdgeWeightedGraph(string path)
         {
-            using (Stream stream = new FileStream(path, FileMode.Open))
+            using (Stream stream = new FileStream("Resources/" + path, FileMode.Open))
             using (StreamReader reader = new StreamReader(stream))
             {
                 string content = reader.ReadToEnd();
-                var lines = content.Split(new[] { "\r\n" }, StringSplitOptions.RemoveEmptyEntries);
+                var lines = content.Split(new[] { "\r\n", "\n" }, StringSplitOptions.RemoveEmptyEntries);
                 int v;
                 if (int.TryParse(lines[0], out v))
                 {
@@ -151,7 +151,7 @@ namespace GraphResearch
 
         public override string ToString()
         {
-            return string.Format("%d-%d %.2f", _v, _w, _weight);
+            return string.Format("{0:D}-{1:D} {2:F2}", _v, _w, _weight);
         }
     }
 }

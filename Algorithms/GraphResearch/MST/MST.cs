@@ -1,6 +1,5 @@
-﻿using System.Collections.Generic;
-
-using Multiway;
+﻿using System;
+using System.Collections.Generic;
 
 namespace GraphResearch
 {
@@ -16,57 +15,76 @@ namespace GraphResearch
         public abstract double Weight();
     }
 
-    public class LazyPrimMST : MST
+    public class PrimMST : MST
     {
         private bool[] _marked;
 
-        private Queue<Edge> _mst;
+        private Edge[] _edgeTo;
 
-        private MinPQ<Edge> _pq;
+        private double[] _distTo;
 
-        public LazyPrimMST(EdgeWeightedGraph G)
+        private IndexMinPQ<double> _pq;
+
+        public PrimMST(EdgeWeightedGraph G)
             : base(G)
         {
             _marked = new bool[G.V()];
-            _pq = new MinPQ<Edge>(G.E());
-            Visit(G, 0);
+            _edgeTo = new Edge[G.V()];
+            _distTo = new double[G.V()];
+            _pq = new IndexMinPQ<double>(G.E());
+            for (int v = 0; v < G.V(); v++)
+            {
+                _distTo[v] = double.PositiveInfinity;
+            }
+            _distTo[0] = 0d;
+            _pq.Insert(0, 0d);
             while (!_pq.IsEmpty())
             {
-                Edge e = _pq.RemoveMin();
-                var v = e.Either();
-                var w = e.Other(v);
-                if (_marked[v] && _marked[w])
-                {
-                    continue;
-                }
-                else if (_marked[v])
-                {
-
-                }
-                else if (_marked[w])
-                {
-
-                }
+                int v = _pq.RemoveMin();
+                Visit(G, v);
             }
         }
 
         public override IEnumerable<Edge> Edges()
         {
-            throw new System.NotImplementedException();
+            Edge[] edges = new Edge[_edgeTo.Length - 1];
+            Array.Copy(_edgeTo, 1, edges, 0, edges.Length);
+            return edges;
         }
 
         public override double Weight()
         {
-            throw new System.NotImplementedException();
+            double weight = 0;
+            for (int i = 1; i < _edgeTo.Length; i++)
+            {
+                weight += _edgeTo[i].Weight();
+            }
+            return weight;
         }
 
         private void Visit(EdgeWeightedGraph G, int v)
         {
             _marked[v] = true;
-            var adj = G.Adj(v);
-            foreach (var e in adj)
+            foreach (var e in G.Adj(v))
             {
-                
+                var w = e.Other(v);
+                if (_marked[w])
+                {
+                    continue;
+                }
+                if (_distTo[w] > e.Weight())
+                {
+                    _edgeTo[w] = e;
+                    _distTo[w] = e.Weight();
+                    if (_pq.Contains(w))
+                    {
+                        _pq.Change(w, e.Weight());
+                    }
+                    else
+                    {
+                        _pq.Insert(w, e.Weight());
+                    }
+                }
             }
         }
     }

@@ -18,11 +18,11 @@ namespace GraphResearch
 
         public Graph(string path)
         {
-            using (Stream stream = new FileStream(path, FileMode.Open))
+            using (Stream stream = new FileStream("Resources/" + path, FileMode.Open))
             using (StreamReader reader = new StreamReader(stream))
             {
                 string content = reader.ReadToEnd();
-                var lines = content.Split(new[] { "\r\n" }, StringSplitOptions.RemoveEmptyEntries);
+                var lines = content.Split(new[] { "\r\n", "\n" }, StringSplitOptions.RemoveEmptyEntries);
                 int v;
                 if (int.TryParse(lines[0], out v))
                 {
