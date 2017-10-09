@@ -7,6 +7,7 @@
 
   <ItemGroup>
     <Compile Include="..\Basic\Bag.cs" Link="Bag.cs" />
+    <Compile Include="..\Basic\UF.cs" Link="UF.cs" />
   </ItemGroup>
 
 </Project>

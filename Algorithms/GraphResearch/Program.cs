@@ -46,12 +46,12 @@ namespace GraphResearch
 
         public static void RunMst()
         {
-            //MstSampleClient client = new MstSampleClient();
-            //client.RunMst("tinyEWG.txt");
+            MstSampleClient client = new MstSampleClient();
+            // client.RunMst("tinyEWG.txt");
 
             MstPerfClient perfClient = new MstPerfClient();
-            perfClient.Run("tinyEWG.txt");
-            perfClient.Run("mediumEWG.txt");
+            // perfClient.Run("tinyEWG.txt");
+            // perfClient.Run("mediumEWG.txt");
             perfClient.Run("largeEWG.txt");
         }
     }
@@ -393,8 +393,10 @@ namespace GraphResearch
         public static MST GetMST(EdgeWeightedGraph G)
         {
             MST mst;
-            mst = new LazyPrimMST(G);
-            //mst = new PrimMST(G);
+            // mst = new LazyPrimMST(G);
+            // mst = new PrimMST(G);
+            // mst = new SimplePrimMST(G);
+            mst = new KruskalMST(G);
             return mst;
         }
     }
