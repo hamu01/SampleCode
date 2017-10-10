@@ -92,7 +92,7 @@ namespace GraphResearch
             }
             _distTo[s] = 0d;
             _pq.Insert(0, 0d);
-            while (_pq.IsEmpty())
+            while (!_pq.IsEmpty())
             {
                 var w = _pq.RemoveMin();
                 Relax(G, w);

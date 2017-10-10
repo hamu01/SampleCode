@@ -12,7 +12,8 @@ namespace GraphResearch
         {
             //RunUndirected();
             //RunDirected();
-            RunMst();
+            //RunMst();
+            RunSp();
 
             Console.ReadKey();
         }
@@ -44,7 +45,7 @@ namespace GraphResearch
             sampleClient.RunTransitiveClosure("tinyDG.txt", 6, 0);
         }
 
-        public static void RunMst()
+        private static void RunMst()
         {
             MstSampleClient client = new MstSampleClient();
             // client.RunMst("tinyEWG.txt");
@@ -53,6 +54,35 @@ namespace GraphResearch
             // perfClient.Run("tinyEWG.txt");
             // perfClient.Run("mediumEWG.txt");
             perfClient.Run("largeEWG.txt");
+        }
+
+        private static void RunSp()
+        {
+            SpSampleClient sampleClient = new SpSampleClient();
+            sampleClient.RunSp();
+        }
+    }
+
+    public class SpSampleClient
+    {
+        public void RunSp()
+        {
+            EdgeWeightedDigraph G = new EdgeWeightedDigraph("tinyEWD.txt");
+            int s = 0;
+            SP sp = Factory.GetSp(G, s);
+            for (int t = 0; t < G.V(); t++)
+            {
+                Console.Write(s + " to " + t);
+                Console.Write(" ({0:F2}): ", sp.DistTo(t));
+                if (sp.HasPathTo(t))
+                {
+                    foreach (DirectedEdge e in sp.PathTo(t))
+                    {
+                        Console.Write(e + " ");
+                    }
+                }
+                Console.WriteLine();
+            }
         }
     }
 
@@ -398,6 +428,13 @@ namespace GraphResearch
             // mst = new SimplePrimMST(G);
             mst = new KruskalMST(G);
             return mst;
+        }
+
+        public static SP GetSp(EdgeWeightedDigraph G, int s)
+        {
+            SP sp;
+            sp = new DijkstraSP(G, s);
+            return sp;
         }
     }
 }

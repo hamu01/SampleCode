@@ -91,6 +91,10 @@ namespace GraphResearch
         private void BuildGraph(int v)
         {
             _adjacencies = new Bag<DirectedEdge>[v];
+            for (int i = 0; i < v; i++)
+            {
+                _adjacencies[i] = new Bag<DirectedEdge>();
+            }
         }
     }
 
