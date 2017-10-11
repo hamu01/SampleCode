@@ -2,11 +2,11 @@ namespace SortResearch
 {
     public class QuickSort : ISort
     {
-        private int[] temp;
+        private int[] _temp;
 
         public void Sort(int[] a)
         {
-            temp = new int[a.Length];
+            _temp = new int[a.Length];
             Sort(a, 0, a.Length - 1);
         }
 
@@ -60,20 +60,20 @@ namespace SortResearch
         {
             for (int k = low; k < high + 1; k++)
             {
-                temp[k] = a[k];
+                _temp[k] = a[k];
             }
             int result = a[low];
             int i = low;
             int j = high;
             for (int k = low + 1; k < high + 1; k++)
             {
-                if (temp[k] <= result)
+                if (_temp[k] <= result)
                 {
-                    a[i++] = temp[k];
+                    a[i++] = _temp[k];
                 }
-                else if (temp[k] > result)
+                else if (_temp[k] > result)
                 {
-                    a[j--] = temp[k];
+                    a[j--] = _temp[k];
                 }
             }
             a[j] = result;
