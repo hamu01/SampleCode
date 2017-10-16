@@ -23,6 +23,18 @@ namespace GraphResearch
         public EdgeWeightedGraph(string path)
         {
             using (Stream stream = new FileStream("Resources/" + path, FileMode.Open))
+            {
+                Init(stream);
+            }
+        }
+
+        public EdgeWeightedGraph(Stream stream)
+        {
+            Init(stream);
+        }
+
+        private void Init(Stream stream)
+        {
             using (StreamReader reader = new StreamReader(stream))
             {
                 string content = reader.ReadToEnd();

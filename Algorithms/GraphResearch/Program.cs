@@ -1,6 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.IO;
+using System.Net.Http;
+using System.Net.Sockets;
 
 using Basic;
 
@@ -12,8 +15,8 @@ namespace GraphResearch
         {
             //RunUndirected();
             //RunDirected();
-            //RunMst();
-            RunSp();
+            RunMst();
+            //RunSp();
 
             Console.ReadKey();
         }
@@ -53,7 +56,7 @@ namespace GraphResearch
             MstPerfClient perfClient = new MstPerfClient();
             // perfClient.Run("tinyEWG.txt");
             // perfClient.Run("mediumEWG.txt");
-            perfClient.Run("largeEWG.txt");
+            perfClient.Run("http://algs4.cs.princeton.edu/43mst/largeEWG.txt");
         }
 
         private static void RunSp()
@@ -326,13 +329,18 @@ namespace GraphResearch
     {
         public void Run(string path)
         {
-            Stopwatch watch1 = Stopwatch.StartNew();
-            EdgeWeightedGraph G = new EdgeWeightedGraph(path);
-            Console.WriteLine(watch1.Elapsed);
+            HttpClient client = new HttpClient();
+            client.Timeout = TimeSpan.FromHours(1);
+            using (var stream = client.GetAsync(path).Result.Content.ReadAsStreamAsync().Result)
+            {
+                Stopwatch watch1 = Stopwatch.StartNew();
+                EdgeWeightedGraph G = new EdgeWeightedGraph(stream);
+                Console.WriteLine(watch1.Elapsed);
 
-            Stopwatch watch = Stopwatch.StartNew();
-            MST mst = Factory.GetMST(G);
-            Console.WriteLine(watch.Elapsed);
+                Stopwatch watch = Stopwatch.StartNew();
+                MST mst = Factory.GetMST(G);
+                Console.WriteLine(watch.Elapsed);
+            }
         }
     }
 
