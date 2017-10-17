@@ -131,12 +131,51 @@ namespace StringResearch
 
         public override int Size()
         {
-            throw new NotImplementedException();
+            return N;
         }
 
         public override IEnumerable<string> Keys()
         {
             return keysWithPrefix("");
+        }
+
+        public override void Delete(string key)
+        {
+            root = Delete(root, key, 0);
+        }
+
+        private Node Delete(Node n, string key, int level)
+        {
+            if (n == null)
+            {
+                return null;
+            }
+            if (level == key.Length)
+            {
+                n.Value = default(TValue);
+                return null;
+            }
+            var c = key[level];
+            if (n.Next.ContainsKey(c))
+            {
+                var x = Delete(n.Next[c], key, level + 1);
+                if (x == null)
+                {
+                    n.Next.Remove(c);
+                }
+                else
+                {
+                    n.Next[c] = x;
+                }
+            }
+            if (n.Next == null || n.Next.Count == 0)
+            {
+                return null;
+            }
+            else
+            {
+                return n;
+            }
         }
 
         private class Node

@@ -11,7 +11,7 @@ namespace StringResearch
 
         private static void TrieTest()
         {
-            StringST<int?> st = new MyTrieST<int?>();
+            StringST<int?> st = new TST<int?>();
             string[] keys = new string[] { "she", "shells", "sea", "shells", "by", "sea", "shore", "the" };
             for (int i = 0; i < keys.Length; i++)
             {
@@ -25,20 +25,23 @@ namespace StringResearch
                 System.Console.WriteLine("{0}: {1}", key, value);
             }
 
-            var allKeys = st.Keys();
-            System.Console.WriteLine(string.Join(",", allKeys));
+            // var allKeys = st.Keys();
+            // System.Console.WriteLine(string.Join(",", allKeys));
 
-            var keysWithPrefix = st.keysWithPrefix("she");
-            System.Console.WriteLine(string.Join(",", keysWithPrefix));
+            // var keysWithPrefix = st.keysWithPrefix("she");
+            // System.Console.WriteLine(string.Join(",", keysWithPrefix));
 
-            var keysThatMatch = st.keysThatMatch(".he");
-            System.Console.WriteLine(string.Join(",", keysThatMatch));
+            // var keysThatMatch = st.keysThatMatch(".he");
+            // System.Console.WriteLine(string.Join(",", keysThatMatch));
 
-            var prefix = st.LongestPrefixOf("shellsort");
-            System.Console.WriteLine(prefix);
+            // var prefix = st.LongestPrefixOf("shellsort");
+            // System.Console.WriteLine(prefix);
 
-            //st.Delete("the");
-            //System.Console.WriteLine("the: {0}", st.Get("the"));
+            // foreach (var key in keys)
+            // {
+            //     st.Delete(key);
+            //     System.Console.WriteLine("{0}: {1}", key, st.Get(key));
+            // }
         }
     }
 }
