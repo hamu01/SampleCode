@@ -6,7 +6,24 @@ namespace StringResearch
     {
         static void Main(string[] args)
         {
-            TrieTest();
+            // TrieTest();
+            SearchTest();
+        }
+
+        private static void SearchTest()
+        {
+            string txt = "BCBAABACAABABACAA";
+            string pat = "ABABAC";
+            KMP kmp = new KMP(pat, 26);
+            int offset = kmp.Search(txt);
+            System.Console.WriteLine(offset);
+            System.Console.WriteLine("text:    " + txt);
+            System.Console.Write("pattern: ");
+            for (int i = 0; i < offset; i++)
+            {
+                System.Console.Write(" ");
+            }
+            System.Console.WriteLine(pat);
         }
 
         private static void TrieTest()
