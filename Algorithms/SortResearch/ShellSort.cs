@@ -1,8 +1,8 @@
 ﻿namespace SortResearch
 {
-    public class ShellSort : ISort
+    public class ShellSort : SortBase
     {
-        public void Sort(int[] a)
+        public override void Sort(int[] a)
         {
             // Sort a[] into increasing order.
             int N = a.Length;

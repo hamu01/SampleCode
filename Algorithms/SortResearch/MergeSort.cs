@@ -1,10 +1,10 @@
 ﻿namespace SortResearch
 {
-    public class MergeSort : ISort
+    public class MergeSort : SortBase
     {
         private int[] aud;
 
-        public void Sort(int[] a)
+        public override void Sort(int[] a)
         {
             aud = new int[a.Length];
             Sort(a, 0, a.Length - 1);

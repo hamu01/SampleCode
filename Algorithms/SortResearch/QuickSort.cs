@@ -1,10 +1,10 @@
 namespace SortResearch
 {
-    public class QuickSort : ISort
+    public class QuickSort : SortBase
     {
         private int[] _temp;
 
-        public void Sort(int[] a)
+        public override void Sort(int[] a)
         {
             _temp = new int[a.Length];
             Sort(a, 0, a.Length - 1);
