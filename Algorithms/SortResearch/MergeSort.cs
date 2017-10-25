@@ -19,36 +19,9 @@
             int middle = (low + high) / 2;
             Sort(a, low, middle);
             Sort(a, middle + 1, high);
-            if (a[middle] > a[middle + 1])
+            if(Compare(a, middle+1, middle))
             {
-                if (high - low > 5)
-                {
-                    Merge(a, low, middle, high);
-                }
-                else
-                {
-                    InsertionSort(a, low, high);
-                }
-            }
-        }
-
-        private void InsertionSort(int[] a, int low, int high)
-        {
-            for (int i = low + 1; i < high + 1; i++)
-            {
-                for (int j = i; j > low; j--)
-                {
-                    if (a[j] < a[j - 1])
-                    {
-                        int temp = a[j];
-                        a[j] = a[j - 1];
-                        a[j - 1] = temp;
-                    }
-                    else
-                    {
-                        break;
-                    }
-                }
+                Merge(a, low, middle, high);
             }
         }
 
@@ -58,25 +31,31 @@
             int j = middle + 1;
             for (int k = low; k <= high; k++)
             {
-                aud[k] = a[k];
+                // aud[k] = a[k];
+                Set(aud, k, Access(a,k));
             }
             for (int k = low; k <= high; k++)
             {
                 if (i > middle)
                 {
-                    a[k] = aud[j++];
+                    // a[k] = aud[j++];
+                    Set(a, k, Access(aud, j++));
                 }
                 else if (j > high)
                 {
-                    a[k] = aud[i++];
+                    // a[k] = aud[i++];
+                    Set(a, k, Access(aud, i++));
                 }
-                else if (aud[i] < aud[j])
+                // else if (aud[i] < aud[j])
+                else if (Compare(aud, i, j))
                 {
-                    a[k] = aud[i++];
+                    // a[k] = aud[i++];
+                    Set(a, k, Access(aud, i++));
                 }
                 else
                 {
-                    a[k] = aud[j++];
+                    // a[k] = aud[j++];
+                    Set(a, k, Access(aud, j++));
                 }
             }
         }

@@ -25,17 +25,20 @@ namespace SortResearch
         {
             int i = low;
             int j = high + 1;
-            int result = a[low];
+            // int result = a[low];
+            int result = Access(a, low);
             while (true)
             {
-                while (a[++i] < result)
+                // while (a[++i] < result)
+                while (Compare(Access(a, ++i), result))
                 {
                     if (i == high)
                     {
                         break;
                     }
                 }
-                while (a[--j] > result)
+                // while (a[--j] > result)
+                while (Compare(result, Access(a, --j)))
                 {
                     //if (j == low)
                     //{
@@ -46,13 +49,9 @@ namespace SortResearch
                 {
                     break;
                 }
-                int temp = a[i];
-                a[i] = a[j];
-                a[j] = temp;
+                Exchange(a, i, j);
             }
-            int temp1 = a[low];
-            a[low] = a[j];
-            a[j] = temp1;
+            Exchange(a, j, low);
             return j;
         }
 

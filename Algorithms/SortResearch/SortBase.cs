@@ -26,9 +26,15 @@ namespace SortResearch
 
         public bool Compare(int[] a, int i, int j)
         {
-            statistic.CompareContent++;
             // return a[i] < a[j];
-            return Access(a, i) < Access(a, j);
+            // return Access(a, i) < Access(a, j);
+            return Compare(Access(a, i), Access(a, j));
+        }
+
+        public bool Compare(int a, int b)
+        {
+            statistic.CompareContent++;
+            return a < b;
         }
 
         public int Access(int[] a, int i)
