@@ -9,8 +9,8 @@ namespace SearchResearch
     {
         static void Main(string[] args)
         {
-            SampleClient sampleClient = new SampleClient();
-            sampleClient.Run(GetSt(20));
+            // SampleClient sampleClient = new SampleClient();
+            // sampleClient.Run(GetSt(20));
 
             //OrderSampleClient orderSampleClient = new OrderSampleClient();
             //orderSampleClient.Run(GetOrderSt());
@@ -20,7 +20,19 @@ namespace SearchResearch
             //perfClient.Run(GetSt(10677), "tale.txt", 1);
             //perfClient.Run(GetSt(54997), "leipzig1M.txt", 1);
 
-            Console.ReadLine();
+            SearchHelper searchHelper = new SearchHelper();
+            string stType = "binarysearch";
+            string insertType = "random";
+            if (args.Length > 1)
+            {
+                stType = args[0];
+                insertType = args[1];
+            }
+            else if (args.Length > 0)
+            {
+                stType = args[0];
+            }
+            searchHelper.PerfRun(stType, insertType);
         }
 
         private static STBase<string, int> GetSt(int cap)
@@ -234,6 +246,75 @@ namespace SearchResearch
             }
             Console.WriteLine("Words: {0}, Keys: {1}", wordCount, keyCount);
             Console.WriteLine("{0} {1} ({2}ms)", max, st.Get(max), watch.ElapsedMilliseconds);
+        }
+    }
+
+    public class SearchHelper
+    {
+        public void PerfRun(string stType, string insertType)
+        {
+            System.Console.WriteLine("{0} symbole table, {1} insert order", stType, insertType);
+            int count = 100 * 1000;
+            STBase<int, string> st = GetST(count, stType);
+            Stopwatch sw = Stopwatch.StartNew();
+            Insert(insertType, st, count);
+            System.Console.WriteLine(sw.Elapsed);
+        }
+
+        public STBase<int, string> GetST(int n, string stType)
+        {
+            STBase<int, string> st = null;
+            switch (stType)
+            {
+                case "binarysearch":
+                    st = new BinarySearchST<int, string>(n);
+                    break;
+
+                case "bst":
+                case "bstloop":
+                    st = new BinarySearchTree_Loop<int, string>();
+                    break;
+
+                case "bstrecur":
+                    st = new BinarySearchTree_Recur<int, string>();
+                    break;
+
+                default:
+                    break;
+            }
+            return st;
+        }
+
+        public void Insert(string insertType, STBase<int, string> st, int count)
+        {
+            switch (insertType)
+            {
+                case "asc":
+                    for (int i = 0; i < count; i++)
+                    {
+                        st.Put(i, "a");
+                    }
+                    break;
+
+                case "desc":
+                    for (int i = count; i > 0; i--)
+                    {
+                        st.Put(i, "a");
+                    }
+                    break;
+
+                case "random":
+                    Random random = new Random();
+                    for (int i = 0; i < count; i++)
+                    {
+                        int j = random.Next(0, count);
+                        st.Put(j, "a");
+                    }
+                    break;
+
+                default:
+                    break;
+            }
         }
     }
 }
