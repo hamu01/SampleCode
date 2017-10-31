@@ -11,36 +11,15 @@ void Main()
 	MaxProfit(new int[]{1, 2, 4}).Dump();
 }
 
-public int MaxProfit(int[] prices) {
-	if(prices.Length <= 1)
+public int MaxProfit(int[] prices)
+{
+	int maxProfit = 0;
+	for (int i = prices.Length - 1; i > 0; i--)
 	{
-		return 0;
-	}
-	int totalProfit = 0;
-	int min = 0;
-	int max = 0;
-	for (int i = 1; i < prices.Length; i++)
-	{
-		if(prices[i] < prices[min])
+		if(prices[i] > prices[i-1])
 		{
-			min = i;
-		}
-		if(prices[i] > prices[max])
-		{
-			max = i;
-		}
-		else
-		{
-			min = i;
-		}
-		if(max < min) 
-		{
-			max = min;
-		}
-		else
-		{
-			totalProfit += prices[max] - prices[min];
+			maxProfit += prices[i] - prices[i-1];
 		}
 	}
-	return totalProfit;
+	return maxProfit;
 }
