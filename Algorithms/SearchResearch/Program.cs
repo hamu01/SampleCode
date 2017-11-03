@@ -175,6 +175,7 @@ namespace SearchResearch
                 Console.Write("{0}:{1} ", key, st.Get(key));
             }
             Console.WriteLine();
+            Console.WriteLine(st.Size());
 
             //st.Delete("C");
             //var v = st.Get("H");
@@ -254,7 +255,7 @@ namespace SearchResearch
         public void PerfRun(string stType, string insertType)
         {
             System.Console.WriteLine("{0} symbole table, {1} insert order", stType, insertType);
-            int count = 100 * 1000;
+            int count = 1000 * 1000;
             STBase<int, string> st = GetST(count, stType);
             Stopwatch sw = Stopwatch.StartNew();
             Insert(insertType, st, count);
@@ -277,6 +278,15 @@ namespace SearchResearch
 
                 case "bstrecur":
                     st = new BinarySearchTree_Recur<int, string>();
+                    break;
+
+                case "hash":
+                case "schash":
+                    st = new SeparateChainingHashST<int, string>();
+                    break;
+
+                case "lphash":
+                    st = new LinearProbingHashST<int, string>();
                     break;
 
                 default:

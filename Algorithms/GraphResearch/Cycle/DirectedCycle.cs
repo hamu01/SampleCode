@@ -2,17 +2,15 @@
 
 namespace GraphResearch
 {
-    public class DirectedCycle_My
+    public class DirectedCycle_Simple
     {
         public bool[] _marked;
-
-        private bool _hasCycle;
 
         private int[] _edgeTo;
 
         private Stack<int> _cycle;
 
-        public DirectedCycle_My(Digraph G)
+        public DirectedCycle_Simple(Digraph G)
         {
             _marked = new bool[G.V()];
             _edgeTo = new int[G.V()];
@@ -27,7 +25,7 @@ namespace GraphResearch
 
         public bool HasCycle()
         {
-            return _hasCycle;
+            return _cycle != null;
         }
 
         public IEnumerable<int> Cycle()
@@ -51,7 +49,6 @@ namespace GraphResearch
                 }
                 else if (i != w)
                 {
-                    _hasCycle = true;
                     _cycle = new Stack<int>();
                     _cycle.Push(i);
                     for (int j = v; j != i; j = _edgeTo[j])
