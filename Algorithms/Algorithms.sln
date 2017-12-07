@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
-VisualStudioVersion = 15.0.26228.9
+VisualStudioVersion = 15.0.26730.15
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Multiway", "Multiway\Multiway.csproj", "{09A595DB-5476-43AC-8F28-117ED25272C5}"
 EndProject
@@ -9,16 +9,13 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SearchResearch", "SearchRes
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SortResearch", "SortResearch\SortResearch.csproj", "{49F4391B-F4CE-4592-A267-EA86B73B9D74}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GraphResearch", "GraphResearch\GraphResearch.csproj", "{72ECAF66-E73B-4717-9210-6EEB579C0D52}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "GraphResearch", "GraphResearch\GraphResearch.csproj", "{72ECAF66-E73B-4717-9210-6EEB579C0D52}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Basic", "Basic\Basic.csproj", "{9C19CD7A-71EA-4EE5-99B0-9710FBF28237}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Basic", "Basic\Basic.csproj", "{9C19CD7A-71EA-4EE5-99B0-9710FBF28237}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "StringResearch", "StringResearch\StringResearch.csproj", "{9C19CD7A-71EA-4EE5-99B0-9710FBF28237}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "StringResearch", "StringResearch\StringResearch.csproj", "{1B7775B5-FB4C-43AE-BD77-91F831D5A1A9}"
 EndProject
 Global
-	GlobalSection(Performance) = preSolution
-		HasPerformanceSessions = true
-	EndGlobalSection
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
 		Release|Any CPU = Release|Any CPU
@@ -44,13 +41,19 @@ Global
 		{9C19CD7A-71EA-4EE5-99B0-9710FBF28237}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{9C19CD7A-71EA-4EE5-99B0-9710FBF28237}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{9C19CD7A-71EA-4EE5-99B0-9710FBF28237}.Release|Any CPU.Build.0 = Release|Any CPU
-		{9C19CD7A-71EA-4EE5-99B0-9710FBF28237}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{9C19CD7A-71EA-4EE5-99B0-9710FBF28237}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{9C19CD7A-71EA-4EE5-99B0-9710FBF28237}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{9C19CD7A-71EA-4EE5-99B0-9710FBF28237}.Release|Any CPU.Build.0 = Release|Any CPU
+		{1B7775B5-FB4C-43AE-BD77-91F831D5A1A9}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1B7775B5-FB4C-43AE-BD77-91F831D5A1A9}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1B7775B5-FB4C-43AE-BD77-91F831D5A1A9}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1B7775B5-FB4C-43AE-BD77-91F831D5A1A9}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {BED50264-38AB-47DB-AC07-E123ADBA9BEA}
+	EndGlobalSection
+	GlobalSection(Performance) = preSolution
+		HasPerformanceSessions = true
 	EndGlobalSection
 	GlobalSection(Performance) = preSolution
 		HasPerformanceSessions = true

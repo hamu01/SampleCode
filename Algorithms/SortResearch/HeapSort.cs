@@ -2,7 +2,7 @@
 
 namespace SortResearch
 {
-    public class HeapSort : ISort
+    public class HeapSort : SortBase
     {
         public void Sort1(int[] a)
         {
@@ -19,7 +19,7 @@ namespace SortResearch
             }
         }
 
-        public void Sort(int[] a)
+        public override void Sort(int[] a)
         {
             int N = a.Length;
             for (int k = N / 2; k >= 1; k--)

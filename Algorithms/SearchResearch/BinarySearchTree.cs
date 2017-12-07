@@ -139,7 +139,7 @@ namespace SearchResearch
             throw new NotImplementedException();
         }
 
-        //TODO : ÐèÒªÖØ¹¹£¬²»ÄÜÒÀÀµÓÚKeys()·½·¨
+        //TODO : ï¿½ï¿½Òªï¿½Ø¹ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Keys()ï¿½ï¿½ï¿½ï¿½
         public override IEnumerable<TKey> Keys(TKey lo, TKey hi)
         {
             IEnumerable<TKey> allKeys = Keys();
@@ -154,16 +154,24 @@ namespace SearchResearch
             return keys;
         }
 
-        //TODO : ÐèÒªÖØ¹¹ÎªÑ­»·µÄ·½Ê½
+        //TODO : ï¿½ï¿½Òªï¿½Ø¹ï¿½ÎªÑ­ï¿½ï¿½ï¿½Ä·ï¿½Ê½
         public override IEnumerable<TKey> Keys()
         {
-            List<TKey> keys = new List<TKey>();
-            if (_root == null)
+            Queue<TKey> queue = new Queue<TKey>();
+            Stack<Node<TKey,TValue>> stack = new Stack<Node<TKey,TValue>>();
+            Node<TKey,TValue> n = _root;
+            while (n != null || stack.Count > 0)
             {
-                return keys;
+                while (n != null)
+                {
+                    stack.Push(n);
+                    n = n.Left;
+                }
+                var x = stack.Pop();
+                queue.Enqueue(x.Key);
+                n = x.Right;
             }
-            Keys(_root, keys);
-            return keys;
+            return queue;
         }
 
         public override void DeleteMin()
@@ -262,18 +270,7 @@ namespace SearchResearch
 
         public override void Delete(TKey key)
         {
-           
-        }
-        
-        private void Keys(Node<TKey, TValue> node, List<TKey> keys)
-        {
-            if (node == null)
-            {
-                return;
-            }
-            Keys(node.Left, keys);
-            keys.Add(node.Key);
-            Keys(node.Right, keys);
+
         }
     }
 
@@ -397,9 +394,9 @@ namespace SearchResearch
         }
 
         /// <summary>
-        /// ´ÓÒ»¿ÃÊ÷ÖÐÕÒµ½±ÈkeyÐ¡µÄ×î´óÖµ
+        /// ï¿½ï¿½Ò»ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Òµï¿½ï¿½ï¿½keyÐ¡ï¿½ï¿½ï¿½ï¿½ï¿½Öµ
         /// </summary>
-        /// <param name="x">Ê÷µÄ¸ù½Úµã</param>
+        /// <param name="x">ï¿½ï¿½ï¿½Ä¸ï¿½ï¿½Úµï¿½</param>
         /// <param name="key"></param>
         /// <returns></returns>
         private Node<TKey, TValue> Floor(Node<TKey, TValue> x, TKey key)
@@ -416,21 +413,21 @@ namespace SearchResearch
             if (cmp < 0)
             {
                 //key < x.key
-                //xÒÔ¼°xµÄÓÒ×ÓÊ÷¶¼¿ÉÒÔºöÂÔ£¬ÒòÎªÕâÐ©¶¼±Èkey´ó£¬FloorÊÇÕÒ±ÈkeyÐ¡µÄ
+                //xï¿½Ô¼ï¿½xï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ôºï¿½ï¿½Ô£ï¿½ï¿½ï¿½Îªï¿½ï¿½Ð©ï¿½ï¿½ï¿½ï¿½keyï¿½ï¿½Floorï¿½ï¿½ï¿½Ò±ï¿½keyÐ¡ï¿½ï¿½
                 return Floor(x.Left, key);
             }
             //key > x.key
-            //x.key±ÈkeyÐ¡£¬µ«ÊÇ²»È·¶¨ÊÇ±ÈkeyÐ¡µÄËùÓÐkeyÀïÃæ×î´óµÄ£¬ËùÒÔ´ÓxµÄÓÒ×ÓÊ÷Àï¼ÌÐø²éÕÒ
-            //Ö»ÒªÔÚÓÒ×ÓÊ÷ÖÐ²éÕÒ¾Í±Ø¶¨·µ»ØÖµ£¬²»¿ÉÄÜ·µ»Ønull
+            //x.keyï¿½ï¿½keyÐ¡ï¿½ï¿½ï¿½ï¿½ï¿½Ç²ï¿½È·ï¿½ï¿½ï¿½Ç±ï¿½keyÐ¡ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½keyï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ä£ï¿½ï¿½ï¿½ï¿½Ô´ï¿½xï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+            //Ö»Òªï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ð²ï¿½ï¿½Ò¾Í±Ø¶ï¿½ï¿½ï¿½ï¿½ï¿½Öµï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ü·ï¿½ï¿½ï¿½null
             Node<TKey, TValue> t = Floor(x.Right, key);
             if (t != null)
             {
-                //ÔÚÓÒ×ÓÊ÷ÖÐÕÒµ½Ò»¸ö±ÈkeyÐ¡µÄ£¬Õâ¸ökey¿Ï¶¨±Èx.key´ó£¬ËùÒÔ·µ»ØÕâ¸öÖµ
+                //ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Òµï¿½Ò»ï¿½ï¿½ï¿½ï¿½keyÐ¡ï¿½Ä£ï¿½ï¿½ï¿½ï¿½keyï¿½Ï¶ï¿½ï¿½ï¿½x.keyï¿½ï¿½ï¿½ï¿½ï¿½Ô·ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Öµ
                 return t;
             }
             else
             {
-                //ÔÚÓÒ×ÓÊ÷ÖÐÃ»ÓÐÕÒµ½±ÈkeyÐ¡µÄ£¬ÄÇx.key¾ÍÊÇ±ÈkeyÐ¡µÄ×î´óÖµ£¬·µ»Øx
+                //ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ã»ï¿½ï¿½ï¿½Òµï¿½ï¿½ï¿½keyÐ¡ï¿½Ä£ï¿½ï¿½ï¿½x.keyï¿½ï¿½ï¿½Ç±ï¿½keyÐ¡ï¿½ï¿½ï¿½ï¿½ï¿½Öµï¿½ï¿½ï¿½ï¿½ï¿½ï¿½x
                 return x;
             }
         }
@@ -477,9 +474,9 @@ namespace SearchResearch
         }
 
         /// <summary>
-        /// ´ÓÒ»¿ÃÊ÷ÖÐÕÒµ½keyµÄÏÂ±ê£¬Õâ¸öÏÂ±êÊÇ½«key²åÈëµ½STºóµÄÏÂ±ê£¬Ò²¼´ÊÇÕÒÐ¡ÓÚµ±Ç°keyµÄÔªËØµÄÊýÁ¿
+        /// ï¿½ï¿½Ò»ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Òµï¿½keyï¿½ï¿½ï¿½Â±ê£¬ï¿½ï¿½ï¿½ï¿½Â±ï¿½ï¿½Ç½ï¿½keyï¿½ï¿½ï¿½ëµ½STï¿½ï¿½ï¿½ï¿½Â±ê£¬Ò²ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ð¡ï¿½Úµï¿½Ç°keyï¿½ï¿½Ôªï¿½Øµï¿½ï¿½ï¿½ï¿½ï¿½
         /// </summary>
-        /// <param name="x">Ê÷µÄ¸ù½Úµã</param>
+        /// <param name="x">ï¿½ï¿½ï¿½Ä¸ï¿½ï¿½Úµï¿½</param>
         /// <param name="key"></param>
         /// <returns></returns>
         private int Rank(Node<TKey, TValue> x, TKey key)
@@ -491,19 +488,19 @@ namespace SearchResearch
             int cmp = key.CompareTo(x.Key);
             if (cmp == 0)
             {
-                //keyºÍµ±Ç°½ÚµãkeyÏàµÈ£¬Òò´ËÆäRankÎª×ó×ÓÊ÷µÄÊýÁ¿
+                //keyï¿½Íµï¿½Ç°ï¿½Úµï¿½keyï¿½ï¿½È£ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½RankÎªï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
                 int size = Size(x.Left);
                 return size;
             }
             else if (cmp < 0)
             {
-                //keyÐ¡ÓÚµ±Ç°½Úµãkey£¬´Ó×ó×ÓÊ÷µÝ¹é
+                //keyÐ¡ï¿½Úµï¿½Ç°ï¿½Úµï¿½keyï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ý¹ï¿½
                 int rank = Rank(x.Left, key);
                 return rank;
             }
             else
             {
-                //key´óÓÚµ±Ç°½Úµãkey£¬ÏÈ¼Ó×ó×ÓÊ÷µÄÊýÁ¿ÔÙ¼Ó1£¬ÔÙ¼ÌÐøÔÚÓÒ×ÓÊ÷µÝ¹é
+                //keyï¿½ï¿½ï¿½Úµï¿½Ç°ï¿½Úµï¿½keyï¿½ï¿½ï¿½È¼ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ù¼ï¿½1ï¿½ï¿½ï¿½Ù¼ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ý¹ï¿½
                 int rank = 1 + Size(x.Left) + Rank(x.Right, key);
                 return rank;
             }
@@ -523,9 +520,9 @@ namespace SearchResearch
         }
 
         /// <summary>
-        /// ´ÓÒ»¿ÃÊ÷ÖÐÕÒµ½ÏÂ±êÎªkµÄÔªËØµÄkey£¬¼´µÚk+1ÔªËØ£¬Ò²¼´ÓÐk¸öÔªËØµÄkey¶¼±È¸ÃÔªËØµÄkeyÒªÐ¡
+        /// ï¿½ï¿½Ò»ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Òµï¿½ï¿½Â±ï¿½Îªkï¿½ï¿½Ôªï¿½Øµï¿½keyï¿½ï¿½ï¿½ï¿½ï¿½ï¿½k+1Ôªï¿½Ø£ï¿½Ò²ï¿½ï¿½ï¿½ï¿½kï¿½ï¿½Ôªï¿½Øµï¿½keyï¿½ï¿½ï¿½È¸ï¿½Ôªï¿½Øµï¿½keyÒªÐ¡
         /// </summary>
-        /// <param name="x">Ê÷µÄ¸ù½Úµã</param>
+        /// <param name="x">ï¿½ï¿½ï¿½Ä¸ï¿½ï¿½Úµï¿½</param>
         /// <param name="k"></param>
         /// <returns></returns>
         private Node<TKey, TValue> Select(Node<TKey, TValue> x, int k)
@@ -534,21 +531,21 @@ namespace SearchResearch
             {
                 return null;
             }
-            //¼ÆËã×ó×ÓÊ÷µÄ´óÐ¡
+            //ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ä´ï¿½Ð¡
             int t = Size(x.Left);
             if (t > k)
             {
-                //×ó×ÓÊ÷µÄÊýÁ¿´óÓÚk£¬´Ó×ó×ÓÊ÷ÖÐ¼ÌÐø²éÕÒ
+                //ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½kï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ð¼ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
                 return Select(x.Left, k);
             }
             else if (t < k)
             {
-                //×ó×ÓÊ÷µÄÊýÁ¿Ð¡ÓÚk£¬´ÓÓÒ×ÓÊ÷²éÕÒ£¬×ó×ÓÊ÷°üº¬t+1¸öÔªËØ£¬°Ñt-1´Ók´Ó¼õÈ¥¼´ÊÇÐÂµÄk£¬Òò´ËÐÂµÄkÎªk-t-1
+                //ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ð¡ï¿½ï¿½kï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ò£ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½t+1ï¿½ï¿½Ôªï¿½Ø£ï¿½ï¿½ï¿½t-1ï¿½ï¿½kï¿½Ó¼ï¿½È¥ï¿½ï¿½ï¿½ï¿½ï¿½Âµï¿½kï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Âµï¿½kÎªk-t-1
                 return Select(x.Right, k - t - 1);
             }
             else
             {
-                //×ó×ÓÊ÷µÄÊýÁ¿µÈÓÚk£¬¼´ÓÐk¸öÔªËØµÄkey¶¼±ÈxµÄkeyÒªÐ¡£¬x¾ÍÊÇÒªÕÒµÄÔªËØ£¬·µ»Øx
+                //ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½kï¿½ï¿½ï¿½ï¿½ï¿½ï¿½kï¿½ï¿½Ôªï¿½Øµï¿½keyï¿½ï¿½ï¿½ï¿½xï¿½ï¿½keyÒªÐ¡ï¿½ï¿½xï¿½ï¿½ï¿½ï¿½Òªï¿½Òµï¿½Ôªï¿½Ø£ï¿½ï¿½ï¿½ï¿½ï¿½x
                 return x;
             }
         }
@@ -566,23 +563,23 @@ namespace SearchResearch
             {
                 return;
             }
-            //½«×ó×ÓÊ÷µÄNodeÌí¼Óµ½¼¯ºÏÖÐ
+            //ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Nodeï¿½ï¿½Óµï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
             if (x.Key.CompareTo(lo) > 0)
             {
                 Keys(keys, x.Left, lo, hi);
             }
-            //½«root nodeÌí¼Óµ½¼¯ºÏÖÐ
+            //ï¿½ï¿½root nodeï¿½ï¿½Óµï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
             if (x.Key.CompareTo(lo) >= 0 && x.Key.CompareTo(hi) <= 0)
             {
                 keys.Add(x.Key);
             }
-            //½«ÓÒ×ÓÊ÷µÄNodeÌí¼Óµ½¼¯ºÏÖÐ
+            //ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Nodeï¿½ï¿½Óµï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
             if (x.Key.CompareTo(hi) < 0)
             {
                 Keys(keys, x.Right, lo, hi);
             }
         }
-        
+
         public override void DeleteMin()
         {
             _root = DeleteMin(_root);
@@ -647,16 +644,16 @@ namespace SearchResearch
                 }
 
                 Node<TKey, TValue> t = x;
-                //½«xÉèÖÃÎªÔ­½ÚµãµÄÓÒ×ÓÊ÷ÖÐ×îÐ¡µÄ½Úµã
+                //ï¿½ï¿½xï¿½ï¿½ï¿½ï¿½ÎªÔ­ï¿½Úµï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ð¡ï¿½Ä½Úµï¿½
                 x = Min(t.Right);
-                //½«Ô­½ÚµãµÄÓÒ×ÓÊ÷ÖÐ×îÐ¡½ÚµãÉ¾³ý£¬¼´½«x´ÓÓÒ×ÓÊ÷ÖÐÉ¾³ý£¬±ÜÃâÖØ¸´
-                //½«Ô­½ÚµãµÄÓÒ×ÓÊ÷ÉèÖÃÎªxµÄÓÒ×ÓÊ÷
+                //ï¿½ï¿½Ô­ï¿½Úµï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ð¡ï¿½Úµï¿½É¾ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½xï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½É¾ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ø¸ï¿½
+                //ï¿½ï¿½Ô­ï¿½Úµï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Îªxï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
                 x.Right = DeleteMin(t.Right);
-                //½«Ô­½ÚµãµÄ×ó×ÓÊ÷ÉèÖÃÎªxµÄ×ó×ÓÊ÷
+                //ï¿½ï¿½Ô­ï¿½Úµï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Îªxï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
                 x.Left = t.Left;
             }
             x.N = Size(x.Left) + Size(x.Right) + 1;
-            //x·µ»Øºó¼´½«Ô­½ÚµãÌæ»»£¬²¢ÇÒÉèÖÃºÃÁËÆä×óÓÒ×ÓÊ÷£¬²¢¸üÐÂºÃÁËN
+            //xï¿½ï¿½ï¿½Øºó¼´½ï¿½Ô­ï¿½Úµï¿½ï¿½æ»»ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ãºï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Âºï¿½ï¿½ï¿½N
             return x;
         }
     }
@@ -674,12 +671,12 @@ namespace SearchResearch
             Value = value;
         }
 
-        public Node(TKey key, TValue value, int n) : this(key,value)
+        public Node(TKey key, TValue value, int n) : this(key, value)
         {
             N = n;
         }
 
-        public Node(TKey key, TValue value, int n, bool color) : this(key,value, n)
+        public Node(TKey key, TValue value, int n, bool color) : this(key, value, n)
         {
             Color = color;
         }

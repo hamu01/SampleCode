@@ -1,8 +1,8 @@
 ﻿namespace SortResearch
 {
-    public class ShellSort : ISort
+    public class ShellSort : SortBase
     {
-        public void Sort(int[] a)
+        public override void Sort(int[] a)
         {
             // Sort a[] into increasing order.
             int N = a.Length;
@@ -20,15 +20,13 @@
                     // Insert a[i] among a[i-h], a[i-2*h], a[i-3*h]... .
                     for (int j = i; j >= h; j -= h)
                     {
-                        if (a[j] > a[j - h])
+                        if(Compare(a, j-h, j))
                         {
                             break;
                         }
                         else
                         {
-                            int temp = a[j];
-                            a[j] = a[j - h];
-                            a[j - h] = temp;
+                            Exchange(a,j,j-h);
                         }
                     }
                 }

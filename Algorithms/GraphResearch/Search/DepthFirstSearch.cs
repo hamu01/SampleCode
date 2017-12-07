@@ -37,7 +37,7 @@
 
         public override int Count()
         {
-            return _count++;
+            return _count;
         }
     }
 }

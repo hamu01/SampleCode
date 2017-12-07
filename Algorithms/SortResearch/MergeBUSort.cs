@@ -2,11 +2,11 @@
 
 namespace SortResearch
 {
-    public class MergeBUSort : ISort
+    public class MergeBUSort : SortBase
     {
         private int[] aud;
 
-        public void Sort(int[] a)
+        public override void Sort(int[] a)
         {
             int N = a.Length;
             aud = new int[N];

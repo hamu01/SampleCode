@@ -1,19 +1,17 @@
 namespace SortResearch
 {
-    public class InsertionSort : ISort
+    public class InsertionSort : SortBase
     {
-        // 最好情况下：compare: n-1, exchange: 0
-        public void Sort(int[] a)
+        //鏈�濂芥儏鍐典笅锛歝ompare: n-1, exchange: 0
+        public override void Sort(int[] a)
         {
             for (int i = 1; i < a.Length; i++)
             {
                 for (int j = i; j > 0; j--)
                 {
-                    if (a[j] < a[j - 1])
+                    if(Compare(a, j, j-1))
                     {
-                        int temp = a[j];
-                        a[j] = a[j - 1];
-                        a[j - 1] = temp;
+                        Exchange(a, j, j-1);
                     }
                     else
                     {
@@ -23,7 +21,7 @@ namespace SortResearch
             }
         }
 
-        // 最好情况下：compare: 1+2+...+ (n-1) = (n-1)*(n-2)/2, exchange: 0
+        //鏈�濂芥儏鍐典笅锛歝ompare: 1+2+...+ (n-1) = (n-1)*(n-2)/2, exchange: 0
         public void MySort(int[] a)
         {
             for (int i = 1; i < a.Length; i++)
@@ -39,6 +37,5 @@ namespace SortResearch
                 }
             }
         }
-
     }
 }
