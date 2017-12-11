@@ -11,60 +11,165 @@ namespace Classic
         {
             Node head = ConvertToNode(matrix);
             // Assert(head);
-            return Dance(head);
-        }
-
-        public List<int> Dance(Node head)
-        {
+            var rowNodes = Dance(head);
             List<int> rows = new List<int>();
-            while (head.Right != null)
+            foreach (var n in rowNodes)
             {
-                Node n = FindMinHead(head);
-                if (n.Down == null)
-                {
-                    throw new Exception("no solution");
-                }
-                n = n.Down;
                 rows.Add(n.Row);
-                RemoveAll(n);
             }
             return rows;
         }
 
-        private void RemoveAll(Node n)
+        public Stack<Node> Dance(Node head)
         {
-            Remove(n);
-            if (n.Row == -1)
+            Stack<Node> rows = new Stack<Node>();
+            int columnIndex = 0;
+            int rowIndex = 0;
+            while (head.Right != null)
             {
-                return;
+                var result = Search(head, rows, columnIndex, rowIndex);
+                if (!result)
+                {
+                    var node = rows.Pop();
+                    while (node != null)
+                    {
+                        AddColumn(node);
+                        node = node.Right;
+                    }
+                    rowIndex++;
+                }
+                else
+                {
+                    rowIndex = 0;
+                }
             }
-            Node left = n.Left;
-            while (left != null)
+            // throw new Exception("no solution");
+            return rows;
+        }
+
+        private bool Search(Node head, Stack<Node> rows, int columnIndex, int rowIndex)
+        {
+            var columns = FindMinColumn(head);
+            Node column = columns[columnIndex];
+            var node = FindRow(column, rowIndex);
+            if (node == null)
             {
-                RemoveAll(left);
-                left = left.Left;
+                return false;
             }
-            Node right = n.Right;
+            rows.Push(node);
+            RemoveColumn(node);
+            var right = node.Right;
             while (right != null)
             {
-                RemoveAll(right);
+                RemoveColumn(right);
                 right = right.Right;
             }
-            Node up = n.Up;
-            while (up != null)
+            var left = node.Left;
+            while (left != null)
             {
-                RemoveAll(up);
-                up = up.Up;
+                RemoveColumn(left);
+                left = left.Left;
             }
-            Node down = n.Down;
+            return true;
+        }
+
+        private Node FindRow(Node column, int rowIndex)
+        {
+            int i = 0;
+            var n = column;
+            while (i++ < rowIndex && n.Down != null)
+            {
+                n = n.Down;
+            }
+            return n.Down;
+        }
+
+        private void RemoveColumn(Node n)
+        {
+            var column = GetColumn(n);
+            RemoveColumnNode(column);
+            Node down = column.Down;
             while (down != null)
             {
-                RemoveAll(down);
+                RemoveDataNode(down);
+                Node right = down.Right;
+                while (right != null)
+                {
+                    RemoveDataNode(right);
+                    right = right.Right;
+                }
+                Node left = down.Left;
+                while (left != null)
+                {
+                    RemoveDataNode(left);
+                    left = left.Left;
+                }
                 down = down.Down;
             }
         }
 
-        private void Remove(Node n)
+        private void AddColumn(Node n)
+        {
+            var column = GetColumn(n);
+            AddColumnNode(column);
+            do
+            {
+                AddDataNode(n);
+                Node right = n.Right;
+                while (right != null)
+                {
+                    AddDataNode(right);
+                    right = right.Right;
+                }
+                Node left = n.Left;
+                while (left != null)
+                {
+                    AddDataNode(left);
+                    left = left.Left;
+                }
+                n = n.Down;
+            }
+            while (n != null);
+            // SetColumnCount(column);
+        }
+
+        private Node GetColumn(Node n)
+        {
+            Node link = n;
+            while (link.Row != -1)
+            {
+                link = link.Up;
+            }
+            return link;
+        }
+
+        private void RemoveDataNode(Node n)
+        {
+            if (n.Up != null)
+            {
+                n.Up.Down = n.Down;
+            }
+            if (n.Down != null)
+            {
+                n.Down.Up = n.Up;
+            }
+            SetColumnCount(n);
+        }
+
+        private void SetColumnCount(Node n)
+        {
+            var column = GetColumn(n);
+            int count = 0;
+            var down = column.Down;
+            while (down != null)
+            {
+                count++;
+                down = down.Down;
+            }
+            column.Count = count;
+        }
+
+        private void RemoveColumnNode(Node n)
         {
             if (n.Right != null)
             {
@@ -74,17 +179,22 @@ namespace Classic
             {
                 n.Left.Right = n.Right;
             }
+        }
+
+        private void AddDataNode(Node n)
+        {
             if (n.Up != null)
             {
-                n.Up.Down = n.Down;
+                n.Up.Down = n;
             }
             if (n.Down != null)
             {
-                n.Down.Up = n.Up;
+                n.Down.Up = n;
             }
+            SetColumnCount(n);
         }
 
-        private void Add(Node n)
+        private void AddColumnNode(Node n)
         {
             if (n.Left != null)
             {
@@ -94,18 +204,11 @@ namespace Classic
             {
                 n.Right.Left = n;
             }
-            if (n.Up != null)
-            {
-                n.Up.Down = n;
-            }
-            if (n.Down != null)
-            {
-                n.Down.Up = n;
-            }
         }
 
-        private Node FindMinHead(Node head)
+        private List<Node> FindMinColumn(Node head)
         {
+            List<Node> minNodes = new List<Node>();
             Node n = head.Right;
             Node min = n;
             while (n != null)
@@ -113,10 +216,16 @@ namespace Classic
                 if (n.Count < min.Count)
                 {
                     min = n;
+                    minNodes.Clear();
+                    minNodes.Add(min);
+                }
+                else if (n.Count == min.Count)
+                {
+                    minNodes.Add(n);
                 }
                 n = n.Right;
             }
-            return min;
+            return minNodes;
         }
 
         private Node ConvertToNode(int[,] matrix)
