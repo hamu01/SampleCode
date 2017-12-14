@@ -4,7 +4,7 @@ using System.Linq;
 
 namespace Classic
 {
-    public class Sudoku
+    public class MySudoku
     {
         public void Run(char[,] board)
         {
@@ -171,6 +171,14 @@ namespace Classic
                 }
             }
             return charSet;
+        }
+    }
+
+    public class Sudoku
+    {
+        public void Solve(char[,] board)
+        {
+            
         }
     }
 }

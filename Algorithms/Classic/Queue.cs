@@ -287,6 +287,7 @@ namespace Classic
                     regs[2] = SetBit(regs[2], x + y);
                     regs[3] = SetBit(regs[3], (x - y) + (n - 1));
 
+                    //可以优化为全局数组，选择新的行时修改数组，backtrack的时候restore
                     int[] newQueue = new int[queue.Length];
                     queue.CopyTo(newQueue, 0);
 
