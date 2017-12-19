@@ -178,7 +178,56 @@ namespace Classic
     {
         public void Solve(char[,] board)
         {
-            
+            int[,] matrix = ConvertToMatrix(board);
+            DanceLink danceLink = new DanceLink();
+            var rows = danceLink.Dance(matrix);
+            FillCells(board, rows);
+        }
+
+        public int[,] ConvertToMatrix(char[,] board)
+        {
+            var len = board.GetLength(0);
+            int[,] matrix = new int[len * len * len, 4 * len * len];
+            for (int row = 0; row < len; row++)
+            {
+                for (int col = 0; col < len; col++)
+                {
+                    for (int n = 1; n <= len; n++)
+                    {
+                        var positions = GetPosition(row + 1, col + 1, n, len);
+                        foreach (var position in positions)
+                        {
+                            matrix[position.Key, position.Value] = 1;
+                        }
+                    }
+                }
+            }
+            return matrix;
+        }
+
+        private List<KeyValuePair<int, int>> GetPosition(int row, int col, int n, int len)
+        {
+            List<KeyValuePair<int, int>> positions = new List<KeyValuePair<int, int>>();
+            //cells
+            int r = (row - 1) * len * len + (col - 1) * len + n;
+            int c = (row - 1) * len + col;
+            positions.Add(new KeyValuePair<int, int>(r - 1, c - 1));
+            //rows
+            c = len * len + (row - 1) * len + n;
+            positions.Add(new KeyValuePair<int, int>(r - 1, c - 1));
+            //columns
+            c = 2 * len * len + (col - 1) * len + n;
+            positions.Add(new KeyValuePair<int, int>(r - 1, c - 1));
+            //regions
+            int sqrt = (int)Math.Sqrt(len);
+            c = 3 * len * len + ((col - 1) / sqrt) * len + ((row - 1) / sqrt) * 2 * len + n;
+            positions.Add(new KeyValuePair<int, int>(r - 1, c - 1));
+            return positions;
+        }
+
+        private void FillCells(char[,] board, List<int> rows)
+        {
+
         }
     }
 }
