@@ -178,13 +178,14 @@ namespace Classic
     {
         public void Solve(char[,] board)
         {
-            int[,] matrix = ConvertToMatrix(board);
+            Dictionary<int, RowHeader> headers = new Dictionary<int, RowHeader>();
+            int[,] matrix = ConvertToMatrix(board, headers);
             DanceLink danceLink = new DanceLink();
             var rows = danceLink.Dance(matrix);
-            FillCells(board, rows);
+            FillCells(board, rows, headers);
         }
 
-        public int[,] ConvertToMatrix(char[,] board)
+        public int[,] ConvertToMatrix(char[,] board, Dictionary<int, RowHeader> headers)
         {
             var len = board.GetLength(0);
             int[,] matrix = new int[len * len * len, 4 * len * len];
@@ -192,12 +193,27 @@ namespace Classic
             {
                 for (int col = 0; col < len; col++)
                 {
-                    for (int n = 1; n <= len; n++)
+                    if (board[row, col] == '.')
                     {
-                        var positions = GetPosition(row + 1, col + 1, n, len);
-                        foreach (var position in positions)
+                        for (int n = 1; n <= len; n++)
                         {
-                            matrix[position.Key, position.Value] = 1;
+                            var positions = GetPosition(row + 1, col + 1, n, len);
+                            int r = positions.Key;
+                            foreach (var c in positions.Value)
+                            {
+                                matrix[r, c] = 1;
+                            }
+                            headers[r] = new RowHeader(row, col, n);
+                        }
+                    }
+                    else
+                    {
+                        int n = int.Parse(board[row, col].ToString());
+                        var positions = GetPosition(row + 1, col + 1, n, len);
+                        int r = positions.Key;
+                        foreach (var c in positions.Value)
+                        {
+                            matrix[r, c] = 1;
                         }
                     }
                 }
@@ -205,29 +221,53 @@ namespace Classic
             return matrix;
         }
 
-        private List<KeyValuePair<int, int>> GetPosition(int row, int col, int n, int len)
+        private KeyValuePair<int, List<int>> GetPosition(int row, int col, int n, int len)
         {
-            List<KeyValuePair<int, int>> positions = new List<KeyValuePair<int, int>>();
-            //cells
             int r = (row - 1) * len * len + (col - 1) * len + n;
+            List<int> cols = new List<int>();
+            //cells
             int c = (row - 1) * len + col;
-            positions.Add(new KeyValuePair<int, int>(r - 1, c - 1));
+            cols.Add(c - 1);
             //rows
             c = len * len + (row - 1) * len + n;
-            positions.Add(new KeyValuePair<int, int>(r - 1, c - 1));
+            cols.Add(c - 1);
             //columns
             c = 2 * len * len + (col - 1) * len + n;
-            positions.Add(new KeyValuePair<int, int>(r - 1, c - 1));
+            cols.Add(c - 1);
             //regions
             int sqrt = (int)Math.Sqrt(len);
-            c = 3 * len * len + ((col - 1) / sqrt) * len + ((row - 1) / sqrt) * 2 * len + n;
-            positions.Add(new KeyValuePair<int, int>(r - 1, c - 1));
+            c = 3 * len * len + ((col - 1) / sqrt) * len + ((row - 1) / sqrt) * sqrt * len + n;
+            cols.Add(c - 1);
+            var positions = new KeyValuePair<int, List<int>>(r - 1, cols);
             return positions;
         }
 
-        private void FillCells(char[,] board, List<int> rows)
+        private void FillCells(char[,] board, List<int> rows, Dictionary<int, RowHeader> headers)
         {
-
+            foreach (var row in rows)
+            {
+                if (headers.ContainsKey(row))
+                {
+                    var rowHeader = headers[row];
+                    board[rowHeader.Row, rowHeader.Col] = rowHeader.N.ToString()[0];
+                }
+            }
         }
+    }
+
+    public class RowHeader
+    {
+        public RowHeader(int row, int col, int n)
+        {
+            Row = row;
+            Col = col;
+            N = n;
+        }
+
+        public int Row { get; set; }
+
+        public int Col { get; set; }
+
+        public int N { get; set; }
     }
 }

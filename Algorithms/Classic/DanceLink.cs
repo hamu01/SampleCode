@@ -505,6 +505,8 @@ namespace Classic
                 Node n = new Node(row, column);
                 n.Left = n;
                 n.Right = n;
+                n.Up = n;
+                n.Down = n;
                 _cache.Add(index, n);
             }
             return _cache[index];
