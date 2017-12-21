@@ -246,7 +246,7 @@ namespace Classic
         }
     }
 
-    public class Queue
+    public class Queue_BackTrack
     {
         public void Run(int n)
         {
@@ -323,6 +323,34 @@ namespace Classic
         {
             int j = 1 << i;
             return b ^ j;
+        }
+    }
+
+    public class Queue
+    {
+        public void Run(int n)
+        {
+            List<int[]> queues = GetQueues(n);
+            foreach (var queue in queues)
+            {
+                for (int y = 0; y < queue.Length; y++)
+                {
+                    int x = queue[y];
+                    Console.Write("x = {0}, y = {1} ", x, y);
+                }
+                Console.WriteLine();
+            }
+        }
+
+        public List<int[]> GetQueues(int n)
+        {
+            List<int[]> matricList = new List<int[]>();
+            int[] row = new int[4 * n];
+            row[0] = 1;
+            row[n] = 1;
+            row[2 * n] = 1;
+            row[3 * n] = 1;
+            return null;
         }
     }
 }
