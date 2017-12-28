@@ -3,13 +3,13 @@
 void Main()
 {
 	Test();
-	PerfTest(30);
+//	PerfTest(30);
 }
 
 private void Test()
 {
 	int n = 5;
-	int[] prices = new int[] { 110, 110, 60, 100, 120 };
+	int[] prices = new int[] { 110, 110, 60, 200, 1200 };
 	int[] weights = new int[] { 60, 60, 10, 20, 30 };
 
 	int W = 50;
@@ -58,27 +58,27 @@ public class Solution {
 		_n = n;
 	}
 	
-	public int Knapsack(int w)
+	public int Knapsack(int weight)
 	{
-		int[] bag = new int[w+1];
-		for (int i = 1; i < w+1; i++)
+		int[] bag = new int[weight+1];
+		for (int w = 1; w < weight+1; w++)
 		{
-			int p1 = bag[i-1];
+			int p1 = bag[w-1];
 			int max = 0;
 			for (int j = 0; j < _n; j++)
 			{
-				if(i >= _weights[j])
+				if(w >= _weights[j])
 				{
-					int p = bag[i-_weights[j]] + _prices[j];
+					int p = bag[w-_weights[j]] + _prices[j];
 					if(max < p)
 					{
 						max = p;
 					}
 				}
 			}
-			bag[i] = Math.Max(p1, max);
+			bag[w] = Math.Max(p1, max);
 		}
-		return bag[w];
+		return bag[weight];
 	}
 	
 	public int Knapsack_Recur(int w)

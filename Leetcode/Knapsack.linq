@@ -64,14 +64,6 @@ public class Solution {
 	public int Knapsack(int totalWeight)
 	{
 		var bag = new int[_n+1,totalWeight/10+1];
-//		for (int k = 0; k < _bag.GetLength(0); k++)
-//		{
-//			_bag[k, 0] = 0;
-//		}
-//		for (int k = 0; k < _bag.GetLength(1); k++)
-//		{
-//			_bag[0, k] = 0;
-//		}
 		for (int i = 1; i < bag.GetLength(0); i++)
 		{
 			for (int j = 1; j < bag.GetLength(1); j++)
