@@ -23,6 +23,8 @@ namespace BinaryTree
             LoopTraverse loopTraverse = new LoopTraverse();
             nodes = loopTraverse.Pre(root);
             PrintNodes(nodes, "Pre");
+            nodes = loopTraverse.InWithState(root);
+            PrintNodes(nodes, "InWithState");
             nodes = loopTraverse.In(root);
             PrintNodes(nodes, "In");
             nodes = loopTraverse.Post(root);
@@ -64,8 +66,8 @@ namespace BinaryTree
             root.Left.Left = new Node(4);
             root.Left.Left.Left = new Node(5);
             root.Left.Left.Right = new Node(7);
-            root.Left.Left.Left.Left = new Node(6);
-            root.Left.Left.Left.Right = new Node(8);
+            // root.Left.Left.Left.Left = new Node(6);
+            // root.Left.Left.Left.Right = new Node(8);
 
             return root;
         }
@@ -160,37 +162,59 @@ namespace BinaryTree
             return nodes;
         }
 
-        public IEnumerable<Node> In(Node root)
+        public IEnumerable<Node> InWithState(Node root)
         {
             Queue<Node> nodes = new Queue<Node>();
-            HashSet<Node> set = new HashSet<Node>();
             Stack<Node> stack = new Stack<Node>();
             stack.Push(root);
             while (stack.Count > 0)
             {
-                var node = stack.Pop();
-                if (node.Right != null && !set.Contains(node.Right))
+                var node = stack.Peek();
+                if (node.State == 0)
                 {
-                    stack.Push(node.Right);
-                    set.Add(node.Right);
-                }
-                if (node.Left != null)
-                {
-                    if (!set.Contains(node))
-                    {
-                        stack.Push(node);
-                        set.Add(node);
-                    }
-                    if (!set.Contains(node.Left))
+                    if (node.Left != null)
                     {
                         stack.Push(node.Left);
-                        set.Add(node.Left);
                     }
+                    node.State = 1;
                 }
-                else
+                else if (node.State == 1)
                 {
                     nodes.Enqueue(node);
+                    node.State = 2;
                 }
+                else if (node.State == 2)
+                {
+                    if (node.Right != null)
+                    {
+                        stack.Push(node.Right);
+                    }
+                    node.State = 3;
+                }
+                else if (node.State == 3)
+                {
+                    stack.Pop();
+                    node.State = 0;
+                }
+            }
+            return nodes;
+        }
+
+        public IEnumerable<Node> In(Node root)
+        {
+            Queue<Node> nodes = new Queue<Node>();
+            Stack<Node> stack = new Stack<Node>();
+            Node current = root;
+            while (stack.Count > 0 || current != null)
+            {
+                while (current != null)
+                {
+                    stack.Push(current);
+                    current = current.Left;
+                }
+                current = stack.Pop();
+                nodes.Enqueue(current);
+                current = current.Right;
             }
             return nodes;
         }

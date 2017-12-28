@@ -107,7 +107,6 @@ namespace BinaryTree
     {
         public Node()
         {
-
         }
 
         public Node(int v)
@@ -122,5 +121,7 @@ namespace BinaryTree
         public Node Right { get; set; }
 
         public int Col { get; set; }
+
+        public int State { get; set; }
     }
 }
