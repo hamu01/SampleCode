@@ -9,8 +9,11 @@ namespace BinaryTree
             // TopViewSample view = new TopViewSample();
             // view.Run();
 
-            TraverseSample traverse = new TraverseSample();
-            traverse.Run();
+            // TraverseSample traverse = new TraverseSample();
+            // traverse.Run();
+
+            ConstructSample construct = new ConstructSample();
+            construct.Run();
         }
     }
 }
