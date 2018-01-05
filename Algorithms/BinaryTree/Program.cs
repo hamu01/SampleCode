@@ -15,8 +15,8 @@ namespace BinaryTree
             ConstructSample construct = new ConstructSample();
             construct.Run();
 
-            CheckSample check = new CheckSample();
-            check.Run();
+            // CheckSample check = new CheckSample();
+            // check.Run();
         }
     }
 }

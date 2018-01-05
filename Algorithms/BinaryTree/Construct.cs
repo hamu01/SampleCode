@@ -12,60 +12,50 @@ namespace BinaryTree
             int[] inValues = new int[] { 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 16 };
             int[] preValues = new int[] { 10, 6, 4, 3, 5, 8, 7, 9, 14, 12, 11, 13, 16 };
             int[] postValues = new int[] { 3, 5, 4, 7, 9, 8, 6, 11, 13, 12, 16, 14, 10 };
+            // preValues = new int[] { 2, 3, 1 };
+            // inValues = new int[] { 1, 2, 3 };
+            // postValues = new int[] { 2, 1 };
+
             Construct construct = new Construct();
-            var root = construct.PreAndIn(preValues, inValues);
             LoopTraverse traverse = new LoopTraverse();
-            var nodes = traverse.Pre(root).ToArray();
-            for (int i = 0; i < nodes.Length; i++)
-            {
-                var node = nodes[i];
-                if (node.V != preValues[i])
-                {
-                    Console.WriteLine("pre not match");
-                    break;
-                }
-            }
-            Console.WriteLine("pre match");
+            var root = construct.PreAndIn(preValues, inValues);
+            Match(preValues, root, traverse.Pre, "preandin");
+
+            root = construct.PreAndInWithRecur(preValues, inValues);
+            Match(preValues, root, traverse.Pre, "preandinrecur");
 
             root = construct.InAndPost(inValues, postValues);
-            nodes = traverse.Post(root).ToArray();
-            for (int i = 0; i < nodes.Length; i++)
-            {
-                var node = nodes[i];
-                if (node.V != postValues[i])
-                {
-                    Console.WriteLine("post not match");
-                    break;
-                }
-            }
-            Console.WriteLine("post match");
+            Match(postValues, root, traverse.Post, "inandpost");
 
-            preValues = new int[] { 1, 2 };
+            preValues = new int[] { 10, 6, 4, 3, 5, 8, 7, 9, 14, 12, 11, 13, 16 };
             root = construct.Pre(preValues);
-            nodes = traverse.Pre(root).ToArray();
-            for (int i = 0; i < nodes.Length; i++)
-            {
-                var node = nodes[i];
-                if (node.V != preValues[i])
-                {
-                    Console.WriteLine("bst pre not match");
-                    break;
-                }
-            }
-            Console.WriteLine("bst pre match");
+            Match(preValues, root, traverse.Pre, "bst pre");
 
             root = construct.Post(postValues);
-            nodes = traverse.Post(root).ToArray();
+            Match(postValues, root, traverse.Post, "bst post");
+        }
+
+        private void Match(int[] values, Node root, Func<Node, IEnumerable<Node>> func, string order)
+        {
+            bool match = true;
+            var nodes = func(root).ToArray();
             for (int i = 0; i < nodes.Length; i++)
             {
                 var node = nodes[i];
-                if (node.V != postValues[i])
+                if (node.V != values[i])
                 {
-                    Console.WriteLine("bst post not match");
+                    match = false;
                     break;
                 }
             }
-            Console.WriteLine("bst post match");
+            if (match)
+            {
+                Console.WriteLine("{0} match", order);
+            }
+            else
+            {
+                Console.WriteLine("{0} not match", order);
+            }
         }
     }
 
@@ -91,7 +81,11 @@ namespace BinaryTree
                 {
                     if (dic[v] <= dic[n.V])
                     {
-                        if (n.Left != null)
+                        if (n.Right != null)
+                        {
+                            throw new InvalidOperationException("invalid pre order");
+                        }
+                        else if (n.Left != null)
                         {
                             n = n.Left;
                         }
@@ -115,6 +109,41 @@ namespace BinaryTree
                     }
                 }
             }
+            return root;
+        }
+
+        public Node PreAndInWithRecur(int[] preValues, int[] inValues)
+        {
+            Dictionary<int, int> dic = new Dictionary<int, int>();
+            for (int i = 0; i < inValues.Length; i++)
+            {
+                dic.Add(inValues[i], i);
+            }
+            return PreAndInWithRecur(0, preValues.Length - 1, 0, inValues.Length - 1, preValues, inValues, dic);
+        }
+
+        private Node PreAndInWithRecur(int preStart, int preEnd, int inStart, int inEnd, int[] preValues, int[] inValues, Dictionary<int, int> dic)
+        {
+            if (preStart > preEnd)
+            {
+                return null;
+            }
+            if (preStart == preEnd)
+            {
+                return new Node(preValues[preStart]);
+            }
+            Node root = new Node(preValues[preStart]);
+            int index = dic[preValues[preStart]];
+            int preLeftStart = preStart + 1;
+            int preLeftEnd = preStart + index - inStart;
+            int preRightStart = preLeftEnd + 1;
+            int preRightEnd = preEnd;
+            int inLeftStart = inStart;
+            int inLeftEnd = index - 1;
+            int inRightStart = inLeftEnd + 2;
+            int inRightEnd = inEnd;
+            root.Left = PreAndInWithRecur(preLeftStart, preLeftEnd, inLeftStart, inLeftEnd, preValues, inValues, dic);
+            root.Right = PreAndInWithRecur(preRightStart, preRightEnd, inRightStart, inRightEnd, preValues, inValues, dic);
             return root;
         }
 
@@ -150,13 +179,13 @@ namespace BinaryTree
                     }
                     else
                     {
-                        if (n.Right != null)
+                        if (n.Left != null)
+                        {
+                            throw new InvalidOperationException("invalid post order");
+                        }
+                        else if (n.Right != null)
                         {
                             n = n.Right;
-                        }
-                        else if (n.Left != null)
-                        {
-                            throw new InvalidOperationException("invalid post values");
                         }
                         else
                         {
@@ -180,7 +209,11 @@ namespace BinaryTree
                 {
                     if (v <= n.V)
                     {
-                        if (n.Left != null)
+                        if (n.Right != null)
+                        {
+                            throw new InvalidOperationException("invalid pre order");
+                        }
+                        else if (n.Left != null)
                         {
                             n = n.Left;
                         }
@@ -195,10 +228,6 @@ namespace BinaryTree
                         if (n.Right != null)
                         {
                             n = n.Right;
-                        }
-                        else if (n.Left == null)
-                        {
-                            throw new InvalidOperationException("invalid pre values");
                         }
                         else
                         {
@@ -234,13 +263,13 @@ namespace BinaryTree
                     }
                     else
                     {
-                        if (n.Right != null)
+                        if (n.Left != null)
+                        {
+                            throw new InvalidOperationException("invalid post order");
+                        }
+                        else if (n.Right != null)
                         {
                             n = n.Right;
-                        }
-                        else if (n.Left != null)
-                        {
-                            throw new InvalidOperationException("invalid post values");
                         }
                         else
                         {
