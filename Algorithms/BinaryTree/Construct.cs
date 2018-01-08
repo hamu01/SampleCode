@@ -12,27 +12,30 @@ namespace BinaryTree
             int[] inValues = new int[] { 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 16 };
             int[] preValues = new int[] { 10, 6, 4, 3, 5, 8, 7, 9, 14, 12, 11, 13, 16 };
             int[] postValues = new int[] { 3, 5, 4, 7, 9, 8, 6, 11, 13, 12, 16, 14, 10 };
-            // preValues = new int[] { 2, 3, 1 };
+            // preValues = new int[] { 2, 1, 3 };
             // inValues = new int[] { 1, 2, 3 };
-            // postValues = new int[] { 2, 1 };
+            // postValues = new int[] { 3, 1, 2 };
 
             Construct construct = new Construct();
             LoopTraverse traverse = new LoopTraverse();
-            var root = construct.PreAndIn(preValues, inValues);
-            Match(preValues, root, traverse.Pre, "preandin");
+            // var root = construct.PreAndIn(preValues, inValues);
+            // Match(preValues, root, traverse.Pre, "preandin");
 
-            root = construct.PreAndInWithRecur(preValues, inValues);
-            Match(preValues, root, traverse.Pre, "preandinrecur");
+            var root = construct.PreAndInWithRecur(preValues, inValues);
+            Match(preValues, root, traverse.Pre, "PreAndInWithRecur");
 
-            root = construct.InAndPost(inValues, postValues);
-            Match(postValues, root, traverse.Post, "inandpost");
+            // root = construct.InAndPost(inValues, postValues);
+            // Match(postValues, root, traverse.Post, "InAndPost");
 
-            preValues = new int[] { 10, 6, 4, 3, 5, 8, 7, 9, 14, 12, 11, 13, 16 };
-            root = construct.Pre(preValues);
-            Match(preValues, root, traverse.Pre, "bst pre");
+            // var root = construct.InAndPostWithRecur(inValues, postValues);
+            // Match(postValues, root, traverse.Post, "InAndPostWithRecur");
 
-            root = construct.Post(postValues);
-            Match(postValues, root, traverse.Post, "bst post");
+            // preValues = new int[] { 10, 6, 4, 3, 5, 8, 7, 9, 14, 12, 11, 13, 16 };
+            // root = construct.Pre(preValues);
+            // Match(preValues, root, traverse.Pre, "bst pre");
+
+            // root = construct.Post(postValues);
+            // Match(postValues, root, traverse.Post, "bst post");
         }
 
         private void Match(int[] values, Node root, Func<Node, IEnumerable<Node>> func, string order)
@@ -140,11 +143,34 @@ namespace BinaryTree
             int preRightEnd = preEnd;
             int inLeftStart = inStart;
             int inLeftEnd = index - 1;
-            int inRightStart = inLeftEnd + 2;
+            int inRightStart = index + 1;
             int inRightEnd = inEnd;
+
+            ValidateOrder(index, preLeftStart, preLeftEnd, preRightStart, preRightEnd, preValues, dic, "pre");
+
             root.Left = PreAndInWithRecur(preLeftStart, preLeftEnd, inLeftStart, inLeftEnd, preValues, inValues, dic);
             root.Right = PreAndInWithRecur(preRightStart, preRightEnd, inRightStart, inRightEnd, preValues, inValues, dic);
             return root;
+        }
+
+        private void ValidateOrder(int index, int leftStart, int leftEnd, int rightStart, int rightEnd, int[] values, Dictionary<int, int> dic, string order)
+        {
+            for (int i = leftStart; i <= leftEnd; i++)
+            {
+                int v = values[i];
+                if (dic[v] >= index)
+                {
+                    throw new InvalidOperationException(string.Format("invalid {0} order", order));
+                }
+            }
+            for (int i = rightStart; i <= rightEnd; i++)
+            {
+                int v = values[i];
+                if (dic[v] <= index)
+                {
+                    throw new InvalidOperationException(string.Format("invalid {0} order", order));
+                }
+            }
         }
 
         public Node InAndPost(int[] inValues, int[] postValues)
@@ -196,6 +222,45 @@ namespace BinaryTree
                 }
             }
             return root;
+        }
+
+        public Node InAndPostWithRecur(int[] inValues, int[] postValues)
+        {
+            Dictionary<int, int> dic = new Dictionary<int, int>();
+            for (int i = 0; i < inValues.Length; i++)
+            {
+                dic[inValues[i]] = i;
+            }
+            return InAndPostWithRecur(0, postValues.Length - 1, 0, inValues.Length - 1, inValues, postValues, dic);
+        }
+
+        private Node InAndPostWithRecur(int postStart, int postEnd, int inStart, int inEnd, int[] inValues, int[] postValues, Dictionary<int, int> dic)
+        {
+            if (postStart > postEnd)
+            {
+                return null;
+            }
+            if (postStart == postEnd)
+            {
+                return new Node(postValues[postEnd]);
+            }
+            int v = postValues[postEnd];
+            Node node = new Node(v);
+            int index = dic[v];
+            int postRightStart = postEnd - (inEnd - index);
+            int postRightEnd = postEnd - 1;
+            int postLeftStart = postStart;
+            int postLeftEnd = postRightStart - 1;
+            int inLeftStart = inStart;
+            int inLeftEnd = index - 1;
+            int inRightStart = index + 1;
+            int inRightEnd = inEnd;
+
+            ValidateOrder(index, postLeftStart, postLeftEnd, postRightStart, postRightEnd, postValues, dic, "post");
+
+            node.Left = InAndPostWithRecur(postLeftStart, postLeftEnd, inLeftStart, inLeftEnd, inValues, postValues, dic);
+            node.Right = InAndPostWithRecur(postRightStart, postRightEnd, inRightStart, inRightEnd, inValues, postValues, dic);
+            return node;
         }
 
         public Node Pre(int[] preValues)
