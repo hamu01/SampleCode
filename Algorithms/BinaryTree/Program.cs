@@ -12,11 +12,14 @@ namespace BinaryTree
             // TraverseSample traverse = new TraverseSample();
             // traverse.Run();
 
-            ConstructSample construct = new ConstructSample();
-            construct.Run();
+            // ConstructSample construct = new ConstructSample();
+            // construct.Run();
 
             // CheckSample check = new CheckSample();
             // check.Run();
+
+            SameTreeSample sameTree = new SameTreeSample();
+            sameTree.Run();
         }
     }
 }
