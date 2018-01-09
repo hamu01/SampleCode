@@ -3,13 +3,19 @@ using System.Collections.Generic;
 
 namespace BinaryTree
 {
-    public class TopViewSample
+    public class ViewSample
     {
         public void Run()
         {
-            TopView topView = new TopView();
+            View topView = new View();
             Node root = BuildTree();
-            var nodes = topView.View(root);
+            Print("Top", topView.Top(root));
+            Print("Right", topView.Right(root));
+        }
+
+        private void Print(string direction, List<Node> nodes)
+        {
+            Console.Write(direction + ": ");
             foreach (var node in nodes)
             {
                 Console.Write(node.V + " ");
@@ -47,9 +53,9 @@ namespace BinaryTree
         }
     }
 
-    public class TopView
+    public class View
     {
-        public List<Node> View(Node root)
+        public List<Node> Top(Node root)
         {
             List<Node> nodes = new List<Node>();
             nodes.Add(root);
@@ -101,27 +107,28 @@ namespace BinaryTree
             }
             return nodes;
         }
-    }
 
-    public class Node
-    {
-        public Node()
+        public List<Node> Right(Node root)
         {
+            if (root == null)
+            {
+                return new List<Node>();
+            }
+            List<Node> rights = new List<Node>();
+            List<Node> row = new List<Node>();
+            row.Add(root);
+            while (row.Count > 0)
+            {
+                rights.Add(row[row.Count - 1]);
+                List<Node> newRow = new List<Node>();
+                foreach (var node in row)
+                {
+                    if (node.Left != null) newRow.Add(node.Left);
+                    if (node.Right != null) newRow.Add(node.Right);
+                }
+                row = newRow;
+            }
+            return rights;
         }
-
-        public Node(int v)
-        {
-            V = v;
-        }
-
-        public int V { get; set; }
-
-        public Node Left { get; set; }
-
-        public Node Right { get; set; }
-
-        public int Col { get; set; }
-
-        public int State { get; set; }
     }
 }
