@@ -6,8 +6,8 @@ namespace BinaryTree
     {
         static void Main(string[] args)
         {
-            ViewSample view = new ViewSample();
-            view.Run();
+            // ViewSample view = new ViewSample();
+            // view.Run();
 
             // TraverseSample traverse = new TraverseSample();
             // traverse.Run();
@@ -21,8 +21,8 @@ namespace BinaryTree
             // SameTreeSample sameTree = new SameTreeSample();
             // sameTree.Run();
 
-            // SymmetricTreeSample symmetricTree = new SymmetricTreeSample();
-            // symmetricTree.Run();
+            SymmetricTreeSample symmetricTree = new SymmetricTreeSample();
+            symmetricTree.Run();
         }
     }
 }
