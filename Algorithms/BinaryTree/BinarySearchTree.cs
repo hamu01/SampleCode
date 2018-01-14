@@ -23,10 +23,10 @@ namespace BinaryTree
             PrintNode(bst.Search(root, 8), "Search 8: ");
             PrintNode(bst.Search(root, 9), "Search 9: ");
 
-            PrintTree(bst.DeleteMin(root), "DeleteMin: ");
-            PrintTree(bst.DeleteMax(root), "DeleteMax: ");
+            // PrintTree(bst.DeleteMin(root), "DeleteMin: ");
+            // PrintTree(bst.DeleteMax(root), "DeleteMax: ");
             PrintTree(bst.Delete(root, 8), "Delete 8: ");
-            PrintTree(bst.Delete(root, 12), "Delete 12: ");
+            // PrintTree(bst.Delete(root, 12), "Delete 12: ");
         }
 
         private void PrintNode(Node n, string pre)
@@ -45,7 +45,7 @@ namespace BinaryTree
         {
             LoopTraverse traverse = new LoopTraverse();
             var inValues = traverse.In(root).Select(x => x.V).ToArray();
-            Console.WriteLine("{0}:{1}", pre, string.Join(",", inValues));
+            Console.WriteLine("{0}{1}", pre, string.Join(",", inValues));
         }
 
         private Node BuildTree()
@@ -175,22 +175,52 @@ namespace BinaryTree
 
         public Node Delete(Node root, int v)
         {
+            if (root == null) return null;
+            if (root.V == v)
+            {
+                if (root.Right == null) return root.Left;
+                if (root.Left == null) return root.Right;
+            }
             Node n = root;
+            Node prev = root;
             while (n != null)
             {
                 if (v == n.V)
                 {
-                    Node min = Min(n.Right);
-                    n.V = min.V;
-                    n.Right = DeleteMin(n.Right);
+                    if (n.Left == null)
+                    {
+                        if(prev.Left == n) {
+                            prev.Left = n.Right;
+                        }
+                        else {
+                            prev.Right = n.Right;
+                        }
+                    }
+                    else if (n.Right == null)
+                    {
+                        if(prev.Left == n) {
+                            prev.Left = n.Left;
+                        }
+                        else {
+                            prev.Right = n.Left;
+                        }
+                    }
+                    else
+                    {
+                        Node min = Min(n.Right);
+                        n.V = min.V;
+                        n.Right = DeleteMin(n.Right);
+                    }
                     break;
                 }
                 else if (v > n.V)
                 {
+                    prev = n;
                     n = n.Right;
                 }
                 else
                 {
+                    prev = n;
                     n = n.Left;
                 }
             }
