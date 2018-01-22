@@ -7,7 +7,7 @@
         {
             "taskName": "build",
             "args": [
-                "${workspaceRoot}/BinaryTree/BinaryTree.csproj"
+                "${workspaceRoot}/LinkedList/LinkedList.csproj"
             ],
             "isBuildCommand": true,
             "problemMatcher": "$msCompile"
