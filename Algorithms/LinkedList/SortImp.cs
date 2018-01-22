@@ -8,7 +8,7 @@ namespace LinkedList
 
         public void Run()
         {
-            SortBase sort = new InsertionSort();
+            SortBase sort = new MergeSort();
 
             Node start = Common.BuildList(BuildArray("random", 0));
             Common.PrintList(start, "");
@@ -118,9 +118,11 @@ namespace LinkedList
             Node head = new Node(-1);
             head.Next = start;
             int step = 1;
-            Node p = start;
-            while (p != null)
+            int len = Len(start);
+            while (step <= len / 2)
             {
+                Node p = start;
+                step *= 2;
                 while (p != null)
                 {
                     Node q = p;
@@ -128,42 +130,64 @@ namespace LinkedList
                     {
                         q = q.Next;
                     }
-                    Merge(p, q);
-                    p = q.Next;
+                    p = Merge(p, q, step);
                 }
-                step *= 2;
             }
             return head.Next;
         }
 
-        private Node Merge(Node p, Node q)
+        private int Len(Node root)
         {
-            Node n = new Node(-1);
-            while (p != null || q != null)
+            int len = 0;
+            Node n = root;
+            while (n != null)
             {
-                if (p == null)
+                len++;
+                n = n.Next;
+            }
+            return len;
+        }
+
+        private Node Merge(Node p, Node q, int step)
+        {
+            Node next = q;
+            for (int i = 0; i < step; i++)
+            {
+                next = next.Next;
+            }
+            int pCount = step;
+            int qCount = step;
+            Node n = new Node(-1);
+            while ((pCount >= 0 && p != null) || (qCount >= 0 && q != null))
+            {
+                if (p == null || pCount < 0)
                 {
                     n.Next = q;
                     q = q.Next;
+                    qCount--;
                 }
-                else if (q == null)
+                else if (q == null || qCount < 0)
                 {
                     n.Next = p;
                     p = p.Next;
+                    pCount--;
                 }
                 else if (p.V < q.V)
                 {
                     n.Next = p;
                     p = p.Next;
+                    pCount--;
                 }
                 else
                 {
                     n.Next = q;
                     q = q.Next;
+                    qCount--;
                 }
                 n = n.Next;
             }
-            return n.Next;
+            n.Next = next;
+            return next;
         }
     }
 
