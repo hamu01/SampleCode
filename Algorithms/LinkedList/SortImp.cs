@@ -46,9 +46,16 @@ namespace LinkedList
             Common.PrintList(start, "");
             Console.WriteLine();
 
+            start = Common.BuildList(BuildArray("same", 15));
+            Common.PrintList(start, "");
+            start = sort.Sort(start);
+            Common.PrintList(start, "");
+            Console.WriteLine();
+
             for (int i = 0; i < 5; i++)
             {
-                start = Common.BuildList(BuildArray("random", 15));
+                int len = _random.Next(10, 20);
+                start = Common.BuildList(BuildArray("random", len));
                 Common.PrintList(start, "");
                 start = sort.Sort(start);
                 Common.PrintList(start, "");
@@ -73,6 +80,10 @@ namespace LinkedList
                 else if (type == "random")
                 {
                     values[i] = _random.Next(100);
+                }
+                else if (type == "same")
+                {
+                    values[i] = 1;
                 }
             }
             return values;
@@ -119,19 +130,21 @@ namespace LinkedList
             head.Next = start;
             int step = 1;
             int len = Len(start);
-            while (step <= len / 2)
+            while (step < len)
             {
-                Node p = start;
-                step *= 2;
-                while (p != null)
+                Node prev = head;
+                while (prev.Next != null)
                 {
+                    Node p = prev.Next;
                     Node q = p;
-                    for (int i = 0; i < step; i++)
+                    for (int i = 0; i < step && q != null; i++)
                     {
                         q = q.Next;
                     }
-                    p = Merge(p, q, step);
+                    if (q == null) break;
+                    prev = Merge(prev, p, q, step);
                 }
+                step *= 2;
             }
             return head.Next;
         }
@@ -148,25 +161,25 @@ namespace LinkedList
             return len;
         }
 
-        private Node Merge(Node p, Node q, int step)
+        private Node Merge(Node prev, Node p, Node q, int step)
         {
             Node next = q;
-            for (int i = 0; i < step; i++)
+            for (int i = 0; i < step && next != null; i++)
             {
                 next = next.Next;
             }
             int pCount = step;
             int qCount = step;
-            Node n = new Node(-1);
-            while ((pCount >= 0 && p != null) || (qCount >= 0 && q != null))
+            Node n = prev;
+            while ((pCount > 0 && p != null) || (qCount > 0 && q != null))
             {
-                if (p == null || pCount < 0)
+                if (p == null || pCount <= 0)
                 {
                     n.Next = q;
                     q = q.Next;
                     qCount--;
                 }
-                else if (q == null || qCount < 0)
+                else if (q == null || qCount <= 0)
                 {
                     n.Next = p;
                     p = p.Next;
@@ -187,7 +200,7 @@ namespace LinkedList
                 n = n.Next;
             }
             n.Next = next;
-            return next;
+            return n;
         }
     }
 

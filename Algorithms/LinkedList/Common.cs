@@ -20,13 +20,14 @@ namespace LinkedList
 
         public static void PrintList(Node start, string pre)
         {
-            if (start == null)
-            {
-                Console.WriteLine(pre + "null");
-                return;
-            }
+            string s = ToString(start);
+            Console.WriteLine(pre + s);
+        }
+
+        public static string ToString(Node start)
+        {
+            if (start == null) return "null";
             StringBuilder builder = new StringBuilder();
-            builder.Append(pre);
             Node n = start;
             while (n != null)
             {
@@ -34,7 +35,15 @@ namespace LinkedList
                 n = n.Next;
             }
             builder.Remove(builder.Length - 2, 2);
-            Console.WriteLine(builder);
+            return builder.ToString();
+        }
+
+        public static void PrintMatrix(int[][] matrix)
+        {
+            for (int i = 0; i < matrix.Length; i++)
+            {
+                Console.WriteLine(string.Join(",", matrix[i]));
+            }
         }
     }
 }
