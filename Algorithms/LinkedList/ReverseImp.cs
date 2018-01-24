@@ -57,5 +57,10 @@ namespace LinkedList
             }
             return newStart;
         }
+
+        public Node ReverseWithRecur(Node start)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

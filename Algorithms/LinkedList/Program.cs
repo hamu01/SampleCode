@@ -9,14 +9,14 @@ namespace LinkedList
             // ReverseSample reverse = new ReverseSample();
             // reverse.Run();
 
-            SortSample sort = new SortSample();
-            sort.Run();
+            // SortSample sort = new SortSample();
+            // sort.Run();
 
             // MergeSample merge = new MergeSample();
             // merge.Run();
 
-            // RemoveSample remove = new RemoveSample();
-            // remove.Run();
+            RemoveSample remove = new RemoveSample();
+            remove.Run();
 
             // SwapSample swap = new SwapSample();
             // swap.Run();

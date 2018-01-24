@@ -9,7 +9,7 @@ namespace LinkedList
         {
             Remove remove = new Remove();
             // RunLastK(remove);
-            RunDuplicateNoOrder(remove);
+            // RunDuplicateNoOrder(remove);
             RunDuplicateInOrder(remove);
             // RunAllDuplicateInOrder(remove);
         }
@@ -84,27 +84,27 @@ namespace LinkedList
         {
             Node n = Common.BuildList(new int[] { 1, 2, 2, 3, 4, 4, 5, 5 });
             Common.PrintList(n, "remove duplicate before: ");
-            n = remove.RemoveDuplicateNoOrder(n);
+            n = remove.RemoveDuplicateInOrder(n);
             Common.PrintList(n, "remove duplicate after: ");
 
             n = Common.BuildList(new int[] { 1, 1, 1, 1, 1 });
             Common.PrintList(n, "remove duplicate before: ");
-            n = remove.RemoveDuplicateNoOrder(n);
+            n = remove.RemoveDuplicateInOrder(n);
             Common.PrintList(n, "remove duplicate after: ");
 
             n = Common.BuildList(new int[] { 1 });
             Common.PrintList(n, "remove duplicate before: ");
-            n = remove.RemoveDuplicateNoOrder(n);
+            n = remove.RemoveDuplicateInOrder(n);
             Common.PrintList(n, "remove duplicate after: ");
 
             n = Common.BuildList(new int[] { });
             Common.PrintList(n, "remove duplicate before: ");
-            n = remove.RemoveDuplicateNoOrder(n);
+            n = remove.RemoveDuplicateInOrder(n);
             Common.PrintList(n, "remove duplicate after: ");
 
             n = Common.BuildList(new int[] { 1, 2, 3, 4, 5, 6 });
             Common.PrintList(n, "remove duplicate before: ");
-            n = remove.RemoveDuplicateNoOrder(n);
+            n = remove.RemoveDuplicateInOrder(n);
             Common.PrintList(n, "remove duplicate after: ");
         }
 
@@ -186,6 +186,7 @@ namespace LinkedList
 
         public Node RemoveDuplicateInOrder(Node start)
         {
+            if(start == null) return start;
             Node n = start;
             while (n.Next != null)
             {
