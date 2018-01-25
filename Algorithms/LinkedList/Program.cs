@@ -15,14 +15,20 @@ namespace LinkedList
             // MergeSample merge = new MergeSample();
             // merge.Run();
 
-            RemoveSample remove = new RemoveSample();
-            remove.Run();
+            // RemoveSample remove = new RemoveSample();
+            // remove.Run();
 
             // SwapSample swap = new SwapSample();
             // swap.Run();
 
             // CompareSample compare = new CompareSample();
             // compare.RunCompareSample();
+
+            IntersectionSample intersection = new IntersectionSample();
+            intersection.Run();
+
+            // RingSample ring = new RingSample();
+            // ring.Run();
         }
     }
 }

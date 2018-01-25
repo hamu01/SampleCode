@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using System.Text;
 
 namespace LinkedList
@@ -29,12 +30,22 @@ namespace LinkedList
             if (start == null) return "null";
             StringBuilder builder = new StringBuilder();
             Node n = start;
-            while (n != null)
+            HashSet<Node> set = new HashSet<Node>();
+            while (n != null && !set.Contains(n))
             {
                 builder.Append(n.V).Append("->");
+                set.Add(n);
                 n = n.Next;
             }
-            builder.Remove(builder.Length - 2, 2);
+            if (n != null)
+            {
+                builder.Append(n.V);
+            }
+            else
+            {
+                builder.Remove(builder.Length - 2, 2);
+            }
+
             return builder.ToString();
         }
 
