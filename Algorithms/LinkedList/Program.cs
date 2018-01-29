@@ -24,11 +24,14 @@ namespace LinkedList
             // CompareSample compare = new CompareSample();
             // compare.RunCompareSample();
 
-            IntersectionSample intersection = new IntersectionSample();
-            intersection.Run();
+            // IntersectionSample intersection = new IntersectionSample();
+            // intersection.Run();
 
             // RingSample ring = new RingSample();
             // ring.Run();
+
+            InsertionSample insertion = new InsertionSample();
+            insertion.Run();
         }
     }
 }
