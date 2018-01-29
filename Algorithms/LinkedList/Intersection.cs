@@ -36,6 +36,7 @@ namespace LinkedList
 
         public Node GetIntersectNode(Node p, Node q)
         {
+            if(p == null || q == null) return null;
             int pLen, qLen;
             Node pLast = GetLast(p, out pLen);
             Node qLast = GetLast(q, out qLen);
