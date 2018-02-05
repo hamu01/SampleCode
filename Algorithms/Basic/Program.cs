@@ -11,14 +11,6 @@ namespace Basic
             Console.ReadLine();
         }
 
-        private static void SearchDemo()
-        {
-            int[] input = new int[] { 1, 2, 3, 4, 5, 6, 7, 8 };
-            int target = 3;
-            Search search = new Search();
-            search.BinarySearch(input, target).Dump();
-        }
-
         private static void BagDemo()
         {
             Bag<int> bag = new Bag<int>();
