@@ -6,8 +6,11 @@ namespace Array
     {
         static void Main(string[] args)
         {
-            SearchDemo search = new SearchDemo();
-            search.Run();
+            // SearchDemo search = new SearchDemo();
+            // search.Run();
+
+            RemoveSample remove = new RemoveSample();
+            remove.Run();
         }
     }
 }
