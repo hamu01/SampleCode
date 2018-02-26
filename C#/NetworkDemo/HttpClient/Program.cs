@@ -9,7 +9,7 @@ namespace HttpClient
     {
         static void Main(string[] args)
         {
-            Console.WriteLine("Hello World!");
+            Send(args);
         }
         
         private static void Send(string[] args)
