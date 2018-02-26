@@ -9,10 +9,11 @@ namespace Array
         {
             Remove remove = new Remove();
             // RunRemoveAt(remove);
+            // RunRemoveAllElements(remove);
             // RunRemoveDuplicatesWithOrder(remove);
-            // RunRemoveAllDuplicatesWithOrder(remove);
+            RunRemoveAllDuplicatesWithOrder(remove);
             // RunRemoveDuplicatesWithOutOrder(remove);
-            RunRemoveAllDuplicatesWithOutOrder(remove);
+            // RunRemoveAllDuplicatesWithOutOrder(remove);
         }
 
         private void RunRemoveAt(Remove remove)
@@ -41,6 +42,63 @@ namespace Array
             Common.Print(values, "remove before: ");
             newValues = remove.RemoveAt(values, values.Length);
             Common.Print(newValues, "remove  after: ");
+        }
+
+        private void RunRemoveAllElements(Remove remove)
+        {
+            int[] values = new int[] { 1, 1, 2, 2, 3, 3, 3, 4, 5, 6, 6 };
+            int val = 2;
+            Common.Print(values, $"Remove {val} Before: ");
+            int[] newValues = remove.RemoveAllElements(values, val);
+            Common.Print(newValues, $"Remove {val}  After: ");
+
+            values = new int[] { 1, 1, 2, 2, 3, 3, 3, 4, 5, 6, 6 };
+            val = 7;
+            Common.Print(values, $"Remove {val} Before: ");
+            newValues = remove.RemoveAllElements(values, val);
+            Common.Print(newValues, $"Remove {val}  After: ");
+
+            values = new int[] { 1, 2, 3, 4, 5, 6 };
+            val = 1;
+            Common.Print(values, $"Remove {val} Before: ");
+            newValues = remove.RemoveAllElements(values, val);
+            Common.Print(newValues, $"Remove {val}  After: ");
+
+            values = new int[] { 1 };
+            val = 1;
+            Common.Print(values, $"Remove {val} Before: ");
+            newValues = remove.RemoveAllElements(values, val);
+            Common.Print(newValues, $"Remove {val}  After: ");
+
+            values = new int[] { 2 };
+            val = 1;
+            Common.Print(values, $"Remove {val} Before: ");
+            newValues = remove.RemoveAllElements(values, val);
+            Common.Print(newValues, $"Remove {val}  After: ");
+
+            values = new int[] { };
+            val = 1;
+            Common.Print(values, $"Remove {val} Before: ");
+            newValues = remove.RemoveAllElements(values, val);
+            Common.Print(newValues, $"Remove {val}  After: ");
+
+            values = new int[] { 3, 2, 2, 3 };
+            val = 3;
+            Common.Print(values, $"Remove {val} Before: ");
+            newValues = remove.RemoveAllElements(values, val);
+            Common.Print(newValues, $"Remove {val}  After: ");
+
+            values = new int[] { 3, 2, 2, 3, 3, 3, 3, 3 };
+            val = 3;
+            Common.Print(values, $"Remove {val} Before: ");
+            newValues = remove.RemoveAllElements(values, val);
+            Common.Print(newValues, $"Remove {val}  After: ");
+
+            values = new int[] { 3, 3, 3, 3, 3, 3 };
+            val = 3;
+            Common.Print(values, $"Remove {val} Before: ");
+            newValues = remove.RemoveAllElements(values, val);
+            Common.Print(newValues, $"Remove {val}  After: ");
         }
 
         private void RunRemoveDuplicatesWithOrder(Remove remove)
@@ -76,7 +134,6 @@ namespace Array
             newValues = remove.RemoveDuplicatesWithOrder(values);
             Common.Print(newValues, " After: ");
         }
-
 
         private void RunRemoveAllDuplicatesWithOrder(Remove remove)
         {
@@ -184,6 +241,36 @@ namespace Array
 
     public class Remove
     {
+        public int[] RemoveAllElements(int[] values, int val)
+        {
+            int i = 0;
+            int len = values.Length;
+            while (i < len)
+            {
+                if (values[i] == val)
+                {
+                    Exchange(values, i, --len);
+                }
+                else
+                {
+                    i++;
+                }
+            }
+            int[] newValues = new int[len];
+            for (int k = 0; k < len; k++)
+            {
+                newValues[k] = values[k];
+            }
+            return newValues;
+        }
+
+        private void Exchange(int[] values, int i, int j)
+        {
+            int temp = values[i];
+            values[i] = values[j];
+            values[j] = temp;
+        }
+
         public int[] RemoveAt(int[] values, int i)
         {
             if (i < 0 && i > values.Length - 1) return values;
@@ -201,24 +288,20 @@ namespace Array
 
         public int[] RemoveDuplicatesWithOrder(int[] values)
         {
-            int i = 0, len = values.Length;
-            while (i < len - 1)
+            if (values.Length < 2)
             {
-                if (values[i] == values[i + 1])
+                return values;
+            }
+            int i = 0;
+            for (int j = 1; j < values.Length; j++)
+            {
+                if (values[i] != values[j])
                 {
-                    for (int j = i + 1; j + 1 < len; j++)
-                    {
-                        values[j] = values[j + 1];
-                    }
-                    len--;
-                }
-                else
-                {
-                    i++;
+                    values[++i] = values[j];
                 }
             }
-            int[] newValues = new int[len];
-            for (int j = 0; j < len; j++)
+            int[] newValues = new int[i + 1];
+            for (int j = 0; j < i + 1; j++)
             {
                 newValues[j] = values[j];
             }
