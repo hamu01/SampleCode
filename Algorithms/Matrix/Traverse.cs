@@ -6,7 +6,7 @@ namespace Matrix
     {
         public void Run()
         {
-            int[,] matrix = GetMatrix(10, 1);
+            int[,] matrix = GetMatrix(1, 10);
 
             Console.WriteLine("Matrix: ");
             Common.Print(matrix);
@@ -121,58 +121,36 @@ namespace Matrix
         public int[] Spiral(int[,] matrix)
         {
             int[] values = new int[matrix.Length];
-            if (matrix.GetLength(0) == 1)
+            int startX = 0, startY = 0, endX = matrix.GetLength(0) - 1, endY = matrix.GetLength(1) - 1;
+            int k = 0;
+            while (startX <= endX && startY <= endY)
             {
-                for (int i = 0; i < matrix.GetLength(1); i++)
+                for (int y = startY; y <= endY; y++)
                 {
-                    values[i] = matrix[0, i];
+                    values[k++] = matrix[startX, y];
                 }
-                return values;
-            }
-            if (matrix.GetLength(1) == 1)
-            {
-                for (int i = 0; i < matrix.GetLength(0); i++)
+                for (int x = startX + 1; x <= endX; x++)
                 {
-                    values[i] = matrix[i, 0];
+                    values[k++] = matrix[x, endY];
                 }
-                return values;
-            }
-            int ox = 0, oy = 0, k = 0, len = 0, level = 0;
-            do
-            {
-                len = 0;
-                int i = ox, j = oy;
-                while (j < matrix.GetLength(1) - level)
+                if (startX != endX)
                 {
-                    values[k++] = matrix[i, j++];
-                    len++;
+                    for (int y = endY - 1; y >= startY; y--)
+                    {
+                        values[k++] = matrix[endX, y];
+                    }
                 }
-                j = matrix.GetLength(1) - level - 1;
-                while (++i < matrix.GetLength(0) - level)
+                if (startY != endY)
                 {
-                    values[k++] = matrix[i, j];
-                    len++;
+                    for (int x = endX - 1; x > startX; x--)
+                    {
+                        values[k++] = matrix[x, startY];
+                    }
                 }
-                i = matrix.GetLength(0) - level - 1;
-                while (--j >= level)
-                {
-                    values[k++] = matrix[i, j];
-                    len++;
-                }
-                j = level;
-                while (--i > ox)
-                {
-                    values[k++] = matrix[i, j];
-                    len++;
-                }
-                level++;
-                ox++;
-                oy = j + 1;
-            }
-            while (len > 8);
-            if (len == 8)
-            {
-                values[k++] = matrix[ox, oy];
+                startX++;
+                endX--;
+                startY++;
+                endY--;
             }
             return values;
         }
