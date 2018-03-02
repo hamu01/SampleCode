@@ -23,5 +23,25 @@ namespace Matrix
                 Console.WriteLine(builder);
             }
         }
+
+        public static int[,] GetMatrix(int row, int col, string type)
+        {
+            int[,] matrix = new int[row, col];
+            switch (type)
+            {
+                case "row":
+                    for (int i = 0; i < row; i++)
+                    {
+                        for (int j = 0; j < col; j++)
+                        {
+                            matrix[i, j] = i * matrix.GetLength(0) + j + 1;
+                        }
+                    }
+                    break;
+                default:
+                    break;
+            }
+            return matrix;
+        }
     }
 }

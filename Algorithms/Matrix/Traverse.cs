@@ -6,7 +6,7 @@ namespace Matrix
     {
         public void Run()
         {
-            int[,] matrix = GetMatrix(1, 10);
+            int[,] matrix = Common.GetMatrix(1, 10, "row");
 
             Console.WriteLine("Matrix: ");
             Common.Print(matrix);
@@ -32,19 +32,6 @@ namespace Matrix
             Console.WriteLine("Spiral Order: ");
             int[] spiralValues = traverse.Spiral(matrix);
             Common.Print(spiralValues);
-        }
-
-        private int[,] GetMatrix(int row, int col)
-        {
-            int[,] matrix = new int[row, col];
-            for (int i = 0; i < row; i++)
-            {
-                for (int j = 0; j < col; j++)
-                {
-                    matrix[i, j] = i * matrix.GetLength(0) + j + 1;
-                }
-            }
-            return matrix;
         }
     }
 
