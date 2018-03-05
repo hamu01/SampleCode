@@ -7,15 +7,24 @@ namespace Matrix
         public void Run()
         {
             Search search = new Search();
-            // int[,] matrix = Common.GetMatrix(3, 3, "row");
-            int[,] matrix = new int[1, 0];
-            // Common.Print(matrix);
-            int target = 1;
-            var location = search.SearchInRowOrder(matrix, target);
-            Console.WriteLine($"{target} in x={location.Item1}, y={location.Item2}");
+            int[,] matrix = Common.GetMatrix(3, 3, "row");
+            // int[,] matrix = new int[1, 0];
+            Console.WriteLine("In Row Order");
+            Common.Print(matrix);
+            Search(search, matrix, 1);
+            Search(search, matrix, 7);
 
-            target = 3;
-            location = search.SearchInRowOrder(matrix, target);
+            matrix = Common.GetMatrix(3, 3, "asc");
+            // matrix = new int[1, 0];
+            Console.WriteLine("In Asc Order");
+            Common.Print(matrix);
+            Search(search, matrix, 3);
+            Search(search, matrix, 7);
+        }
+
+        private void Search(Search search, int[,] matrix, int target)
+        {
+            var location = search.SearchInRowOrder(matrix, target);
             Console.WriteLine($"{target} in x={location.Item1}, y={location.Item2}");
         }
     }
@@ -24,51 +33,98 @@ namespace Matrix
     {
         public Tuple<int, int> SearchInRowOrder(int[,] matrix, int target)
         {
-            int x = BinarySearchInColumn(matrix, 0, matrix.GetLength(0) - 1, target);
-            int y = -1;
-            if (x >= 0)
+            int start = 0;
+            int end = matrix.Length - 1;
+            while (start <= end)
             {
-                y = BinarySearchInRow(matrix, x, 0, matrix.GetLength(1) - 1, target);
+                int mid = (start + end) / 2;
+                int x = mid / matrix.GetLength(1);
+                int y = mid % matrix.GetLength(1);
+                if (target < matrix[x, y])
+                {
+                    end = mid - 1;
+                }
+                else if (target > matrix[x, y])
+                {
+                    start = mid + 1;
+                }
+                else
+                {
+                    return new Tuple<int, int>(x, y);
+                }
             }
-            return new Tuple<int, int>(x, y);
+            return new Tuple<int, int>(-1, -1);
         }
 
-        private int BinarySearchInColumn(int[,] matrix, int startX, int endX, int target)
+        public Tuple<int, int> SearchInAscOrder_Old(int[,] matrix, int target)
         {
-            if (startX > endX || matrix.GetLength(1) == 0) return -1;
-            int x = (startX + endX) / 2;
-            int startY = 0;
-            int endY = matrix.GetLength(1) - 1;
-            if (target < matrix[x, startY])
+            int x = 0, y = 0;
+            while (x < matrix.GetLength(0) && y < matrix.GetLength(1))
             {
-                return BinarySearchInColumn(matrix, startX, x - 1, target);
+                int startY = y, endY = matrix.GetLength(1) - 1;
+                while (startY <= endY)
+                {
+                    int midY = (startY + endY) / 2;
+                    if (target < matrix[x, midY])
+                    {
+                        endY = midY - 1;
+                    }
+                    else if (target > matrix[x, midY])
+                    {
+                        startY = midY + 1;
+                    }
+                    else
+                    {
+                        return new Tuple<int, int>(x, midY);
+                    }
+                }
+                int startX = x, endX = matrix.GetLength(0) - 1;
+                while (startX <= endX)
+                {
+                    int midX = (startX + endX) / 2;
+                    if (target < matrix[midX, y])
+                    {
+                        endX = midX - 1;
+                    }
+                    else if (target > matrix[midX, y])
+                    {
+                        startX = midX + 1;
+                    }
+                    else
+                    {
+                        return new Tuple<int, int>(midX, y);
+                    }
+                }
+                x++;
+                y++;
             }
-            else if (target > matrix[x, endY])
-            {
-                return BinarySearchInColumn(matrix, x + 1, endX, target);
-            }
-            else
-            {
-                return x;
-            }
+            return new Tuple<int, int>(-1, -1);
         }
 
-        private int BinarySearchInRow(int[,] matrix, int x, int startY, int endY, int target)
+        public Tuple<int, int> SearchInAscOrder(int[,] matrix, int target)
         {
-            if (startY > endY) return -1;
-            int y = (startY + endY) / 2;
-            if (target > matrix[x, y])
+            if (matrix == null || matrix.GetLength(0) < 1 || matrix.GetLength(1) < 1)
             {
-                return BinarySearchInRow(matrix, x, y + 1, endY, target);
+                return new Tuple<int, int>(-1, -1);
             }
-            else if (target < matrix[x, y])
+            int col = matrix.GetLength(1) - 1;
+            int row = 0;
+            while (col >= 0 && row <= matrix.GetLength(0) - 1)
             {
-                return BinarySearchInRow(matrix, x, startY, y - 1, target);
+                if (target == matrix[row, col])
+                {
+                    return new Tuple<int, int>(row, col);
+                }
+                else if (target < matrix[row, col])
+                {
+                    col--;
+                }
+                else if (target > matrix[row, col])
+                {
+                    row++;
+                }
             }
-            else
-            {
-                return y;
-            }
+            return new Tuple<int, int>(-1, -1);
         }
     }
 }

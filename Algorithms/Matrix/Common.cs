@@ -19,7 +19,10 @@ namespace Matrix
                 {
                     builder.Append(values[i, j]).Append(",");
                 }
-                builder.Remove(builder.Length - 1, 0);
+                if(builder.Length > 0)
+                {
+                    builder.Remove(builder.Length - 1, 0);
+                }
                 Console.WriteLine(builder);
             }
         }
@@ -35,6 +38,15 @@ namespace Matrix
                         for (int j = 0; j < col; j++)
                         {
                             matrix[i, j] = i * matrix.GetLength(0) + j + 1;
+                        }
+                    }
+                    break;
+                case "asc":
+                    for (int j = 0; j < col; j++)
+                    {
+                        for (int i = 0; i < row; i++)
+                        {
+                            matrix[i, j] = (j + 1) * (i + 1);
                         }
                     }
                     break;
