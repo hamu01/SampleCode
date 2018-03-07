@@ -6,11 +6,11 @@ namespace Matrix
     {
         static void Main(string[] args)
         {
-            // TraverseSample traverse = new TraverseSample();
-            // traverse.Run();
+            TraverseSample traverse = new TraverseSample();
+            traverse.Run();
 
-            SearchSample search = new SearchSample();
-            search.Run();
+            // SearchSample search = new SearchSample();
+            // search.Run();
         }
     }
 }

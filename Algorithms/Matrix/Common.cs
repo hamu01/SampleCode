@@ -17,7 +17,7 @@ namespace Matrix
                 StringBuilder builder = new StringBuilder();
                 for (int j = 0; j < values.GetLength(1); j++)
                 {
-                    builder.Append(values[i, j]).Append(",");
+                    builder.Append(values[i, j].ToString("D2")).Append(",");
                 }
                 if(builder.Length > 0)
                 {

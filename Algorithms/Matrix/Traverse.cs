@@ -6,7 +6,7 @@ namespace Matrix
     {
         public void Run()
         {
-            int[,] matrix = Common.GetMatrix(1, 10, "row");
+            int[,] matrix = Common.GetMatrix(4, 2, "row");
 
             Console.WriteLine("Matrix: ");
             Common.Print(matrix);
@@ -25,13 +25,21 @@ namespace Matrix
             // int[] diagonalValues = traverse.Diagonal(matrix);
             // Common.Print(diagonalValues);
 
+            Console.WriteLine("Diagonal 2 Order: ");
+            int[] diagonal2Values = traverse.Diagonal2(matrix);
+            Common.Print(diagonal2Values);
+
             // Console.WriteLine("Reverse Diagonal Order: ");
             // int[] reverseDiagonalValues = traverse.ReverseDiagonal(matrix);
             // Common.Print(reverseDiagonalValues);
 
-            Console.WriteLine("Spiral Order: ");
-            int[] spiralValues = traverse.Spiral(matrix);
-            Common.Print(spiralValues);
+            // Console.WriteLine("Reverse Diagonal 2 Order: ");
+            // int[] reverseDiagonal2Values = traverse.ReverseDiagonal2(matrix);
+            // Common.Print(reverseDiagonal2Values);
+
+            // Console.WriteLine("Spiral Order: ");
+            // int[] spiralValues = traverse.Spiral(matrix);
+            // Common.Print(spiralValues);
         }
     }
 
@@ -84,6 +92,43 @@ namespace Matrix
             return values;
         }
 
+        public int[] Diagonal2(int[,] matrix)
+        {
+            int[] values = new int[matrix.Length];
+            int i = 0, j = matrix.GetLength(1) - 1;
+            int x = -1, y = -1;
+            for (int k = 0; k < matrix.Length; k++)
+            {
+                values[k] = matrix[i, j];
+                i += x;
+                j += y;
+                if (i < 0 || i >= matrix.GetLength(0) || j < 0 || j >= matrix.GetLength(1))
+                {
+                    if (i < 0 && j < matrix.GetLength(1) && j >= 0)
+                    {
+                        i = 0;
+                    }
+                    else if (j >= matrix.GetLength(1) && i < matrix.GetLength(0) && i >= 0)
+                    {
+                        j = matrix.GetLength(1) - 1;
+                    }
+                    else if (j < 0)
+                    {
+                        i += 2;
+                        j = 0;
+                    }
+                    else if (i >= matrix.GetLength(0))
+                    {
+                        i = matrix.GetLength(0) - 1;
+                        j -= 2;
+                    }
+                    x = -x;
+                    y = -y;
+                }
+            }
+            return values;
+        }
+
         public int[] ReverseDiagonal(int[,] matrix)
         {
             int[] values = new int[matrix.Length];
@@ -100,6 +145,43 @@ namespace Matrix
                 {
                     m++;
                     n = matrix.GetLength(1) - 1;
+                }
+            }
+            return values;
+        }
+
+        public int[] ReverseDiagonal2(int[,] matrix)
+        {
+            int[] values = new int[matrix.Length];
+            int x = -1, y = 1;
+            int i = 0, j = 0;
+            for (int k = 0; k < matrix.Length; k++)
+            {
+                values[k] = matrix[i, j];
+                i += x;
+                j += y;
+                if (i < 0 || i >= matrix.GetLength(0) || j < 0 || j >= matrix.GetLength(1))
+                {
+                    if (i >= matrix.GetLength(0))
+                    {
+                        i = matrix.GetLength(0) - 1;
+                        j += 2;
+                    }
+                    if (j >= matrix.GetLength(1))
+                    {
+                        j = matrix.GetLength(1) - 1;
+                        i += 2;
+                    }
+                    if (i < 0)
+                    {
+                        i = 0;
+                    }
+                    if (j < 0)
+                    {
+                        j = 0;
+                    }
+                    x = -x;
+                    y = -y;
                 }
             }
             return values;
