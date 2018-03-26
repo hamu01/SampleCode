@@ -24,8 +24,11 @@ namespace BinaryTree
             //SymmetricTreeSample symmetricTree = new SymmetricTreeSample();
             //symmetricTree.Run();
 
-            BinarySearchTreeSample bst = new BinarySearchTreeSample();
-            bst.Run();
+            // BinarySearchTreeSample bst = new BinarySearchTreeSample();
+            // bst.Run();
+
+            PathsSample paths = new PathsSample();
+            paths.Run();
         }
     }
 }
