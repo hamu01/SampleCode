@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 
 namespace Graph
 {
@@ -6,7 +7,8 @@ namespace Graph
     {
         static void Main(string[] args)
         {
-            Console.WriteLine("Hello World!");
+            PathsSample paths = new PathsSample();
+            paths.Run();
         }
     }
 }
