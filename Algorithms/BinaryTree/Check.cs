@@ -9,8 +9,6 @@ namespace BinaryTree
     {
         public void Run()
         {
-            int[] inValues = new int[] { 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 16 };
-
             Check check = new Check();
 
             int[] preValues = new int[] { 10, 6, 4, 3, 5, 8, 7, 9, 14, 12, 11, 13, 16 };

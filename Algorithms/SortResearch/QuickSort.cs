@@ -27,7 +27,7 @@ namespace SortResearch
             int j = high + 1;
             // int result = a[low];
             int result = Access(a, low);
-            while (true)
+            while (i < j)
             {
                 // while (a[++i] < result)
                 while (Compare(Access(a, ++i), result))
@@ -44,10 +44,6 @@ namespace SortResearch
                     //{
                     //    break;
                     //}
-                }
-                if (i >= j)
-                {
-                    break;
                 }
                 Exchange(a, i, j);
             }
