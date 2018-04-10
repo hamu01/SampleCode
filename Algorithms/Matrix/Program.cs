@@ -12,8 +12,11 @@ namespace Matrix
             // SearchSample search = new SearchSample();
             // search.Run();
 
-            TransformSample transform = new TransformSample();
-            transform.Run();
+            // TransformSample transform = new TransformSample();
+            // transform.Run();
+
+            PathsSample paths = new PathsSample();
+            paths.Run();
         }
     }
 }

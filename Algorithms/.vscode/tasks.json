@@ -7,7 +7,7 @@
         {
             "taskName": "build",
             "args": [
-                "${workspaceRoot}/Graph/Graph.csproj"
+                "${workspaceRoot}/Matrix/Matrix.csproj"
             ],
             "isBuildCommand": true,
             "problemMatcher": "$msCompile"
