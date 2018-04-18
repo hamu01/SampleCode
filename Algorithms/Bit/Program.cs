@@ -9,7 +9,7 @@ namespace Bit
             // CountSample count = new CountSample();
             // count.Run();
 
-            ConvertSample convert = new ConvertSample();
+            BitConvertSample convert = new BitConvertSample();
             convert.Run();
         }
     }

@@ -4,11 +4,11 @@ using System.Collections.Generic;
 
 namespace Bit
 {
-    public class ConvertSample
+    public class BitConvertSample
     {
         public void Run()
         {
-            Convert convert = new Convert();
+            BitConvert convert = new BitConvert();
             float f = 10.25f;
             byte[] bytes = convert.FloatToOriginBytes(f);
             PrintBytes(bytes, $"Orgin({f}): ");
@@ -30,18 +30,18 @@ namespace Bit
             // bytes = BitConverter.GetBytes(f);
             // PrintBytes(bytes, $"Sys Memory({f}): ");
 
-            f = 800.4f;
-            bytes = convert.FloatToBytes(f);
-            PrintBytes(bytes, $"My Memory({f}):  ");
-            bytes = BitConverter.GetBytes(f);
-            PrintBytes(bytes, $"Sys Memory({f}): ");
-
-
-            // f = float.MaxValue;
+            // f = 800.4f;
             // bytes = convert.FloatToBytes(f);
             // PrintBytes(bytes, $"My Memory({f}):  ");
             // bytes = BitConverter.GetBytes(f);
             // PrintBytes(bytes, $"Sys Memory({f}): ");
+
+
+            f = float.MaxValue;
+            // bytes = convert.FloatToBytes(f);
+            // PrintBytes(bytes, $"My Memory({f}):  ");
+            bytes = BitConverter.GetBytes(f);
+            PrintBytes(bytes, $"Sys Memory({f}): ");
 
             // f = float.MinValue;
             // bytes = convert.FloatToBytes(f);
@@ -61,7 +61,7 @@ namespace Bit
         }
     }
 
-    public class Convert
+    public class BitConvert
     {
         public byte[] FloatToOriginBytes(float d)
         {
