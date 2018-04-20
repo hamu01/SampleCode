@@ -12,8 +12,11 @@ namespace Bit
             // BitConvertSample convert = new BitConvertSample();
             // convert.Run();
 
-            BaseConvertSample baseConvert = new BaseConvertSample();
-            baseConvert.Run();
+            // BaseConvertSample baseConvert = new BaseConvertSample();
+            // baseConvert.Run();
+
+            BitReverseSample reverse = new BitReverseSample();
+            reverse.Run();
         }
     }
 }
