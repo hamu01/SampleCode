@@ -6,35 +6,28 @@ namespace Bit
     {
         public void Run()
         {
-            int[] values = new int[] { 5, 4, 3, 5, 4, 2, 3, 3, 4, 5 };
             Count count = new Count();
-            int single = count.FindSingle(values);
-            Console.WriteLine(single);
+            int parity = count.ParityCheck(180);
+            Console.WriteLine(parity);
+            parity = count.ParityCheck(181);
+            Console.WriteLine(parity);
+            parity = count.ParityCheck(10);
+            Console.WriteLine(parity);
+            parity = count.ParityCheck(11);
+            Console.WriteLine(parity);
         }
     }
 
     public class Count
     {
-        public int FindSingle(int[] values)
+        public int ParityCheck(byte b)
         {
-            int result = 0;
-            for (int i = 0; i < 32; i++)
+            int j = 0;
+            for (int i = 7; i >= 0; i--)
             {
-                int sum = 0;
-                int bit = 1 << i;
-                foreach (var v in values)
-                {
-                    if ((bit & v) == bit)
-                    {
-                        sum++;
-                    }
-                }
-                if (sum % 3 != 0)
-                {
-                    result |= bit;
-                }
+                j ^= (b & (1 << i)) >> i;
             }
-            return result;
+            return j;
         }
     }
 }
