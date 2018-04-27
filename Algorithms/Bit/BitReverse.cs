@@ -9,16 +9,16 @@ namespace Bit
         public void Run()
         {
             BitReverse reverse = new BitReverse();
-            uint i = 10;
-            uint j = reverse.Reverse(i);
+            ushort i = 10;
+            ushort j = reverse.Reverse(i);
             PrintBit(i);
             PrintBit(j);
 
-            i = 43261596;
+            i = 10010;
             j = reverse.Reverse(i);
             PrintBit(i);
             PrintBit(j);
-            
+
             // PerfRun(reverse);
         }
 
@@ -27,19 +27,19 @@ namespace Bit
             Stopwatch watch = Stopwatch.StartNew();
             for (int i = 0; i < 1000 * 1000 * 100; i++)
             {
-                reverse.Reverse(43261596);
+                reverse.Reverse1(43261596);
             }
             System.Console.WriteLine(watch.Elapsed);
 
             watch = Stopwatch.StartNew();
             for (int i = 0; i < 1000 * 1000 * 100; i++)
             {
-                reverse.Reverse1(43261596);
+                reverse.Reverse2(43261596);
             }
             System.Console.WriteLine(watch.Elapsed);
         }
 
-        private void PrintBit(uint i)
+        private void PrintBit(ushort i)
         {
             var bytes = BitConverter.GetBytes(i);
             BitArray bits = new BitArray(bytes);
@@ -55,7 +55,16 @@ namespace Bit
 
     public class BitReverse
     {
-        public uint Reverse(uint i)
+        public ushort Reverse(ushort i)
+        {
+            i = (ushort)(((i & 0xAAAA) >> 1) | ((i & 0x5555) << 1));
+            i = (ushort)(((i & 0xCCCC) >> 2) | ((i & 0x3333) << 2));
+            i = (ushort)(((i & 0xF0F0) >> 4) | ((i & 0x0F0F) << 4));
+            i = (ushort)(((i & 0xFF00) >> 8) | ((i & 0x00FF) << 8));
+            return i;
+        }
+
+        public uint Reverse1(uint i)
         {
             uint j = 0;
             int k = 31;
@@ -71,7 +80,7 @@ namespace Bit
             return j;
         }
 
-        public uint Reverse1(uint i)
+        public uint Reverse2(uint i)
         {
             var bytes = BitConverter.GetBytes(i);
             BitArray bits = new BitArray(bytes);

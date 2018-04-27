@@ -29,5 +29,10 @@ namespace Bit
             }
             return j;
         }
+
+        public int Count1(int i)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

@@ -19,7 +19,5 @@ namespace Bit
             byte n = (byte)(((i << 1) & 0xAA) | ((i >> 1) & 0x55));
             return n;
         }
-
-        
     }
 }
