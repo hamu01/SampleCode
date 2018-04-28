@@ -1,4 +1,5 @@
 using System;
+using System.Diagnostics;
 
 namespace Bit
 {
@@ -7,32 +8,84 @@ namespace Bit
         public void Run()
         {
             Count count = new Count();
-            int parity = count.ParityCheck(180);
-            Console.WriteLine(parity);
-            parity = count.ParityCheck(181);
-            Console.WriteLine(parity);
-            parity = count.ParityCheck(10);
-            Console.WriteLine(parity);
-            parity = count.ParityCheck(11);
-            Console.WriteLine(parity);
+            uint c = count.Count1WithCount(10);
+            Console.WriteLine(c);
+            c = count.Count1WithCount(18);
+            Console.WriteLine(c);
+            c = count.Count1WithBitAdd(10);
+            Console.WriteLine(c);
+            c = count.Count1WithBitAdd(18);
+            Console.WriteLine(c);
+
+            PerfRun(count);
+        }
+
+        private void PerfRun(Count count)
+        {
+            Stopwatch watch = Stopwatch.StartNew();
+            for (int i = 0; i < 1000 * 1000 * 100; i++)
+            {
+                count.Count1WithCount(18);
+            }
+            Console.WriteLine("Count: " + watch.Elapsed);
+
+            watch = Stopwatch.StartNew();
+            for (int i = 0; i < 1000 * 1000 * 100; i++)
+            {
+                count.Count1WithBitAdd(18);
+            }
+            Console.WriteLine("Bit Add: " + watch.Elapsed);
+
+            watch = Stopwatch.StartNew();
+            for (int i = 0; i < 1000 * 1000 * 100; i++)
+            {
+                count.Count1WithBitwiseAnd(18);
+            }
+            Console.WriteLine("Bit And: " + watch.Elapsed);
+
+            watch = Stopwatch.StartNew();
+            for (int i = 0; i < 1000 * 1000 * 100; i++)
+            {
+                count.Count1WithBitwiseAnd((uint)(Math.Pow(2,31) - 1));
+            }
+            Console.WriteLine("Bitwise &: " + watch.Elapsed);
         }
     }
 
     public class Count
     {
-        public int ParityCheck(byte b)
+        public uint Count1WithCount(uint n)
         {
-            int j = 0;
-            for (int i = 7; i >= 0; i--)
+            uint j = 0;
+            for (int i = 0; i < 32; i++)
             {
-                j ^= (b & (1 << i)) >> i;
+                if ((n & 1 << i) > 0)
+                {
+                    j++;
+                }
             }
             return j;
         }
 
-        public int Count1(int i)
+        public uint Count1WithBitAdd(uint n)
         {
-            throw new NotImplementedException();
+            n = ((n & 0xAAAAAAAA) >> 1) + (n & 0x55555555);
+            n = ((n & 0xCCCCCCCC) >> 2) + (n & 0x33333333);
+            n = ((n & 0xF0F0F0F0) >> 4) + (n & 0x0F0F0F0F);
+            n = ((n & 0xFF00FF00) >> 8) + (n & 0x00FF00FF);
+            n = ((n & 0xFFFF0000) >> 16) + (n & 0x0000FFFF);
+            return n;
+        }
+
+        public uint Count1WithBitwiseAnd(uint n)
+        {
+            uint count = 0;
+            while (n > 0)
+            {
+                n = n & (n - 1);
+                count++;
+            }
+            return count;
         }
     }
 }

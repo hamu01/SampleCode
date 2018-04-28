@@ -6,8 +6,8 @@ namespace Bit
     {
         static void Main(string[] args)
         {
-            // CountSample count = new CountSample();
-            // count.Run();
+            CountSample count = new CountSample();
+            count.Run();
 
             // BitConvertSample convert = new BitConvertSample();
             // convert.Run();
@@ -15,8 +15,8 @@ namespace Bit
             // BaseConvertSample baseConvert = new BaseConvertSample();
             // baseConvert.Run();
 
-            BitReverseSample reverse = new BitReverseSample();
-            reverse.Run();
+            // BitReverseSample reverse = new BitReverseSample();
+            // reverse.Run();
 
             // SingleNumberSample singleNumber = new SingleNumberSample();
             // singleNumber.Run();

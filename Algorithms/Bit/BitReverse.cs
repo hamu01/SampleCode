@@ -9,22 +9,39 @@ namespace Bit
         public void Run()
         {
             BitReverse reverse = new BitReverse();
-            ushort i = 10;
-            ushort j = reverse.Reverse(i);
-            PrintBit(i);
-            PrintBit(j);
+            // ushort ui = 10;
+            // ushort uj = reverse.Reverse(ui);
+            // PrintBit(ui);
+            // PrintBit(uj);
 
-            i = 10010;
-            j = reverse.Reverse(i);
-            PrintBit(i);
-            PrintBit(j);
+            // ui = 10010;
+            // uj = reverse.Reverse(ui);
+            // PrintBit(ui);
+            // PrintBit(uj);
 
-            // PerfRun(reverse);
+            // uint i = 10;
+            // uint j = reverse.Reverse(i);
+            // PrintBit(i);
+            // PrintBit(j);
+
+            // i = 10010;
+            // j = reverse.Reverse(i);
+            // PrintBit(i);
+            // PrintBit(j);
+
+            PerfRun(reverse);
         }
 
         private void PerfRun(BitReverse reverse)
         {
             Stopwatch watch = Stopwatch.StartNew();
+            for (int i = 0; i < 1000 * 1000 * 100; i++)
+            {
+                reverse.Reverse(43261596);
+            }
+            System.Console.WriteLine(watch.Elapsed);
+
+            watch = Stopwatch.StartNew();
             for (int i = 0; i < 1000 * 1000 * 100; i++)
             {
                 reverse.Reverse1(43261596);
@@ -51,6 +68,19 @@ namespace Bit
             }
             Console.WriteLine();
         }
+
+        private void PrintBit(uint i)
+        {
+            var bytes = BitConverter.GetBytes(i);
+            BitArray bits = new BitArray(bytes);
+            Console.Write($"{i}: ");
+            for (int k = bits.Length - 1; k >= 0; k--)
+            {
+                bool b = bits[k];
+                Console.Write(b ? "1" : "0");
+            }
+            Console.WriteLine();
+        }
     }
 
     public class BitReverse
@@ -61,6 +91,16 @@ namespace Bit
             i = (ushort)(((i & 0xCCCC) >> 2) | ((i & 0x3333) << 2));
             i = (ushort)(((i & 0xF0F0) >> 4) | ((i & 0x0F0F) << 4));
             i = (ushort)(((i & 0xFF00) >> 8) | ((i & 0x00FF) << 8));
+            return i;
+        }
+
+        public uint Reverse(uint i)
+        {
+            i = (i & 0xAAAAAAAA) >> 1 | (i & 0x55555555) << 1;
+            i = (i & 0xCCCCCCCC) >> 2 | (i & 0x33333333) << 2;
+            i = (i & 0xF0F0F0F0) >> 4 | (i & 0x0F0F0F0F) << 4;
+            i = (i & 0xFF00FF00) >> 8 | (i & 0x00FF00FF) << 8;
+            i = (i & 0xFFFF0000) >> 16 | (i & 0x0000FFFF) << 16;
             return i;
         }
 
