@@ -7,8 +7,14 @@ namespace Graph
     {
         static void Main(string[] args)
         {
-            PathsSample paths = new PathsSample();
-            paths.Run();
+            // PathsSample paths = new PathsSample();
+            // paths.Run();
+
+            // PathSample path = new PathSample();
+            // path.Run();
+
+            BipartiteSample bipartite = new BipartiteSample();
+            bipartite.Run();
         }
     }
 }

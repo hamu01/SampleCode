@@ -67,6 +67,10 @@ namespace Graph
         public AdjacencyListGraph(List<Vertex> vertexes) : base(vertexes)
         {
             _adjacencyList = new List<int>[vertexes.Count];
+            for (int i = 0; i < vertexes.Count; i++)
+            {
+                _adjacencyList[i] = new List<int>();
+            }
         }
 
         public override void AddEdge(int s, int t)
@@ -95,6 +99,41 @@ namespace Graph
         public string Name { get; set; }
     }
 
+    public class SimpleGraph
+    {
+        private List<int>[] _adjacencyList;
+        private List<int> _vertexes;
+
+        public SimpleGraph(List<int> vertexes)
+        {
+            _vertexes = vertexes;
+            _adjacencyList = new List<int>[vertexes.Count];
+            for (int i = 0; i < vertexes.Count; i++)
+            {
+                _adjacencyList[i] = new List<int>();
+            }
+        }
+
+        public void AddEdge(int s, int t)
+        {
+            _adjacencyList[s].Add(t);
+            _adjacencyList[t].Add(s);
+        }
+
+        public List<int> Adj(int vertexIndex)
+        {
+            return _adjacencyList[vertexIndex];
+        }
+
+        public List<int> Vertexes
+        {
+            get
+            {
+                return _vertexes;
+            }
+        }
+    }
+
     public static class GraphFactory
     {
         public static Graph BuildGraph()
@@ -107,6 +146,21 @@ namespace Graph
             Graph g = new MatrixGraph(vertexes);
             g.AddEdge(0, 1);
             g.AddEdge(0, 5);
+            g.AddEdge(1, 2);
+            g.AddEdge(1, 4);
+            g.AddEdge(2, 3);
+            g.AddEdge(2, 5);
+            g.AddEdge(3, 4);
+            return g;
+        }
+
+        public static SimpleGraph BuildSimpleGraph()
+        {
+            List<int> vertexes = new List<int>() { 0, 1, 2, 3, 4, 5 };
+            SimpleGraph g = new SimpleGraph(vertexes);
+            g.AddEdge(0, 1);
+            g.AddEdge(0, 5);
+            g.AddEdge(0, 2);
             g.AddEdge(1, 2);
             g.AddEdge(1, 4);
             g.AddEdge(2, 3);
