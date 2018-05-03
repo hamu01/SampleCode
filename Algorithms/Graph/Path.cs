@@ -8,7 +8,7 @@ namespace Graph
     {
         public void Run()
         {
-            var g = GraphFactory.BuildSimpleGraph();
+            var g = BuildGraph();
             Path path = new Path();
             int s = 0, t = 4;
             bool hasPathTo = path.HasPathTo(g, s, t);
@@ -27,11 +27,25 @@ namespace Graph
                 Console.WriteLine($"{s} has not path to {t}");
             }
         }
+
+        public Graph BuildGraph()
+        {
+            List<int> vertexes = new List<int>() { 0, 1, 2, 3, 4, 5 };
+            Graph g = new Graph(vertexes);
+            g.AddEdge(0, 1);
+            g.AddEdge(0, 5);
+            g.AddEdge(0, 2);
+            g.AddEdge(1, 2);
+            g.AddEdge(1, 4);
+            g.AddEdge(2, 3);
+            g.AddEdge(2, 5);
+            return g;
+        }
     }
 
     public class Path
     {
-        public bool HasPathTo(SimpleGraph g, int s, int t)
+        public bool HasPathTo(Graph g, int s, int t)
         {
             bool[] marked = new bool[g.Vertexes.Count];
             int[] pathTo = new int[g.Vertexes.Count];
@@ -40,7 +54,7 @@ namespace Graph
             return marked[t];
         }
 
-        public Stack<int> PathTo(SimpleGraph g, int s, int t)
+        public Stack<int> PathTo(Graph g, int s, int t)
         {
             bool[] marked = new bool[g.Vertexes.Count];
             int[] pathTo = new int[g.Vertexes.Count];
@@ -56,7 +70,7 @@ namespace Graph
             return stack;
         }
 
-        private void Dfs(SimpleGraph g, int v, bool[] marked, int[] pathTo)
+        private void Dfs(Graph g, int v, bool[] marked, int[] pathTo)
         {
             foreach (var w in g.Adj(v))
             {
@@ -69,7 +83,7 @@ namespace Graph
             }
         }
 
-        public Stack<int> ShortestPathTo(SimpleGraph g, int s, int t)
+        public Stack<int> ShortestPathTo(Graph g, int s, int t)
         {
             bool[] marked = new bool[g.Vertexes.Count];
             int[] pathTo = new int[g.Vertexes.Count];

@@ -33,7 +33,7 @@ namespace Graph
 
     public class Paths
     {
-        public List<List<Vertex>> FindAllPaths(Graph g, int s, int t)
+        public List<List<Vertex>> FindAllPaths(ComplexGraph g, int s, int t)
         {
             List<List<Vertex>> paths = new List<List<Vertex>>();
             var vertex = g.Vertexes.First(x => x.Index == s);
@@ -41,7 +41,7 @@ namespace Graph
             return paths;
         }
 
-        private void Dfs(Graph g, Vertex s, int t, List<Vertex> path, List<List<Vertex>> paths)
+        private void Dfs(ComplexGraph g, Vertex s, int t, List<Vertex> path, List<List<Vertex>> paths)
         {
             if (s.Index == t)
             {
@@ -56,7 +56,7 @@ namespace Graph
             }
         }
 
-        public List<List<Vertex>> FindShortestPaths(Graph g, int s, int t)
+        public List<List<Vertex>> FindShortestPaths(ComplexGraph g, int s, int t)
         {
             List<List<Vertex>> paths = new List<List<Vertex>>();
             Dictionary<Vertex, List<List<Vertex>>> pathDic = new Dictionary<Vertex, List<List<Vertex>>>();
@@ -109,7 +109,7 @@ namespace Graph
             return paths;
         }
 
-        public IEnumerable<Vertex> FindShortestPath(Graph g, int s, int t)
+        public IEnumerable<Vertex> FindShortestPath(ComplexGraph g, int s, int t)
         {
             bool[] marked = new bool[g.Vertexes.Count];
             var vertex = g.Vertexes.First(x => x.Index == s);
