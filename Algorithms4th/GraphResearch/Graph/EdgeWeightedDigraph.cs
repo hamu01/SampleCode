@@ -1,40 +1,26 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.IO;
 
-using Basic;
-
 namespace GraphResearch
 {
-    public class EdgeWeightedGraph
+    public class EdgeWeightedDigraph
     {
+        private Bag<DirectedEdge>[] _adjacencies;
+
         private int _v;
 
         private int _e;
 
-        private Bag<Edge>[] _adjacencies;
-
-        public EdgeWeightedGraph(int V)
+        public EdgeWeightedDigraph(int V)
         {
             _v = V;
             BuildGraph(_v);
         }
 
-        public EdgeWeightedGraph(string path)
+        public EdgeWeightedDigraph(string path)
         {
-            using (Stream stream = new FileStream("Resources/" + path, FileMode.Open))
-            {
-                Init(stream);
-            }
-        }
-
-        public EdgeWeightedGraph(Stream stream)
-        {
-            Init(stream);
-        }
-
-        private void Init(Stream stream)
-        {
+             using (Stream stream = new FileStream("Resources/" + path, FileMode.Open))
             using (StreamReader reader = new StreamReader(stream))
             {
                 string content = reader.ReadToEnd();
@@ -60,20 +46,11 @@ namespace GraphResearch
                         double weight;
                         if (int.TryParse(vertices[0], out v1) && int.TryParse(vertices[1], out v2) && double.TryParse(vertices[2], out weight))
                         {
-                            Edge edge = new Edge(v1, v2, weight);
+                            DirectedEdge edge = new DirectedEdge(v1, v2, weight);
                             AddEdge(edge);
                         }
                     }
                 }
-            }
-        }
-
-        private void BuildGraph(int v)
-        {
-            _adjacencies = new Bag<Edge>[v];
-            for (int i = 0; i < v; i++)
-            {
-                _adjacencies[i] = new Bag<Edge>();
             }
         }
 
@@ -87,49 +64,50 @@ namespace GraphResearch
             return _e;
         }
 
-        public void AddEdge(Edge e)
+        public  void AddEdge(DirectedEdge e)
         {
-            int v = e.Either();
-            int w = e.Other(v);
-            _adjacencies[v].Add(e);
-            _adjacencies[w].Add(e);
+            var from = e.From();
+            _adjacencies[from].Add(e);
             _e++;
         }
 
-        public IEnumerable<Edge> Adj(int v)
+        public IEnumerable<DirectedEdge> Adj(int v)
         {
             return _adjacencies[v];
         }
 
-        public IEnumerable<Edge> Edges()
+        public IEnumerable<DirectedEdge> Edges()
         {
-            Bag<Edge> edges = new Bag<Edge>();
+            List<DirectedEdge> edges = new List<DirectedEdge>();
             for (int v = 0; v < _v; v++)
             {
-                foreach (var e in Adj(v))
-                {
-                    if (e.Other(v) > v)
-                    {
-                        edges.Add(e);
-                    }
-                }
+                edges.AddRange(Adj(v));
             }
             return edges;
         }
+
+        private void BuildGraph(int v)
+        {
+            _adjacencies = new Bag<DirectedEdge>[v];
+            for (int i = 0; i < v; i++)
+            {
+                _adjacencies[i] = new Bag<DirectedEdge>();
+            }
+        }
     }
 
-    public class Edge : IComparable<Edge>
+    public class DirectedEdge
     {
-        private int _v;
+        private int _from;
 
-        private int _w;
+        private int _to;
 
         private double _weight;
 
-        public Edge(int v, int w, double weight)
+        public DirectedEdge(int v, int w, double weight)
         {
-            _v = v;
-            _w = w;
+            _from = v;
+            _to = w;
             _weight = weight;
         }
 
@@ -138,32 +116,19 @@ namespace GraphResearch
             return _weight;
         }
 
-        public int Either()
+        public int From()
         {
-            return _v;
+            return _from;
         }
 
-        public int Other(int v)
+        public int To()
         {
-            if (v == _v)
-            {
-                return _w;
-            }
-            else if (v == _w)
-            {
-                return _v;
-            }
-            throw new ArgumentOutOfRangeException();
-        }
-
-        public int CompareTo(Edge other)
-        {
-            return _weight.CompareTo(other._weight);
+            return _to;
         }
 
         public override string ToString()
         {
-            return string.Format("{0:D}-{1:D} {2:F2}", _v, _w, _weight);
+            return String.Format("{0:D}->{1:d} {2:F2}", _from, _to, _weight);
         }
     }
 }
