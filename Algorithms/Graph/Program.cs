@@ -13,8 +13,14 @@ namespace Graph
             // PathSample path = new PathSample();
             // path.Run();
 
-            BipartiteSample bipartite = new BipartiteSample();
-            bipartite.Run();
+            // BipartiteSample bipartite = new BipartiteSample();
+            // bipartite.Run();
+            
+            // CycleSample cycle = new CycleSample();
+            // cycle.Run();
+
+            CCSample cc = new CCSample();
+            cc.Run();
         }
     }
 }

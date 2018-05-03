@@ -9,16 +9,17 @@ namespace Graph
         public void Run()
         {
             var g = BuildGraph();
-            Path path = new Path();
             int s = 0, t = 4;
-            bool hasPathTo = path.HasPathTo(g, s, t);
+            PathUseDfs pathUseDfs = new PathUseDfs(g, s);
+            PathUseBfs pathUseBfs = new PathUseBfs(g, s);
+            bool hasPathTo = pathUseDfs.HasPathTo(t);
             if (hasPathTo)
             {
                 Console.WriteLine($"{s} has path to {t}");
-                var paths = path.PathTo(g, s, t);
+                var paths = pathUseDfs.PathTo(t);
                 string pathStr = string.Join("->", paths);
                 Console.WriteLine($"{s} to {t} path is : {pathStr}");
-                var shortestPaths = path.ShortestPathTo(g, s, t);
+                var shortestPaths = pathUseBfs.ShortestPathTo(t);
                 string shortestPathStr = string.Join("->", shortestPaths);
                 Console.WriteLine($"{s} to {t} shortest path is : {shortestPathStr}");
             }
@@ -43,74 +44,104 @@ namespace Graph
         }
     }
 
-    public class Path
+    public class PathUseDfs
     {
-        public bool HasPathTo(Graph g, int s, int t)
+        private Graph _g;
+        private bool[] _marked;
+        private int[] _pathTo;
+        private int _s;
+
+        public PathUseDfs(Graph g, int s)
         {
-            bool[] marked = new bool[g.Vertexes.Count];
-            int[] pathTo = new int[g.Vertexes.Count];
-            marked[s] = true;
-            Dfs(g, s, marked, pathTo);
-            return marked[t];
+            _marked = new bool[g.Vertexes.Count];
+            _pathTo = new int[g.Vertexes.Count];
+            _g = g;
+            _s = s;
+            Dfs(s);
         }
 
-        public Stack<int> PathTo(Graph g, int s, int t)
+        public bool HasPathTo(int t)
         {
-            bool[] marked = new bool[g.Vertexes.Count];
-            int[] pathTo = new int[g.Vertexes.Count];
-            Dfs(g, s, marked, pathTo);
+            return _marked[t];
+        }
+
+        public Stack<int> PathTo(int t)
+        {
             Stack<int> stack = new Stack<int>();
             int v = t;
-            while (v != s)
+            while (v != _s)
             {
                 stack.Push(v);
-                v = pathTo[v];
+                v = _pathTo[v];
             }
-            stack.Push(s);
+            stack.Push(_s);
             return stack;
         }
 
-        private void Dfs(Graph g, int v, bool[] marked, int[] pathTo)
+        private void Dfs(int v)
         {
-            foreach (var w in g.Adj(v))
+            foreach (var w in _g.Adj(v))
             {
-                if (!marked[w])
+                if (!_marked[w])
                 {
-                    marked[w] = true;
-                    pathTo[w] = v;
-                    Dfs(g, w, marked, pathTo);
+                    _marked[w] = true;
+                    _pathTo[w] = v;
+                    Dfs(w);
                 }
             }
         }
 
-        public Stack<int> ShortestPathTo(Graph g, int s, int t)
+    }
+
+    public class PathUseBfs
+    {
+        private Graph _g;
+        private bool[] _marked;
+        private int[] _pathTo;
+        private int _s;
+
+        public PathUseBfs(Graph g, int s)
         {
-            bool[] marked = new bool[g.Vertexes.Count];
-            int[] pathTo = new int[g.Vertexes.Count];
+            _marked = new bool[g.Vertexes.Count];
+            _pathTo = new int[g.Vertexes.Count];
+            _g = g;
+            _s = s;
+        }
+
+        private void Bfs()
+        {
             Queue<int> queue = new Queue<int>();
-            queue.Enqueue(s);
+            queue.Enqueue(_s);
             while (queue.Count > 0)
             {
                 int q = queue.Dequeue();
-                foreach (var w in g.Adj(q))
+                foreach (var w in _g.Adj(q))
                 {
-                    if (!marked[w])
+                    if (!_marked[w])
                     {
-                        pathTo[w] = q;
+                        _pathTo[w] = q;
                         queue.Enqueue(w);
-                        marked[w] = true;
+                        _marked[w] = true;
                     }
                 }
             }
+        }
 
+        public bool HasPathTo(int t)
+        {
+            return _marked[t];
+        }
+
+        public Stack<int> ShortestPathTo(int t)
+        {
             Stack<int> stack = new Stack<int>();
             int v = t;
-            while (v != s)
+            while (v != _s)
             {
                 stack.Push(v);
-                v = pathTo[v];
+                v = _pathTo[v];
             }
-            stack.Push(s);
+            stack.Push(_s);
             return stack;
         }
     }
