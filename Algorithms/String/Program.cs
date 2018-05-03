@@ -22,11 +22,11 @@ namespace String
             // CompareSample compare = new CompareSample();
             // compare.Run();
 
-            // SearchSample search = new SearchSample();
-            // search.Run();
+            SearchSample search = new SearchSample();
+            search.Run();
 
-            SortSample sort = new SortSample();
-            sort.Run();
+            // SortSample sort = new SortSample();
+            // sort.Run();
         }
     }
 }

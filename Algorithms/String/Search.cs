@@ -25,19 +25,17 @@ namespace String
             int[] table = BuildPartialMatchTable(pattern);
             for (int i = 0, j = 0; i < txt.Length; i++)
             {
-                while (txt[i] == pattern[j])
+                if (txt[i] == pattern[j])
                 {
-                    i++;
                     if (++j == pattern.Length)
                     {
-                        break;
+                        return i - j + 1;
                     }
                 }
-                if (j == pattern.Length)
+                else
                 {
-                    return i - j;
+                    j = table[j];
                 }
-                j = table[j];
             }
             return txt.Length;
         }
