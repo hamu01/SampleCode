@@ -7,7 +7,7 @@
         {
             "taskName": "build",
             "args": [
-                "${workspaceRoot}/String/String.csproj"
+                "${workspaceRoot}/Digraph/Digraph.csproj"
             ],
             "isBuildCommand": true,
             "problemMatcher": "$msCompile"

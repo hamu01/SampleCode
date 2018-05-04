@@ -1,0 +1,104 @@
+using System;
+using System.Collections.Generic;
+
+namespace Digraph
+{
+    public class SCCSample
+    {
+        public void Run()
+        {
+            Digraph g = BuildGraph(false);
+            SCC scc = new SCC(g);
+            Console.WriteLine(scc.StrongConnected());
+
+            g = BuildGraph(true);
+            scc = new SCC(g);
+            Console.WriteLine(scc.StrongConnected());
+            Console.WriteLine(scc.StrongConnected(0, 3));
+        }
+
+        private Digraph BuildGraph(bool connected)
+        {
+            if (connected)
+            {
+                List<int> vertexes = new List<int>() { 0, 1, 2, 3 };
+                Digraph g = new Digraph(vertexes);
+                g.AddEdge(0, 1);
+                g.AddEdge(1, 2);
+                g.AddEdge(2, 3);
+                g.AddEdge(3, 0);
+                return g;
+            }
+            else
+            {
+                List<int> vertexes = new List<int>() { 0, 1, 2, 3, 4, 5, 6 };
+                Digraph g = new Digraph(vertexes);
+                g.AddEdge(0, 5);
+                g.AddEdge(0, 1);
+                g.AddEdge(0, 6);
+                g.AddEdge(5, 4);
+                g.AddEdge(6, 4);
+                g.AddEdge(2, 0);
+                g.AddEdge(2, 3);
+                g.AddEdge(3, 5);
+                return g;
+            }
+        }
+    }
+
+    public class SCC
+    {
+        private bool[] _marked;
+        private int _count;
+        private int[] _id;
+
+        public SCC(Digraph g)
+        {
+            _marked = new bool[g.Vertexes.Count];
+            _id = new int[g.Vertexes.Count];
+            Digraph gReverse = g.Reverse();
+            Order order = new Order(gReverse);
+            foreach (int v in order.ReversePost())
+            {
+                if (!_marked[v])
+                {
+                    Dfs(g, v);
+                    _count++;
+                }
+            }
+        }
+
+        private void Dfs(Digraph g, int v)
+        {
+            _marked[v] = true;
+            _id[v] = _count;
+            foreach (int w in g.Adj(v))
+            {
+                if (!_marked[w])
+                {
+                    Dfs(g, w);
+                }
+            }
+        }
+
+        public bool StrongConnected(int v, int w)
+        {
+            return _id[v] == _id[w];
+        }
+
+        public bool StrongConnected()
+        {
+            return _count == 1;
+        }
+
+        public int Count()
+        {
+            return _count;
+        }
+
+        public int Id(int v)
+        {
+            return _id[v];
+        }
+    }
+}

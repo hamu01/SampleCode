@@ -11,12 +11,10 @@ namespace GraphResearch
     {
         static void Main(string[] args)
         {
-            //RunUndirected();
-            //RunDirected();
-            RunMst();
+            // RunUndirected();
+            RunDirected();
+            // RunMst();
             //RunSp();
-
-            Console.ReadKey();
         }
 
         private static void RunUndirected()
@@ -25,25 +23,25 @@ namespace GraphResearch
             //sampleClient.RunSearch("tinyG.txt");
             //sampleClient.RunPath("sample.txt");
             //sampleClient.RunCC("tinyG.txt");
-            //sampleClient.RunCycle("cycle.txt");
+            sampleClient.RunCycle("cycle.txt");
             //sampleClient.RunTwoColor("cycle.txt");
             //sampleClient.RunSymbolGraph("routes.txt", ' ');
-            sampleClient.RunDegreeOfSeperation("routes.txt", ' ', "JFK");
+            // sampleClient.RunDegreeOfSeperation("routes.txt", ' ', "JFK");
 
-            UndirectedPerfClient perfClient = new UndirectedPerfClient();
-            perfClient.Run("mediumG.txt");
+            // UndirectedPerfClient perfClient = new UndirectedPerfClient();
+            // perfClient.Run("mediumG.txt");
         }
 
         private static void RunDirected()
         {
             DirectedSampleClient sampleClient = new DirectedSampleClient();
             //sampleClient.RunSearch("tinyDG.txt", new int[] { 1,2,6 });
-            //sampleClient.RunCycle("sampleDG1.txt");
+            sampleClient.RunCycle("sampleDG1.txt");
             //sampleClient.RunCycle("tinyDG.txt");
             //sampleClient.RunTopological("tinyDG.txt");
             //sampleClient.RunTopological("tinyDAG.txt");
             //sampleClient.RunScc("scc.txt");
-            sampleClient.RunTransitiveClosure("tinyDG.txt", 6, 0);
+            // sampleClient.RunTransitiveClosure("tinyDG.txt", 6, 0);
         }
 
         private static void RunMst()
@@ -129,7 +127,6 @@ namespace GraphResearch
             {
                 Console.WriteLine("No cycle");
             }
-            Console.WriteLine(c.HasCycle());
         }
 
         public void RunTopological(string path)
@@ -402,7 +399,6 @@ namespace GraphResearch
         {
             CC c;
             c = new DepthFirstCC(G);
-            //c = new BreadthFirstCC(G);
             return c;
         }
 
