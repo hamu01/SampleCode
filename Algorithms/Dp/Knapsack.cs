@@ -12,24 +12,26 @@ namespace Dp
             Console.WriteLine($"Weights: {string.Join(",", weights)}");
             Console.WriteLine($"Prices: {string.Join(",", prices)}");
             Knapsack knapsack = new Knapsack(prices, weights, n);
-            int weight = knapsack.Pick01WithRecur(50);
-            Console.WriteLine($"Pick01WithRecur: {weight}");
-            weight = knapsack.Pick01(50);
-            Console.WriteLine($"Pick01: {weight}");
-            weight = knapsack.Pick01Exact(50);
-            Console.WriteLine($"Pick01Exact: {weight}");
-
+            int totalWeight = 50;
+            int totalPrice = knapsack.Pick01WithRecur(totalWeight);
+            Console.WriteLine($"Pick01WithRecur: {totalWeight} - {totalPrice}");
+            totalPrice = knapsack.Pick01(50);
+            Console.WriteLine($"Pick01: {totalWeight} - {totalPrice}");
+            totalPrice = knapsack.Pick01Exact(50);
+            Console.WriteLine($"Pick01Exact: {totalWeight} - {totalPrice}");
+            Console.WriteLine();
+            
             prices = new int[] { 100, 50, 120, 30, 60 };
             weights = new int[] { 10, 20, 50, 30, 30 };
             Console.WriteLine($"Weights: {string.Join(",", weights)}");
             Console.WriteLine($"Prices: {string.Join(",", prices)}");
             knapsack = new Knapsack(prices, weights, n);
-            weight = knapsack.Pick01WithRecur(50);
-            Console.WriteLine($"Pick01WithRecur: {weight}");
-            weight = knapsack.Pick01(50);
-            Console.WriteLine($"Pick01: {weight}");
-            weight = knapsack.Pick01Exact(50);
-            Console.WriteLine($"Pick01Exact: {weight}");
+            totalPrice = knapsack.Pick01WithRecur(totalWeight);
+            Console.WriteLine($"Pick01WithRecur: {totalWeight} - {totalPrice}");
+            totalPrice = knapsack.Pick01(50);
+            Console.WriteLine($"Pick01: {totalWeight} - {totalPrice}");
+            totalPrice = knapsack.Pick01Exact(50);
+            Console.WriteLine($"Pick01Exact: {totalWeight} - {totalPrice}");
         }
     }
 
@@ -84,8 +86,11 @@ namespace Dp
 
         public int Pick01Exact(int totalWeight)
         {
-            //TODO
             int[,] matrix = new int[_n + 1, totalWeight / 10 + 1];
+            for (int i = 1; i < totalWeight / 10 + 1; i++)
+            {
+                matrix[0, i] = int.MinValue;
+            }
             for (int i = 1; i <= _n; i++)
             {
                 for (int j = 1; j <= totalWeight / 10; j++)
@@ -93,15 +98,7 @@ namespace Dp
                     int w = _weights[i - 1] / 10;
                     if (w <= j)
                     {
-                        int w1 = i >= 2 ? _weights[i - 2] / 10 : 0;
-                        if (w + w1 == j)
-                        {
-                            matrix[i, j] = Math.Max(matrix[i - 1, j - w] + _prices[i - 1], matrix[i - 1, j]);
-                        }
-                        else if(w == j)
-                        {
-                            matrix[i, j] = _prices[i - 1];
-                        }
+                        matrix[i, j] = Math.Max(matrix[i - 1, j - w] + _prices[i - 1], matrix[i - 1, j]);
                     }
                     else
                     {
@@ -109,7 +106,14 @@ namespace Dp
                     }
                 }
             }
-            return matrix[_n, totalWeight / 10];
+            if (matrix[_n, totalWeight / 10] > 0)
+            {
+                return matrix[_n, totalWeight / 10];
+            }
+            else
+            {
+                return 0;
+            }
         }
 
         public int PickLimited(int totalWeight, int max)
