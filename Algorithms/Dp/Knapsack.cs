@@ -271,10 +271,6 @@ namespace Dp
 
         public int PackUnlimitedExact(int totalWeight)
         {
-            /* 
-            prices = new int[] { 50, 110, 30, 60 };
-            weights = new int[] { 2, 4, 3, 2 };
-            */
             int[] dp = new int[totalWeight + 1];
             for (int j = 1; j <= totalWeight; j++)
             {
