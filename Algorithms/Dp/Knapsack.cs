@@ -8,17 +8,19 @@ namespace Dp
         {
             int n = 5;
             int[] prices = new int[] { 100, 50, 120, 30, 60 };
-            int[] weights = new int[] { 10, 20, 50, 30, 20 };
+            int[] weights = new int[] { 1, 2, 5, 3, 2 };
             Console.WriteLine($"Weights: {string.Join(",", weights)}");
             Console.WriteLine($"Prices: {string.Join(",", prices)}");
             Knapsack knapsack = new Knapsack(prices, weights, n);
-            int totalWeight = 50;
+            int totalWeight = 5;
             int totalPrice = knapsack.Pack01WithRecur(totalWeight);
             Console.WriteLine($"Pick01WithRecur: {totalWeight} - {totalPrice}");
             totalPrice = knapsack.Pack01(totalWeight);
             Console.WriteLine($"Pick01: {totalWeight} - {totalPrice}");
             totalPrice = knapsack.Pack01WithOpt(totalWeight);
             Console.WriteLine($"Pack01WithOpt: {totalWeight} - {totalPrice}");
+            totalPrice = knapsack.Pack01WithOpt1(totalWeight);
+            Console.WriteLine($"Pack01WithOpt1: {totalWeight} - {totalPrice}");
             totalPrice = knapsack.Pack01Exact(totalWeight);
             Console.WriteLine($"Pick01Exact: {totalWeight} - {totalPrice}");
             totalPrice = knapsack.Pack01ExactWithOpt(totalWeight);
@@ -26,7 +28,7 @@ namespace Dp
             Console.WriteLine();
 
             prices = new int[] { 100, 50, 120, 30, 60 };
-            weights = new int[] { 10, 20, 50, 30, 30 };
+            weights = new int[] { 1, 2, 5, 3, 3 };
             Console.WriteLine($"Weights: {string.Join(",", weights)}");
             Console.WriteLine($"Prices: {string.Join(",", prices)}");
             knapsack = new Knapsack(prices, weights, n);
@@ -36,6 +38,8 @@ namespace Dp
             Console.WriteLine($"Pick01: {totalWeight} - {totalPrice}");
             totalPrice = knapsack.Pack01WithOpt(totalWeight);
             Console.WriteLine($"Pack01WithOpt: {totalWeight} - {totalPrice}");
+            totalPrice = knapsack.Pack01WithOpt1(totalWeight);
+            Console.WriteLine($"Pack01WithOpt1: {totalWeight} - {totalPrice}");
             totalPrice = knapsack.Pack01Exact(totalWeight);
             Console.WriteLine($"Pick01Exact: {totalWeight} - {totalPrice}");
             totalPrice = knapsack.Pack01ExactWithOpt(totalWeight);
@@ -58,12 +62,12 @@ namespace Dp
 
         public int Pack01(int totalWeight)
         {
-            int[,] matrix = new int[_n + 1, totalWeight / 10 + 1];
+            int[,] matrix = new int[_n + 1, totalWeight + 1];
             for (int i = 1; i <= _n; i++)
             {
-                for (int j = 1; j <= totalWeight / 10; j++)
+                for (int j = 1; j <= totalWeight; j++)
                 {
-                    int w = _weights[i - 1] / 10;
+                    int w = _weights[i - 1];
                     if (w <= j)
                     {
                         matrix[i, j] = Math.Max(matrix[i - 1, j - w] + _prices[i - 1], matrix[i - 1, j]);
@@ -74,7 +78,7 @@ namespace Dp
                     }
                 }
             }
-            return matrix[_n, totalWeight / 10];
+            return matrix[_n, totalWeight];
         }
 
         public int Pack01WithRecur(int totalWeight)
@@ -94,50 +98,62 @@ namespace Dp
 
         public int Pack01WithOpt(int totalWeight)
         {
-            int[] matrix = new int[totalWeight / 10 + 1];
+            int[] matrix = new int[totalWeight + 1];
             for (int i = 1; i <= _n; i++)
             {
-                for (int j = totalWeight / 10; j >= 0; j--)
+                for (int j = totalWeight; j >= 0; j--)
                 {
-                    int w = _weights[i - 1] / 10;
+                    int w = _weights[i - 1];
                     if (w <= j)
                     {
                         matrix[j] = Math.Max(matrix[j - w] + _prices[i - 1], matrix[j]);
                     }
                 }
             }
-            return matrix[totalWeight / 10];
+            return matrix[totalWeight];
         }
 
         public int Pack01WithOpt1(int totalWeight)
         {
-            int[] matrix = new int[totalWeight / 10 + 1];
+            int[] matrix = new int[totalWeight + 1];
             for (int i = 1; i <= _n; i++)
             {
-                for (int j = totalWeight / 10; j >= 0; j--)
+                int sum = Sum(_weights, i + 1, _n);
+                int bound = Math.Max(totalWeight - sum, _weights[i - 1]);
+                for (int j = totalWeight; j >= bound; j--)
                 {
-                    int w = _weights[i - 1] / 10;
+                    int w = _weights[i - 1];
                     if (w <= j)
                     {
                         matrix[j] = Math.Max(matrix[j - w] + _prices[i - 1], matrix[j]);
                     }
                 }
             }
-            return matrix[totalWeight / 10];
+            return matrix[totalWeight];
+        }
+
+        private int Sum(int[] values, int lo, int hi)
+        {
+            int sum = 0;
+            for (int i = lo; i <= hi; i++)
+            {
+                sum += values[i - 1];
+            }
+            return sum;
         }
 
         public int Pack01Exact(int totalWeight)
         {
-            int[,] matrix = new int[_n + 1, totalWeight / 10 + 1];
-            for (int i = 1; i < totalWeight / 10 + 1; i++)
+            int[,] matrix = new int[_n + 1, totalWeight + 1];
+            for (int i = 1; i < totalWeight + 1; i++)
             {
                 matrix[0, i] = int.MinValue;
             }
             for (int i = 1; i <= _n; i++)
             {
-                for (int j = 1; j <= totalWeight / 10; j++)
+                for (int j = 1; j <= totalWeight; j++)
                 {
-                    int w = _weights[i - 1] / 10;
+                    int w = _weights[i - 1];
                     if (w <= j)
                     {
                         matrix[i, j] = Math.Max(matrix[i - 1, j - w] + _prices[i - 1], matrix[i - 1, j]);
@@ -148,34 +164,34 @@ namespace Dp
                     }
                 }
             }
-            if (matrix[_n, totalWeight / 10] > 0)
+            if (matrix[_n, totalWeight] > 0)
             {
-                return matrix[_n, totalWeight / 10];
+                return matrix[_n, totalWeight];
             }
             return 0;
         }
 
         public int Pack01ExactWithOpt(int totalWeight)
         {
-            int[] matrix = new int[totalWeight / 10 + 1];
-            for (int i = 1; i < totalWeight / 10 + 1; i++)
+            int[] matrix = new int[totalWeight + 1];
+            for (int i = 1; i < totalWeight + 1; i++)
             {
                 matrix[i] = int.MinValue;
             }
             for (int i = 1; i <= _n; i++)
             {
-                for (int j = totalWeight / 10; j >= 0; j--)
+                for (int j = totalWeight; j >= 0; j--)
                 {
-                    int w = _weights[i - 1] / 10;
+                    int w = _weights[i - 1];
                     if (w <= j)
                     {
                         matrix[j] = Math.Max(matrix[j - w] + _prices[i - 1], matrix[j]);
                     }
                 }
             }
-            if (matrix[totalWeight / 10] > 0)
+            if (matrix[totalWeight] > 0)
             {
-                return matrix[totalWeight / 10];
+                return matrix[totalWeight];
             }
             return 0;
         }
