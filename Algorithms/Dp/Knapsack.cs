@@ -6,13 +6,45 @@ namespace Dp
     {
         public void Run()
         {
+            // Run01();
+            RunUnlimited();
+        }
+
+        private void Run01()
+        {
             int n = 5;
+            int totalWeight = 5;
             int[] prices = new int[] { 100, 50, 120, 30, 60 };
             int[] weights = new int[] { 1, 2, 5, 3, 2 };
+            Run01(prices, weights, n, totalWeight);
+
+            prices = new int[] { 100, 50, 120, 30, 60 };
+            weights = new int[] { 1, 2, 5, 3, 3 };
+            Run01(prices, weights, n, totalWeight);
+        }
+
+        private void RunUnlimited()
+        {
+            int totalWeight = 5;
+            int[] prices = new int[] { 100, 50, 120, 30, 60 };
+            int[] weights = new int[] { 1, 2, 5, 3, 2 };
+            RunUnlimited(prices, weights, prices.Length, totalWeight);
+
+            prices = new int[] { 50, 110, 30, 60 };
+            weights = new int[] { 2, 4, 3, 2 };
+            RunUnlimited(prices, weights, prices.Length, totalWeight);
+
+            prices = new int[] { 50, 110, 30, 60 };
+            weights = new int[] { 2, 4, 4, 2 };
+            RunUnlimited(prices, weights, prices.Length, totalWeight);
+        }
+
+        private void Run01(int[] prices, int[] weights, int n, int totalWeight)
+        {
             Console.WriteLine($"Weights: {string.Join(",", weights)}");
             Console.WriteLine($"Prices: {string.Join(",", prices)}");
             Knapsack knapsack = new Knapsack(prices, weights, n);
-            int totalWeight = 5;
+
             int totalPrice = knapsack.Pack01WithRecur(totalWeight);
             Console.WriteLine($"Pick01WithRecur: {totalWeight} - {totalPrice}");
             totalPrice = knapsack.Pack01(totalWeight);
@@ -26,24 +58,21 @@ namespace Dp
             totalPrice = knapsack.Pack01ExactWithOpt(totalWeight);
             Console.WriteLine($"Pack01ExactWithOpt: {totalWeight} - {totalPrice}");
             Console.WriteLine();
+        }
 
-            prices = new int[] { 100, 50, 120, 30, 60 };
-            weights = new int[] { 1, 2, 5, 3, 3 };
+        private void RunUnlimited(int[] prices, int[] weights, int n, int totalWeight)
+        {
             Console.WriteLine($"Weights: {string.Join(",", weights)}");
             Console.WriteLine($"Prices: {string.Join(",", prices)}");
-            knapsack = new Knapsack(prices, weights, n);
-            totalPrice = knapsack.Pack01WithRecur(totalWeight);
-            Console.WriteLine($"Pick01WithRecur: {totalWeight} - {totalPrice}");
-            totalPrice = knapsack.Pack01(totalWeight);
-            Console.WriteLine($"Pick01: {totalWeight} - {totalPrice}");
-            totalPrice = knapsack.Pack01WithOpt(totalWeight);
-            Console.WriteLine($"Pack01WithOpt: {totalWeight} - {totalPrice}");
-            totalPrice = knapsack.Pack01WithOpt1(totalWeight);
-            Console.WriteLine($"Pack01WithOpt1: {totalWeight} - {totalPrice}");
-            totalPrice = knapsack.Pack01Exact(totalWeight);
-            Console.WriteLine($"Pick01Exact: {totalWeight} - {totalPrice}");
-            totalPrice = knapsack.Pack01ExactWithOpt(totalWeight);
-            Console.WriteLine($"Pack01ExactWithOpt: {totalWeight} - {totalPrice}");
+            Knapsack knapsack = new Knapsack(prices, weights, n);
+
+            int totalPrice = knapsack.PackUnlimitedWithRecur(totalWeight);
+            Console.WriteLine($"PackUnlimitedWithRecur: {totalWeight} - {totalPrice}");
+            totalPrice = knapsack.PackUnlimited(totalWeight);
+            Console.WriteLine($"PackUnlimited: {totalWeight} - {totalPrice}");
+            totalPrice = knapsack.PackUnlimitedExact(totalWeight);
+            Console.WriteLine($"PackUnlimitedExact: {totalWeight} - {totalPrice}");
+            Console.WriteLine();
         }
     }
 
@@ -98,7 +127,7 @@ namespace Dp
 
         public int Pack01WithOpt(int totalWeight)
         {
-            int[] matrix = new int[totalWeight + 1];
+            int[] dp = new int[totalWeight + 1];
             for (int i = 1; i <= _n; i++)
             {
                 for (int j = totalWeight; j >= 0; j--)
@@ -106,16 +135,16 @@ namespace Dp
                     int w = _weights[i - 1];
                     if (w <= j)
                     {
-                        matrix[j] = Math.Max(matrix[j - w] + _prices[i - 1], matrix[j]);
+                        dp[j] = Math.Max(dp[j - w] + _prices[i - 1], dp[j]);
                     }
                 }
             }
-            return matrix[totalWeight];
+            return dp[totalWeight];
         }
 
         public int Pack01WithOpt1(int totalWeight)
         {
-            int[] matrix = new int[totalWeight + 1];
+            int[] dp = new int[totalWeight + 1];
             for (int i = 1; i <= _n; i++)
             {
                 int sum = Sum(_weights, i + 1, _n);
@@ -125,11 +154,11 @@ namespace Dp
                     int w = _weights[i - 1];
                     if (w <= j)
                     {
-                        matrix[j] = Math.Max(matrix[j - w] + _prices[i - 1], matrix[j]);
+                        dp[j] = Math.Max(dp[j - w] + _prices[i - 1], dp[j]);
                     }
                 }
             }
-            return matrix[totalWeight];
+            return dp[totalWeight];
         }
 
         private int Sum(int[] values, int lo, int hi)
@@ -206,14 +235,65 @@ namespace Dp
             throw new NotImplementedException();
         }
 
+        public int PackUnlimitedWithRecur(int totalWeight)
+        {
+            if (totalWeight == 0) return 0;
+            int max = 0;
+            for (int i = 1; i <= _n; i++)
+            {
+                int w = _weights[i - 1];
+                if (w <= totalWeight)
+                {
+                    max = Math.Max(max, PackUnlimitedWithRecur(totalWeight - _weights[i - 1]) + _prices[i - 1]);
+                }
+            }
+            return Math.Max(max, PackUnlimitedWithRecur(totalWeight - 1));
+        }
+
         public int PackUnlimited(int totalWeight)
         {
-            throw new NotImplementedException();
+            int[] dp = new int[totalWeight + 1];
+            for (int j = 1; j <= totalWeight; j++)
+            {
+                int max = 0;
+                for (int i = 1; i <= _n; i++)
+                {
+                    int w = _weights[i - 1];
+                    if (w <= j)
+                    {
+                        max = Math.Max(max, dp[j - _weights[i - 1]] + _prices[i - 1]);
+                    }
+                }
+                dp[j] = Math.Max(max, dp[j - 1]);
+            }
+            return dp[totalWeight];
         }
 
         public int PackUnlimitedExact(int totalWeight)
         {
-            throw new NotImplementedException();
+            /* 
+            prices = new int[] { 50, 110, 30, 60 };
+            weights = new int[] { 2, 4, 3, 2 };
+            */
+            int[] dp = new int[totalWeight + 1];
+            for (int j = 1; j <= totalWeight; j++)
+            {
+                int max = int.MinValue;
+                for (int i = 1; i <= _n; i++)
+                {
+                    int w = _weights[i - 1];
+                    if (w <= j)
+                    {
+                        max = Math.Max(max, dp[j - _weights[i - 1]] + _prices[i - 1]);
+                    }
+                }
+                dp[j] = max;
+            }
+            if (dp[totalWeight] > 0)
+            {
+                return dp[totalWeight];
+            }
+            return 0;
         }
     }
 }
