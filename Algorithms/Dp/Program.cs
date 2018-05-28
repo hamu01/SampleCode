@@ -11,6 +11,9 @@ namespace Dp
 
             LCSSample lcs = new LCSSample();
             lcs.Run();
+
+            // LISSample lis = new LISSample();
+            // lis.Run();
         }
     }
 }
