@@ -7,7 +7,7 @@ namespace Dp
     {
         public void Run()
         {
-            int[] nums = new int[] { 0, 8, 4, 12, 2, 10, 6, 14, 1, 9, 5, 13, 3, 11, 7, 15 };
+            int[] nums = new int[] { 0, 8, 4, 12, 2, 10, 6, 14, 1, 9, 5, 13, 3, 7, 11, 15 };
             // int[] nums = new int[] { 0, 8, 4, 12, 2, 10, 6, 11, 1 };
 
             //0, 8, 4, 12, 2, 10, 6, 11, 1
@@ -19,6 +19,8 @@ namespace Dp
             Console.WriteLine($"FindWithGreedy: {string.Join(",", nums)} lis is {len}");
             len = lis.FindWithLcs(nums);
             Console.WriteLine($"FindWithLcs: {string.Join(",", nums)} lis is {len}");
+            len = lis.FindContinuous(nums);
+            Console.WriteLine($"FindContinuous: {string.Join(",", nums)} lis is {len}");
         }
     }
 
@@ -119,6 +121,27 @@ namespace Dp
                 }
             }
             return dp[s.Length, t.Length];
+        }
+
+        public int FindContinuous(int[] nums)
+        {
+            if (nums == null || nums.Length == 0) return 0;
+            int[] dp = new int[nums.Length];
+            dp[0] = 1;
+            int longest = 0;
+            for (int i = 1; i < nums.Length; i++)
+            {
+                if (nums[i] >= nums[i - 1])
+                {
+                    dp[i] = dp[i - 1] + 1;
+                }
+                else
+                {
+                    dp[i] = 1;
+                }
+                longest = Math.Max(longest, dp[i]);
+            }
+            return longest;
         }
     }
 }

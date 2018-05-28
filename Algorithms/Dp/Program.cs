@@ -9,11 +9,11 @@ namespace Dp
             // KnapsackSample knapsack = new KnapsackSample();
             // knapsack.Run();
 
-            LCSSample lcs = new LCSSample();
-            lcs.Run();
+            // LCSSample lcs = new LCSSample();
+            // lcs.Run();
 
-            // LISSample lis = new LISSample();
-            // lis.Run();
+            LISSample lis = new LISSample();
+            lis.Run();
         }
     }
 }
