@@ -41,7 +41,7 @@ namespace Digraph
             Digraph g = new Digraph(_vertexes);
             foreach (int v in _vertexes)
             {
-                foreach (int w in g.Adj(v))
+                foreach (int w in Adj(v))
                 {
                     g.AddEdge(w, v);
                 }
