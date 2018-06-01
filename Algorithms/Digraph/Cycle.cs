@@ -151,24 +151,24 @@ namespace Digraph
 
     public class BfsCycle : Cycle
     {
-        Digraph _g;
-        private int[] _inDegrees;
         private bool _hasCycle;
 
         public BfsCycle(Digraph g) : base(g)
         {
-            _g = g.Reverse();
             int n = g.Vertexes.Count;
-            _inDegrees = new int[n];
+            int[] inDegrees = new int[n];
             foreach (var v in g.Vertexes)
             {
-                _inDegrees[v] = g.Adj(v).Count;
+                foreach (var w in g.Adj(v))
+                {
+                    inDegrees[w]++;
+                }
             }
             Queue<int> queue = new Queue<int>();
             int count = 0;
-            foreach (var v in _g.Vertexes)
+            foreach (var v in g.Vertexes)
             {
-                if (_inDegrees[v] == 0)
+                if (inDegrees[v] == 0)
                 {
                     queue.Enqueue(v);
                     count++;
@@ -177,27 +177,65 @@ namespace Digraph
             while (queue.Count > 0)
             {
                 int v = queue.Dequeue();
-                foreach (var w in _g.Adj(v))
+                foreach (var w in g.Adj(v))
                 {
-                    if (--_inDegrees[w] == 0)
+                    if (--inDegrees[w] == 0)
                     {
                         queue.Enqueue(w);
                         count++;
                     }
                 }
             }
-            _hasCycle = count != _g.Vertexes.Count;
+            _hasCycle = count != g.Vertexes.Count;
         }
 
-        private void Bfs(int v, Queue<int> queue)
+        public override bool HasCycle()
         {
-            foreach (var w in _g.Adj(v))
+            return _hasCycle;
+        }
+
+        public override IEnumerable<int> GetCycle()
+        {
+            return null;
+        }
+    }
+    
+    public class BfsCycle1 : Cycle
+    {
+        private bool _hasCycle;
+
+        public BfsCycle1(Digraph g) : base(g)
+        {
+            var gReverse = g.Reverse();
+            int n = g.Vertexes.Count;
+            var outDegrees = new int[n];
+            foreach (var v in g.Vertexes)
             {
-                if (--_inDegrees[w] == 0)
+                outDegrees[v] = g.Adj(v).Count;
+            }
+            Queue<int> queue = new Queue<int>();
+            int count = 0;
+            foreach (var v in gReverse.Vertexes)
+            {
+                if (outDegrees[v] == 0)
                 {
-                    queue.Enqueue(w);
+                    queue.Enqueue(v);
+                    count++;
                 }
             }
+            while (queue.Count > 0)
+            {
+                int v = queue.Dequeue();
+                foreach (var w in gReverse.Adj(v))
+                {
+                    if (--outDegrees[w] == 0)
+                    {
+                        queue.Enqueue(w);
+                        count++;
+                    }
+                }
+            }
+            _hasCycle = count != gReverse.Vertexes.Count;
         }
 
         public override bool HasCycle()
