@@ -12,7 +12,7 @@ namespace Dp
             int len = lcs.FindWithRecur(s, t);
             Console.WriteLine($"FindWithRecur: LCS of {s} and {t} is {len}");
             len = lcs.Find(s, t);
-            string sub = lcs.FindStr(s, t);
+            string sub = lcs.FindSubSequnce(s, t);
             Console.WriteLine($"Find: LCS of {s} and {t} is {len}, the sequence is {sub}");
             len = lcs.FindContinuous(s, t);
             // string sub = lcs.FindStr(s, t);
@@ -60,7 +60,7 @@ namespace Dp
             return dp[s.Length, t.Length];
         }
 
-        public string FindStr(string s, string t)
+        public string FindSubSequnce(string s, string t)
         {
             int[,] dp = new int[s.Length + 1, t.Length + 1];
             string[,] dpStr = new string[s.Length + 1, t.Length + 1];
