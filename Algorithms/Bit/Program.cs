@@ -6,8 +6,8 @@ namespace Bit
     {
         static void Main(string[] args)
         {
-            CountSample count = new CountSample();
-            count.Run();
+            // CountSample count = new CountSample();
+            // count.Run();
 
             // BitConvertSample convert = new BitConvertSample();
             // convert.Run();
@@ -26,6 +26,9 @@ namespace Bit
 
             // PrimeSample prime = new PrimeSample();
             // prime.Run();
+
+            MaxXorSample maxXor = new MaxXorSample();
+            maxXor.Run();
         }
     }
 }
