@@ -38,6 +38,12 @@ namespace Bit
             s = string.Join(",", numbers);
             single = singleNumber.Find1InNWithBitCount(numbers, n);
             Console.WriteLine($"BitCount: Single 1 in {n} of {s} is {single}");
+
+            n = 3;
+            numbers = GetNumbers(1, n, 2);
+            s = string.Join(",", numbers);
+            single = singleNumber.Find1In3WithXor(numbers);
+            Console.WriteLine($"Xor: Single 1 in {n} of {s} is {single}");
         }
 
         private void Run2In2(SingleNumber singleNumber)
@@ -52,7 +58,7 @@ namespace Bit
 
         private int[] GetNumbers(int m, int n, int c)
         {
-            int len = m + c * n;
+            // int len = m + c * n;
             Random random = new Random();
             List<int> numbers = new List<int>();
             for (int i = 0; i < c; i++)
@@ -102,6 +108,31 @@ namespace Bit
         public int Find1In2WithBitCount(int[] numbers)
         {
             return Find1InNWithBitCount(numbers, 2);
+        }
+
+        public int Find1In3WithXor(int[] numbers)
+        {
+            int x1 = 0, x2 = 0;
+            foreach (int num in numbers)
+            {
+                x2 = x2 ^ (x1 & num);
+                x1 = x1 ^ num;
+                int mask = ~(x1 & x2);
+                x2 = x2 & mask;
+                x1 = x1 & mask;
+            }
+            return x1;
+        }
+
+        public int Find1In3WithXor1(int[] numbers)
+        {
+            int ones = 0, twos = 0;
+            foreach (var num in numbers)
+            {
+                ones = (ones ^ num) & ~twos;
+                twos = (twos ^ num) & ~ones;
+            }
+            return ones;
         }
 
         public int Find1In3WithBitCount(int[] numbers)
