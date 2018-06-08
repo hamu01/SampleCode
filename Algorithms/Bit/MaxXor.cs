@@ -30,6 +30,22 @@ namespace Bit
             max = maxXor.FindAny(values);
             maxWithTrie = maxXor.FindAnyWithTrie(values);
             Console.WriteLine($"The max xor of {string.Join(",", values)} is {max} and {maxWithTrie}");
+
+            values = GetNums(5);
+            max = maxXor.FindAny(values);
+            maxWithTrie = maxXor.FindAnyWithTrie(values);
+            Console.WriteLine($"The max xor of {string.Join(",", values)} is {max} and {maxWithTrie}");
+        }
+
+        private int[] GetNums(int len)
+        {
+            Random random = new Random();
+            int[] nums = new int[len];
+            for (int i = 0; i < len; i++)
+            {
+                nums[i] = random.Next(1,20);
+            }
+            return nums;
         }
 
         private void RunTwo(MaxXor maxXor)
