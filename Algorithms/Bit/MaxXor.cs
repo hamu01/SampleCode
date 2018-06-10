@@ -52,6 +52,21 @@ namespace Bit
             values = new int[] { 9, 7, 4, 3 };
             max = maxXor.FindAny(values);
             Console.WriteLine($"The max xor of {string.Join(",", values)} is {max}");
+
+            values = GetNums(5);
+            max = maxXor.FindAny(values);
+            Console.WriteLine($"The max xor of {string.Join(",", values)} is {max}");
+        }
+
+        private int[] GetNums(int len)
+        {
+            Random random = new Random();
+            int[] nums = new int[len];
+            for (int i = 0; i < len; i++)
+            {
+                nums[i] = random.Next(1,20);
+            }
+            return nums;
         }
 
         private void RunTwo(MaxXor maxXor)

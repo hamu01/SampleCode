@@ -8,9 +8,9 @@ namespace Bit
         public void Run()
         {
             SingleNumber singleNumber = new SingleNumber();
-            Run1In2(singleNumber);
+            // Run1In2(singleNumber);
             Run1InN(singleNumber);
-            Run2In2(singleNumber);
+            // Run2In2(singleNumber);
         }
 
         private void Run1In2(SingleNumber singleNumber)
@@ -44,6 +44,12 @@ namespace Bit
             s = string.Join(",", numbers);
             single = singleNumber.Find1In3WithXor(numbers);
             Console.WriteLine($"Xor: Single 1 in {n} of {s} is {single}");
+
+            n = 3;
+            numbers = GetNumbers(1, n, 3);
+            s = string.Join(",", numbers);
+            single = singleNumber.Find1InNWithXor(numbers, n);
+            Console.WriteLine($"XOR: Single 1 in {n} of {s} is {single}");
         }
 
         private void Run2In2(SingleNumber singleNumber)
@@ -56,15 +62,14 @@ namespace Bit
             Console.WriteLine($"XOR: Single 2 in 2 of {numbersString} is {singlesString}");
         }
 
-        private int[] GetNumbers(int m, int n, int c)
+        private int[] GetNumbers(int singleCount, int nonSingleCount, int count)
         {
-            // int len = m + c * n;
             Random random = new Random();
             List<int> numbers = new List<int>();
-            for (int i = 0; i < c; i++)
+            for (int i = 0; i < count; i++)
             {
                 int item = random.Next(1, 100);
-                for (int j = 0; j < n; j++)
+                for (int j = 0; j < nonSingleCount; j++)
                 {
                     if (numbers.Count > 0)
                     {
@@ -78,11 +83,11 @@ namespace Bit
                 }
             }
 
-            for (int i = 0; i < m; i++)
+            for (int i = 0; i < singleCount; i++)
             {
-                int item = random.Next(1, 100);
                 int index = random.Next(0, numbers.Count - 1);
-                numbers.Insert(index, item);
+                int single = random.Next(1, 100);
+                numbers.Insert(index, single);
             }
 
             return numbers.ToArray();
@@ -161,6 +166,56 @@ namespace Bit
             return single;
         }
 
+        public int Find1InNWithXor(int[] numbers, int k)
+        {
+            int m = (int)Math.Log(k, 2);
+            bool needMask = false;
+            if (Math.Pow(m, 2) < k)
+            {
+                needMask = true;
+                m++;
+            }
+            int[] counters = new int[m];
+            foreach (int num in numbers)
+            {
+                for (int i = m - 1; i >= 0; i--)
+                {
+                    int andVal = num;
+                    for (int j = i - 1; j >= 0; j--)
+                    {
+                        andVal &= counters[j];
+                    }
+                    counters[i] ^= andVal;
+                }
+                if (needMask)
+                {
+                    int mask = ~0;
+                    for (int i = 0; i < m; i++)
+                    {
+                        if (((k >> i) & 1) == 1)
+                        {
+                            mask &= counters[i];
+                        }
+                        else
+                        {
+                            mask &= ~counters[i];
+                        }
+                    }
+                    mask = ~mask;
+                    for (int i = 0; i < m; i++)
+                    {
+                        counters[i] &= mask;
+                    }
+                }
+            }
+            int single = 0;
+            for (int i = 0; i < m; i++)
+            {
+                single |= counters[i];
+            }
+            return single;
+        }
+
         public int[] Find2In2WithXor(int[] numbers)
         {
             int xor = 0;
@@ -182,11 +237,6 @@ namespace Bit
         }
 
         public int Find2In3(int[] numbers)
-        {
-            throw new NotImplementedException();
-        }
-
-        public int FindMInN(int[] numbers, int m, int n)
         {
             throw new NotImplementedException();
         }
