@@ -8,57 +8,80 @@ namespace Bit
         public void Run()
         {
             MaxXor maxXor = new MaxXor();
-            // RunTwo(maxXor);
-            RunAny(maxXor);
+            RunTwo(maxXor);
+            // RunAny(maxXor);
+        }
+
+        private void RunAnyOfArray(MaxXor maxXor)
+        {
+            int[] values;
+            int maxWithTrie;
+            values = new int[] { 1, 2, 3, 4 };
+            maxWithTrie = maxXor.FindAnyOfArrayWithTrie(values);
+            Console.WriteLine($"The max xor of {string.Join(",", values)} is {maxWithTrie}(trie)");
+
+            values = new int[] { 8, 1, 2, 12, 7, 6 };
+            maxWithTrie = maxXor.FindAnyOfArrayWithTrie(values);
+            Console.WriteLine($"The max xor of {string.Join(",", values)} is {maxWithTrie}(trie)");
+
+            values = new int[] { 4, 6 };
+            maxWithTrie = maxXor.FindAnyOfArrayWithTrie(values);
+            Console.WriteLine($"The max xor of {string.Join(",", values)} is {maxWithTrie}(trie)");
+
+            values = new int[] { 9, 7, 4, 3 };
+            maxWithTrie = maxXor.FindAnyOfArrayWithTrie(values);
+            Console.WriteLine($"The max xor of {string.Join(",", values)} is {maxWithTrie}(trie)");
         }
 
         private void RunAny(MaxXor maxXor)
         {
             int[] values;
-            int max, maxWithTrie;
+            int max;
             values = new int[] { 1, 2, 3, 4 };
             max = maxXor.FindAny(values);
-            maxWithTrie = maxXor.FindAnyWithTrie(values);
-            Console.WriteLine($"The max xor of {string.Join(",", values)} is {max} and {maxWithTrie}");
+            Console.WriteLine($"The max xor of {string.Join(",", values)} is {max}");
 
             values = new int[] { 8, 1, 2, 12, 7, 6 };
             max = maxXor.FindAny(values);
-            maxWithTrie = maxXor.FindAnyWithTrie(values);
-            Console.WriteLine($"The max xor of {string.Join(",", values)} is {max} and {maxWithTrie}");
+            Console.WriteLine($"The max xor of {string.Join(",", values)} is {max}");
 
             values = new int[] { 4, 6 };
             max = maxXor.FindAny(values);
-            maxWithTrie = maxXor.FindAnyWithTrie(values);
-            Console.WriteLine($"The max xor of {string.Join(",", values)} is {max} and {maxWithTrie}");
+            Console.WriteLine($"The max xor of {string.Join(",", values)} is {max}");
+
+            values = new int[] { 9, 7, 4, 3 };
+            max = maxXor.FindAny(values);
+            Console.WriteLine($"The max xor of {string.Join(",", values)} is {max}");
         }
 
         private void RunTwo(MaxXor maxXor)
         {
             int[] values;
-            int max;
+            int max, maxWithTrie;
             values = new int[] { 3, 10, 5, 25, 2, 8 };
             max = maxXor.FindTwo(values);
-            Console.WriteLine($"The max xor of {string.Join(",", values)} is {max}");
+            maxWithTrie = maxXor.FindTwoWithTrie(values);
+            Console.WriteLine($"The max xor of {string.Join(",", values)} is {max} and {maxWithTrie}(trie)");
 
             values = new int[] { 3, 10, 5, 25 };
-            // max = maxXor.FindTwo(values);
-            max = maxXor.FindTwoWithTrie(values);
-            Console.WriteLine($"The max xor of {string.Join(",", values)} is {max}");
+            max = maxXor.FindTwo(values);
+            maxWithTrie = maxXor.FindTwoWithTrie(values);
+            Console.WriteLine($"The max xor of {string.Join(",", values)} is {max} and {maxWithTrie}(trie)");
 
             values = new int[] { 3, 10, 5 + 16, 25 };
-            // max = maxXor.FindTwo(values);
-            max = maxXor.FindTwoWithTrie(values);
-            Console.WriteLine($"The max xor of {string.Join(",", values)} is {max}");
+            max = maxXor.FindTwo(values);
+            maxWithTrie = maxXor.FindTwoWithTrie(values);
+            Console.WriteLine($"The max xor of {string.Join(",", values)} is {max} and {maxWithTrie}(trie)");
 
             values = new int[] { 16 + 3, 16 + 10, 16 + 5, 25 };
-            // max = maxXor.FindTwo(values);
-            max = maxXor.FindTwoWithTrie(values);
-            Console.WriteLine($"The max xor of {string.Join(",", values)} is {max}");
+            max = maxXor.FindTwo(values);
+            maxWithTrie = maxXor.FindTwoWithTrie(values);
+            Console.WriteLine($"The max xor of {string.Join(",", values)} is {max} and {maxWithTrie}(trie)");
 
             values = new int[] { 10, 2, 8 };
-            // max = maxXor.FindTwo(values);
-            max = maxXor.FindTwoWithTrie(values);
-            Console.WriteLine($"The max xor of {string.Join(",", values)} is {max}");
+            max = maxXor.FindTwo(values);
+            maxWithTrie = maxXor.FindTwoWithTrie(values);
+            Console.WriteLine($"The max xor of {string.Join(",", values)} is {max} and {maxWithTrie}(trie)");
         }
     }
 
@@ -66,7 +89,7 @@ namespace Bit
     {
         public int FindTwo(int[] nums)
         {
-            int max = 0, mask = 0;
+            int maxXor = 0, mask = 0;
             for (int i = 31; i >= 0; i--)
             {
                 mask = mask | (1 << i);
@@ -75,16 +98,16 @@ namespace Bit
                 {
                     set.Add(num & mask);
                 }
-                int temp = max | (1 << i);
+                int nextMaxXor = maxXor | (1 << i);
                 foreach (var prefix in set)
                 {
-                    if (set.Contains(prefix ^ temp))
+                    if (set.Contains(prefix ^ nextMaxXor))
                     {
-                        max = temp;
+                        maxXor = nextMaxXor;
                     }
                 }
             }
-            return max;
+            return maxXor;
         }
 
         public int FindTwoWithTrie(int[] nums)
@@ -121,7 +144,8 @@ namespace Bit
                         n = n.Next[bit];
                     }
                 }
-                if (n.Val > max) max = n.Val;
+                int xor = num ^ n.Val;
+                if (xor > max) max = xor;
             }
             return max;
         }
@@ -156,7 +180,7 @@ namespace Bit
             return max;
         }
 
-        public int FindAnyWithTrie(int[] nums)
+        public int FindAnyOfArrayWithTrie(int[] nums)
         {
             Node root = new Node();
             int maxXor = 0, preXor = 0;
