@@ -357,17 +357,17 @@ namespace Bit
             }
             return string.Join("", stack);
         }
-    }
 
-    public class Node
-    {
-        public Node(short v)
+        private class Node
         {
-            V = v;
+            public Node(short v)
+            {
+                V = v;
+            }
+
+            public short V { get; set; }
+
+            public Node Next { get; set; }
         }
-
-        public short V { get; set; }
-
-        public Node Next { get; set; }
     }
 }

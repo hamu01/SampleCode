@@ -29,6 +29,9 @@ namespace Bit
 
             MaxXorSample maxXor = new MaxXorSample();
             maxXor.Run();
+
+            MaxXorUseTrieSample maxXorUseTrie = new MaxXorUseTrieSample();
+            maxXorUseTrie.Run();
         }
     }
 }
