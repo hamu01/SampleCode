@@ -27,11 +27,17 @@ namespace Bit
             // PrimeSample prime = new PrimeSample();
             // prime.Run();
 
-            MaxXorSample maxXor = new MaxXorSample();
-            maxXor.Run();
+            // MaxXorSample maxXor = new MaxXorSample();
+            // maxXor.Run();
 
             MaxXorUseTrieSample maxXorUseTrie = new MaxXorUseTrieSample();
             maxXorUseTrie.Run();
+
+            // MinXorUseTrieSample minXorUseTrie = new MinXorUseTrieSample();
+            // minXorUseTrie.Run();
+
+            // MinXorSample minXor = new MinXorSample();
+            // minXor.Run();
         }
     }
 }

@@ -186,14 +186,92 @@ namespace Bit
         }
     }
 
+    public class MinXorSample
+    {
+        public void Run()
+        {
+            Console.WriteLine("Xor =====================");
+            MinXor minXor = new MinXor();
+            RunTwo(minXor);
+        }
+
+        private void RunTwo(MinXor minXor)
+        {
+            Console.WriteLine("Elements of Two =====================");
+            int[] values;
+            int min;
+            values = new int[] { 3, 10, 5, 25, 2, 8 };
+            min = minXor.FindTwo(values);
+            Console.WriteLine($"The min xor of {string.Join(",", values)} is {min}");
+
+            values = new int[] { 3, 10, 5, 25 };
+            min = minXor.FindTwo(values);
+            Console.WriteLine($"The min xor of {string.Join(",", values)} is {min}");
+
+            values = new int[] { 3, 10, 5 + 16, 25 };
+            min = minXor.FindTwo(values);
+            Console.WriteLine($"The min xor of {string.Join(",", values)} is {min}");
+
+            values = new int[] { 16 + 3, 16 + 10, 16 + 5, 25 };
+            min = minXor.FindTwo(values);
+            Console.WriteLine($"The min xor of {string.Join(",", values)} is {min}");
+
+            values = new int[] { 10, 2, 8 };
+            min = minXor.FindTwo(values);
+            Console.WriteLine($"The min xor of {string.Join(",", values)} is {min}");
+        }
+    }
+
+    public class MinXor
+    {
+        public int FindTwo(int[] nums)
+        {
+            int minXor = 0, mask = 0;
+            int count = 31;
+            for (int i = count; i >= 0; i--)
+            {
+                mask = mask | (1 << i);
+                Dictionary<int, int> dic = new Dictionary<int, int>();
+                foreach (var num in nums)
+                {
+                    if (!dic.ContainsKey(num & mask))
+                    {
+                        dic[num & mask] = 0;
+                    }
+                    dic[num & mask]++;
+                }
+                bool exists = false;
+                foreach (var pair in dic)
+                {
+                    if (minXor == 0 && pair.Value > 1)
+                    {
+                        exists = true;
+                        break;
+                    }
+                    else if (minXor != 0 && dic.ContainsKey(minXor ^ pair.Key))
+                    {
+                        exists = true;
+                        break;
+                    }
+                }
+                if (!exists)
+                {
+                    minXor = minXor | (1 << i);
+                }
+            }
+            return minXor;
+        }
+    }
+
     public class MaxXorUseTrieSample
     {
         public void Run()
         {
             Console.WriteLine("Trie =====================");
             MaxXorUseTrie maxXor = new MaxXorUseTrie();
-            RunTwo(maxXor);
-            RunAnyOfArray(maxXor);
+            // RunTwo(maxXor);
+            // RunAnyOfArray(maxXor);
+            RunLessThanCountOfArray(maxXor);
         }
 
         private void RunAnyOfArray(MaxXorUseTrie maxXor)
@@ -216,6 +294,27 @@ namespace Bit
             values = new int[] { 9, 7, 4, 3 };
             maxWithTrie = maxXor.FindAnyOfArray(values);
             Console.WriteLine($"The max xor of {string.Join(",", values)} is {maxWithTrie}");
+        }
+
+        private void RunLessThanCountOfArray(MaxXorUseTrie maxXor)
+        {
+            Console.WriteLine("LessThanCount Elements of Array =====================");
+            int[] values;
+            int count, k;
+            values = new int[] { 1, 2, 3, 4 };
+            k = 7;
+            count = maxXor.FindLessThanCountOfArray(values, k);
+            Console.WriteLine($"The xor's count less than {k} of {string.Join(",", values)} is {count}");
+
+            values = new int[] { 8, 1, 2, 12, 7, 6 };
+            k = 10;
+            count = maxXor.FindLessThanCountOfArray(values, k);
+            Console.WriteLine($"The xor's count less than {k} of {string.Join(",", values)} is {count}");
+
+            values = new int[] { 9, 7, 4, 3 };
+            k = 6;
+            count = maxXor.FindLessThanCountOfArray(values, k);
+            Console.WriteLine($"The xor's count less than {k} of {string.Join(",", values)} is {count}");
         }
 
         private void RunTwo(MaxXorUseTrie maxXor)
@@ -287,9 +386,42 @@ namespace Bit
             return max;
         }
 
-        public int FindLessThanOfArray(int[] nums, int k)
+        public int FindLessThanCountOfArray(int[] nums, int k)
         {
-            throw new NotImplementedException();
+            //TODO
+            int count = 0;
+            TrieNode root = new TrieNode();
+            Insert(root, 0);
+            int xor = 0;
+            for (int i = 0; i < nums.Length; i++)
+            {
+                xor ^= nums[i];
+                Insert(root, xor);  
+                Queue<TrieNode> queue = new Queue<TrieNode>();
+                queue.Enqueue(root);
+                while (queue.Count > 0)
+                {
+                    TrieNode n = queue.Dequeue();
+                    if (n.Val != -1)
+                    {
+                        if ((xor ^ n.Val) < k)
+                        {
+                            count++;
+                        }
+                    }
+                    else
+                    {
+                        foreach (var next in n.Next)
+                        {
+                            if (next != null)
+                            {
+                                queue.Enqueue(next);
+                            }
+                        }
+                    }
+                }              
+            }
+            return count;
         }
 
         public int FindAnyOfArray(int[] nums)
@@ -343,9 +475,122 @@ namespace Bit
         }
     }
 
+    public class MinXorUseTrieSample
+    {
+        public void Run()
+        {
+            Console.WriteLine("Trie =====================");
+            MinXorUseTrie minXor = new MinXorUseTrie();
+            RunTwo(minXor);
+            // RunAnyOfArray(minXor);
+        }
+
+        private void RunAnyOfArray(MinXorUseTrie minXor)
+        {
+            // Console.WriteLine("Elements of Array =====================");
+            // int[] values;
+            // int maxWithTrie;
+            // values = new int[] { 1, 2, 3, 4 };
+            // maxWithTrie = minXor.FindAnyOfArray(values);
+            // Console.WriteLine($"The max xor of {string.Join(",", values)} is {maxWithTrie}");
+
+            // values = new int[] { 8, 1, 2, 12, 7, 6 };
+            // maxWithTrie = minXor.FindAnyOfArray(values);
+            // Console.WriteLine($"The max xor of {string.Join(",", values)} is {maxWithTrie}");
+
+            // values = new int[] { 4, 6 };
+            // maxWithTrie = minXor.FindAnyOfArray(values);
+            // Console.WriteLine($"The max xor of {string.Join(",", values)} is {maxWithTrie}");
+
+            // values = new int[] { 9, 7, 4, 3 };
+            // maxWithTrie = minXor.FindAnyOfArray(values);
+            // Console.WriteLine($"The max xor of {string.Join(",", values)} is {maxWithTrie}");
+        }
+
+        private void RunTwo(MinXorUseTrie minXor)
+        {
+            Console.WriteLine("Elements of Two =====================");
+            int[] values;
+            int min;
+            values = new int[] { 3, 10, 5, 25, 2, 8 };
+            min = minXor.FindTwo(values);
+            Console.WriteLine($"The min xor of {string.Join(",", values)} is {min}");
+
+            values = new int[] { 3, 10, 5, 25 };
+            min = minXor.FindTwo(values);
+            Console.WriteLine($"The min xor of {string.Join(",", values)} is {min}");
+
+            values = new int[] { 3, 10, 5 + 16, 25 };
+            min = minXor.FindTwo(values);
+            Console.WriteLine($"The min xor of {string.Join(",", values)} is {min}");
+
+            values = new int[] { 16 + 3, 16 + 10, 16 + 5, 25 };
+            min = minXor.FindTwo(values);
+            Console.WriteLine($"The min xor of {string.Join(",", values)} is {min}");
+
+            values = new int[] { 10, 2, 8 };
+            min = minXor.FindTwo(values);
+            Console.WriteLine($"The min xor of {string.Join(",", values)} is {min}");
+        }
+    }
+
+    public class MinXorUseTrie
+    {
+        public int FindTwo(int[] nums)
+        {
+            TrieNode root = new TrieNode();
+            int count = 4;
+            foreach (int num in nums)
+            {
+                TrieNode n = root;
+                for (int i = count; i >= 0; i--)
+                {
+                    int bit = (num >> i) & 1;
+                    if (n.Next[bit] == null)
+                    {
+                        n.Next[bit] = new TrieNode();
+                    }
+                    n = n.Next[bit];
+                }
+                n.Val = num;
+            }
+            int minXor = int.MaxValue;
+            foreach (int num in nums)
+            {
+                TrieNode n = root;
+                TrieNode other = null;
+                int otherBit = -1;
+                for (int i = count; i >= 0; i--)
+                {
+                    int bit = (num >> i) & 1;
+                    if (n.Next[1 ^ bit] != null)
+                    {
+                        other = n.Next[1 ^ bit];
+                        otherBit = i;
+                    }
+                    n = n.Next[bit];
+                }
+                for (int i = otherBit - 1; i >= 0; i--)
+                {
+                    int bit = (num >> i) & 1;
+                    if (other.Next[bit] != null)
+                    {
+                        other = other.Next[bit];
+                    }
+                    else
+                    {
+                        other = other.Next[1 ^ bit];
+                    }
+                }
+                minXor = Math.Min(minXor, num ^ other.Val);
+            }
+            return minXor;
+        }
+    }
+
     public class TrieNode
     {
-        public int Val;
+        public int Val = -1;
 
         public TrieNode[] Next = new TrieNode[2];
     }
