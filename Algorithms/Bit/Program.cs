@@ -30,14 +30,17 @@ namespace Bit
             // MaxXorSample maxXor = new MaxXorSample();
             // maxXor.Run();
 
-            MaxXorUseTrieSample maxXorUseTrie = new MaxXorUseTrieSample();
-            maxXorUseTrie.Run();
+            // MaxXorUseTrieSample maxXorUseTrie = new MaxXorUseTrieSample();
+            // maxXorUseTrie.Run();
 
             // MinXorUseTrieSample minXorUseTrie = new MinXorUseTrieSample();
             // minXorUseTrie.Run();
 
             // MinXorSample minXor = new MinXorSample();
             // minXor.Run();
+
+            XorSample xor = new XorSample();
+            xor.Run();
         }
     }
 }

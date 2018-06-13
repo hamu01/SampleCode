@@ -231,28 +231,21 @@ namespace Bit
             for (int i = count; i >= 0; i--)
             {
                 mask = mask | (1 << i);
-                Dictionary<int, int> dic = new Dictionary<int, int>();
-                foreach (var num in nums)
+                int[] prefixes = new int[nums.Length];
+                for (int j = 0; j < nums.Length; j++)
                 {
-                    if (!dic.ContainsKey(num & mask))
-                    {
-                        dic[num & mask] = 0;
-                    }
-                    dic[num & mask]++;
+                    prefixes[j] = mask & nums[j];
                 }
                 bool exists = false;
-                foreach (var pair in dic)
+                HashSet<int> set = new HashSet<int>();
+                foreach (var prefix in prefixes)
                 {
-                    if (minXor == 0 && pair.Value > 1)
+                    if (set.Contains(prefix ^ minXor))
                     {
                         exists = true;
                         break;
                     }
-                    else if (minXor != 0 && dic.ContainsKey(minXor ^ pair.Key))
-                    {
-                        exists = true;
-                        break;
-                    }
+                    set.Add(prefix);
                 }
                 if (!exists)
                 {
@@ -396,7 +389,7 @@ namespace Bit
             for (int i = 0; i < nums.Length; i++)
             {
                 xor ^= nums[i];
-                Insert(root, xor);  
+                Insert(root, xor);
                 Queue<TrieNode> queue = new Queue<TrieNode>();
                 queue.Enqueue(root);
                 while (queue.Count > 0)
@@ -419,7 +412,7 @@ namespace Bit
                             }
                         }
                     }
-                }              
+                }
             }
             return count;
         }
