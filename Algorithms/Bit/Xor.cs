@@ -8,16 +8,17 @@ namespace Bit
         public void Run()
         {
             Xor xor = new Xor();
+            RunTest(xor, new int[] { 3, 4, 5, 2, 4 }, 7, 2);
+            RunTest(xor, new int[] { 1, 1, 1, 1 }, 0, 2);
+            RunTest(xor, new int[] { 1, 2, 4, 3, 4, 0 }, 7, 3);
+            RunTest(xor, new int[] { 1, 1, 1, 1 }, 1, 3);
             int[] nums;
             int k;
             nums = GetNums(5);
-            k = 7;
-            // RunTest(xor, nums, k, 2);
-            // RunTest(xor, nums, nums[0] ^ nums[1], 2);
-            // RunTest(xor, nums, 0, 2);
-            // RunTest(xor, nums, nums[0] ^ nums[1] ^ nums[2], 3);
-            nums = new int[] { 1, 1, 1, 1 };
-            RunTest(xor, nums, 1, 3);
+            k = 1;
+            RunTest(xor, nums, k, 2);
+            k = nums[0] ^ nums[1] ^ nums[2];
+            RunTest(xor, nums, k, 3);
         }
 
         private void RunTest(Xor xor, int[] nums, int k, int m)
@@ -27,12 +28,14 @@ namespace Bit
             int count = 0;
             if (m == 2)
             {
-                results = xor.EqualOfTwo(nums, k);
+                results = xor.Equal2(nums, k);
+                count = xor.CountEqual2(nums, k);
+                // count = xor.CountEqual2_Worst(nums, k);
             }
             else if (m == 3)
             {
-                results = xor.EqualOfThree(nums, k);
-                count = xor.EqualCountOfThree(nums, k);
+                results = xor.Equal3(nums, k);
+                count = xor.CountEqual3(nums, k);
             }
             if (results != null)
             {
@@ -59,7 +62,7 @@ namespace Bit
 
     public class Xor
     {
-        public int[] EqualOfTwo(int[] nums, int k)
+        public int[] Equal2(int[] nums, int k)
         {
             HashSet<int> set = new HashSet<int>();
             foreach (int num in nums)
@@ -73,7 +76,45 @@ namespace Bit
             return null;
         }
 
-        public int[] EqualOfThree(int[] nums, int k)
+        public int CountEqual2_Worst(int[] nums, int k)
+        {
+            int count = 0;
+            for (int i = 0; i < nums.Length; i++)
+            {
+                for (int j = i + 1; j < nums.Length; j++)
+                {
+                    if ((nums[i] ^ nums[j]) == k)
+                    {
+                        count++;
+                    }
+                }
+            }
+            return count;
+        }
+
+        public int CountEqual2(int[] nums, int k)
+        {
+            int count = 0;
+            Dictionary<int, int> dic = new Dictionary<int, int>();
+            foreach (int num in nums)
+            {
+                if (dic.ContainsKey(num ^ k))
+                {
+                    count += dic[num ^ k];
+                }
+                if (dic.ContainsKey(num))
+                {
+                    dic[num]++;
+                }
+                else
+                {
+                    dic[num] = 1;
+                }
+            }
+            return count;
+        }
+
+        public int[] Equal3(int[] nums, int k)
         {
             HashSet<int> set = new HashSet<int>();
             for (int i = 0; i < nums.Length; i++)
@@ -92,7 +133,7 @@ namespace Bit
             return null;
         }
 
-        public int EqualCountOfThree(int[] nums, int k)
+        public int CountEqual3(int[] nums, int k)
         {
             int count = 0;
             HashSet<int> set = new HashSet<int>();
@@ -112,7 +153,7 @@ namespace Bit
             return count;
         }
 
-        public int[] EqualOfM(int[] nums, int k, int m)
+        public int[] EqualM(int[] nums, int k, int m)
         {
             throw new NotImplementedException();
         }
