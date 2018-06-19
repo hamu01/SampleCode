@@ -15,7 +15,7 @@ namespace Dp
             // LISSample lis = new LISSample();
             // lis.Run();
 
-            MCSSample mcs = new MCSSample();
+            MCOSample mcs = new MCOSample();
             mcs.Run();
         }
     }
