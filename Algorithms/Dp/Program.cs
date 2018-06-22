@@ -18,14 +18,14 @@ namespace Dp
             // MCOSample mcs = new MCOSample();
             // mcs.Run();
 
-            // CoinExchangeSample exchange = new CoinExchangeSample();
-            // exchange.Run();
+            CoinExchangeSample exchange = new CoinExchangeSample();
+            exchange.Run();
 
             // EditDistanceSample editDistance = new EditDistanceSample();
             // editDistance.Test();
 
-            BalancePartitionSample partition = new BalancePartitionSample();
-            partition.Test();
+            // BalancePartitionSample partition = new BalancePartitionSample();
+            // partition.Test();
         }
     }
 }

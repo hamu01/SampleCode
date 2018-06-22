@@ -15,6 +15,8 @@ namespace Dp
             coins = new int[] { 9, 3, 8, 6, 5 };
             Test(exchange, coins, 10);
 
+            Test(exchange, new int[] { 2 }, 3);
+
             for (int i = 0; i < 10; i++)
             {
                 coins = GetNums(5);
@@ -26,8 +28,8 @@ namespace Dp
         private void Test(CoinExchange exchange, int[] coins, int money)
         {
             int num = exchange.Exchange(coins, money);
-            // num = exchange.ExchangeWithRecur(coins, money);
-            Console.WriteLine($"coins of ({string.Join(",", coins)}), money of ({money}), the num is {num}");
+            int numWithRecur = exchange.ExchangeWithRecur(coins, money);
+            Console.WriteLine($"coins of ({string.Join(",", coins)}), money of ({money}), the num is {num} and {numWithRecur}(Recur)");
         }
 
         private int[] GetNums(int n)
@@ -68,19 +70,15 @@ namespace Dp
             int[] matrix = new int[money + 1];
             for (int i = 1; i <= money; i++)
             {
-                int min = int.MaxValue;
+                int min = -2;
                 for (int j = 0; j < coins.Length; j++)
                 {
                     int num;
                     if (i >= coins[j])
                     {
                         num = matrix[i - coins[j]];
+                        min = Math.Min(min, num);
                     }
-                    else
-                    {
-                        num = 0;
-                    }
-                    min = Math.Min(min, num);
                 }
                 matrix[i] = min + 1;
             }
