@@ -1,46 +1,41 @@
 using System;
 using System.Collections.Generic;
+using System.Threading;
 
 namespace Dp
 {
     public class MCOSample
     {
-        public void Run()
+        public void Test()
         {
             MCO mco = new MCO();
             int[] matrix;
-            int min, minWithRecur;
             matrix = new int[] { 10, 30, 5, 60 };
-            min = mco.MatrixChainOrder(matrix);
-            Console.WriteLine($"The min matrix product of {string.Join(",", matrix)} is {min}");
+            Test(mco, matrix);
             matrix = new int[] { 4, 2, 3, 1, 3, 5, 6 };
-            min = mco.MatrixChainOrder(matrix);
-            Console.WriteLine($"The min matrix product of {string.Join(",", matrix)} is {min}");
+            Test(mco, matrix);
             //expect answer is 93
             matrix = new int[] { 1, 3, 9, 7, 1 };
-            min = mco.MatrixChainOrder(matrix);
-            Console.WriteLine($"The min matrix product of {string.Join(",", matrix)} is {min}");
-            for (int i = 0; i < 1000; i++)
+            Test(mco, matrix);
+            for (int i = 0; i < 5; i++)
             {
-                matrix = GetNumbers(5);
-                min = mco.MatrixChainOrder(matrix);
-                minWithRecur = mco.MatrixChainOrderWithRecur(matrix);
-                if (min != minWithRecur)
-                {
-                    Console.WriteLine($"The min matrix product of {string.Join(",", matrix)} is {min} and {minWithRecur}");
-                    break;
-                }
+                Random random = new Random(i);
+                matrix = GetNumbers(random, 5);
+                Test(mco, matrix);
+                // Thread.Sleep(100);
             }
         }
 
-        private int[] GetNumbers(int n)
+        private void Test(MCO mco, int[] matrix)
         {
-            Random random = new Random();
+            int min = mco.MatrixChainOrder(matrix);
+            int minWithRecur = mco.MatrixChainOrderWithRecur(matrix);
+            Console.WriteLine($"The min matrix product of {string.Join(",", matrix)} is {min} and {minWithRecur}(Recur)");
+        }
+
+        private int[] GetNumbers(Random random, int n)
+        {
             int[] numbers = new int[n];
-            // for (int i = 0; i < n; i++)
-            // {
-            //     numbers[i] = random.Next(1, 10);
-            // }
             HashSet<int> set = new HashSet<int>();
             while (set.Count < n)
             {
@@ -165,6 +160,7 @@ namespace Dp
 
         public int MatrixChainOrder(int[] matrix)
         {
+            int[] newNums = new int[10];
             if (matrix.Length < 3) return -1;
             List<int> minList = new List<int>();
             minList.Add(0);

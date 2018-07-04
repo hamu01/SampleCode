@@ -21,7 +21,8 @@ namespace Dp
 
             for (int i = 0; i < 10; i++)
             {
-                coins = GetNums(5);
+                Random random = new Random(i);
+                coins = GetNums(random, 5);
                 int money = 10;
                 Test(exchange, coins, money);
             }
@@ -35,9 +36,8 @@ namespace Dp
             Console.WriteLine($"coins of ({string.Join(",", coins)}), money of {money}, the num is {num}, {numWithOpt}(Opt) and {numWithRecur}(Recur)");
         }
 
-        private int[] GetNums(int n)
+        private int[] GetNums(Random random, int n)
         {
-            Random random = new Random();
             HashSet<int> set = new HashSet<int>();
             while (set.Count < n)
             {
