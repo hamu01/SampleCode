@@ -16,6 +16,10 @@ namespace Bit
             Console.WriteLine(c);
             c = count.Count1WithBitAdd(18);
             Console.WriteLine(c);
+            c = count.Count1(10);
+            Console.WriteLine(c);
+            c = count.Count1(18);
+            Console.WriteLine(c);
 
             PerfRun(count);
         }
@@ -41,14 +45,22 @@ namespace Bit
             {
                 count.Count1WithBitwiseAnd(18);
             }
-            Console.WriteLine("Bit And: " + watch.Elapsed);
+            Console.WriteLine("Bitwise &: " + watch.Elapsed);
+
+            uint n = (uint)(Math.Pow(2, 31) - 1);
+            watch = Stopwatch.StartNew();
+            for (int i = 0; i < 1000 * 1000 * 100; i++)
+            {
+                count.Count1WithBitwiseAnd(n);
+            }
+            Console.WriteLine("Bitwise &: " + watch.Elapsed);
 
             watch = Stopwatch.StartNew();
             for (int i = 0; i < 1000 * 1000 * 100; i++)
             {
-                count.Count1WithBitwiseAnd((uint)(Math.Pow(2,31) - 1));
+                count.Count1((uint)(18));
             }
-            Console.WriteLine("Bitwise &: " + watch.Elapsed);
+            Console.WriteLine("Simple: " + watch.Elapsed);
         }
     }
 
@@ -86,6 +98,28 @@ namespace Bit
                 count++;
             }
             return count;
+        }
+
+        public uint Count1(uint n)
+        {
+            uint ret = n;
+            while (n != 0)
+            {
+                n = n >> 1;
+                ret -= n;
+            }
+            return ret;
+        }
+
+        public uint Count1WithRecur(uint n)
+        {
+            return Count1WithRecur(n, n >> 1);
+        }
+
+        private uint Count1WithRecur(uint n, uint m)
+        {
+            if (m == 0) return n;
+            return Count1WithRecur(n - m, m >> 1);
         }
     }
 }
