@@ -50,6 +50,8 @@ namespace Bit
             s = string.Join(",", numbers);
             single = singleNumber.Find1InNWithXor(numbers, n);
             Console.WriteLine($"XOR: Single 1 in {n} of {s} is {single}");
+            single = singleNumber.Find1InNWithXorOfComplex(numbers, n);
+            Console.WriteLine($"XOR(Complex): Single 1 in {n} of {s} is {single}");
         }
 
         private void Run2In2(SingleNumber singleNumber)
@@ -120,11 +122,11 @@ namespace Bit
             int x1 = 0, x2 = 0;
             foreach (int num in numbers)
             {
-                x2 = x2 ^ (x1 & num);
-                x1 = x1 ^ num;
+                x2 ^= x1 & num;
+                x1 ^= num;
                 int mask = ~(x1 & x2);
-                x2 = x2 & mask;
-                x1 = x1 & mask;
+                x2 &= mask;
+                x1 &= mask;
             }
             return x1;
         }
@@ -169,12 +171,8 @@ namespace Bit
         public int Find1InNWithXor(int[] numbers, int k)
         {
             int m = (int)Math.Log(k, 2);
-            bool needMask = false;
-            if (Math.Pow(m, 2) < k)
-            {
-                needMask = true;
-                m++;
-            }
+            bool needMask = (k & (k - 1)) != 0;
+            if (needMask) m++;
             int[] counters = new int[m];
             foreach (int num in numbers)
             {
@@ -214,6 +212,31 @@ namespace Bit
                 single |= counters[i];
             }
             return single;
+        }
+
+        public int Find1InNWithXorOfComplex(int[] numbers, int k)
+        {
+            int[] counts = new int[32];
+            for (int i = 0; i < 32; i++)
+            {
+                foreach (int num in numbers)
+                {
+                    if (((num >> i) & 1) > 0)
+                    {
+                        counts[i]++;
+                        counts[i] %= k;
+                    }
+                }
+            }
+            int ret = 0;
+            for (int i = 0; i < 32; i++)
+            {
+                if (counts[i] > 0)
+                {
+                    ret |= (1 << i);
+                }
+            }
+            return ret;
         }
 
         public int[] Find2In2WithXor(int[] numbers)
