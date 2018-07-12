@@ -29,29 +29,33 @@ namespace Bit
         {
             int n = 4;
             int[] numbers = GetNumbers(1, n, 6);
-            string s = string.Join(",", numbers);
             int single = singleNumber.Find1InNWithBitCount(numbers, n);
-            Console.WriteLine($"BitCount: Single 1 in {n} of {s} is {single}");
+            Console.WriteLine($"BitCount: Single 1 in {n} of {string.Join(",", numbers)} is {single}");
 
             n = 5;
             numbers = GetNumbers(1, n, 6);
-            s = string.Join(",", numbers);
             single = singleNumber.Find1InNWithBitCount(numbers, n);
-            Console.WriteLine($"BitCount: Single 1 in {n} of {s} is {single}");
+            Console.WriteLine($"BitCount: Single 1 in {n} of {string.Join(",", numbers)} is {single}");
 
             n = 3;
             numbers = GetNumbers(1, n, 2);
-            s = string.Join(",", numbers);
             single = singleNumber.Find1In3WithXor(numbers);
-            Console.WriteLine($"Xor: Single 1 in {n} of {s} is {single}");
+            Console.WriteLine($"Xor: Single 1 in {n} of {string.Join(",", numbers)} is {single}");
 
             n = 3;
             numbers = GetNumbers(1, n, 3);
-            s = string.Join(",", numbers);
             single = singleNumber.Find1InNWithXor(numbers, n);
-            Console.WriteLine($"XOR: Single 1 in {n} of {s} is {single}");
+            Console.WriteLine($"XOR: Single 1 in {n} of {string.Join(",", numbers)} is {single}");
             single = singleNumber.Find1InNWithXorOfComplex(numbers, n);
-            Console.WriteLine($"XOR(Complex): Single 1 in {n} of {s} is {single}");
+            Console.WriteLine($"XOR(Complex): Single 1 in {n} of {string.Join(",", numbers)} is {single}");
+
+            numbers = new int[] { 7, 7, 7, 1 };
+            single = singleNumber.Find1In3WithXor1(numbers);
+            Console.WriteLine($"XOR1: Single 1 in 3 of {string.Join(",", numbers)} is {single}");
+
+            numbers = new int[] { 7, 7, 7, 7, 1 };
+            single = singleNumber.Find1In4WithXor1(numbers);
+            Console.WriteLine($"XOR1: Single 1 in 4 of {string.Join(",", numbers)} is {single}");
         }
 
         private void Run2In2(SingleNumber singleNumber)
@@ -140,6 +144,22 @@ namespace Bit
                 twos = (twos ^ num) & ~ones;
             }
             return ones;
+        }
+
+        public int Find1In4WithXor1(int[] numbers)
+        {
+            int x1 = 0, x2 = 0;
+            foreach (var num in numbers)
+            {
+                x1 = x1 ^ num;
+                x2 = x2 ^ num ^ x1;
+            }
+            return x1;
+        }
+
+        public int Find1InNWithXor1(int[] numbers)
+        {
+            throw new NotImplementedException();
         }
 
         public int Find1In3WithBitCount(int[] numbers)
