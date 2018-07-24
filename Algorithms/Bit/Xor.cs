@@ -28,14 +28,14 @@ namespace Bit
             int count = 0;
             if (m == 2)
             {
-                results = xor.Equal2(nums, k);
-                count = xor.CountEqual2(nums, k);
+                results = xor.EqualOf2(nums, k);
+                count = xor.CountEqualOf2(nums, k);
                 // count = xor.CountEqual2_Worst(nums, k);
             }
             else if (m == 3)
             {
-                results = xor.Equal3(nums, k);
-                count = xor.CountEqual3(nums, k);
+                results = xor.EqualOf3(nums, k);
+                count = xor.CountEqualOf3(nums, k);
             }
             if (results != null)
             {
@@ -62,7 +62,7 @@ namespace Bit
 
     public class Xor
     {
-        public int[] Equal2(int[] nums, int k)
+        public int[] EqualOf2(int[] nums, int k)
         {
             HashSet<int> set = new HashSet<int>();
             foreach (int num in nums)
@@ -76,7 +76,7 @@ namespace Bit
             return null;
         }
 
-        public int CountEqual2_Worst(int[] nums, int k)
+        public int CountEqualOf2_Worst(int[] nums, int k)
         {
             int count = 0;
             for (int i = 0; i < nums.Length; i++)
@@ -92,7 +92,7 @@ namespace Bit
             return count;
         }
 
-        public int CountEqual2(int[] nums, int k)
+        public int CountEqualOf2(int[] nums, int k)
         {
             int count = 0;
             Dictionary<int, int> dic = new Dictionary<int, int>();
@@ -114,7 +114,7 @@ namespace Bit
             return count;
         }
 
-        public int[] Equal3(int[] nums, int k)
+        public int[] EqualOf3(int[] nums, int k)
         {
             HashSet<int> set = new HashSet<int>();
             for (int i = 0; i < nums.Length; i++)
@@ -133,7 +133,7 @@ namespace Bit
             return null;
         }
 
-        public int CountEqual3(int[] nums, int k)
+        public int CountEqualOf3(int[] nums, int k)
         {
             int count = 0;
             HashSet<int> set = new HashSet<int>();
@@ -153,7 +153,7 @@ namespace Bit
             return count;
         }
 
-        public int[] EqualM(int[] nums, int k, int m)
+        public int[] EqualofM(int[] nums, int k, int m)
         {
             throw new NotImplementedException();
         }
