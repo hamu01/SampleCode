@@ -1,13 +1,12 @@
-﻿using System;
+using System;
 using System.Diagnostics;
 
-namespace Algo
+namespace DevideConquer
 {
-    class Program
+    public class MaxSubArray
     {
-        static void Main(string[] args)
+        public void Run()
         {
-            Program p = new Program();
             int[] A = new int[] { -2, 6, 10, -7, -14, 19, 15, -1 };
             // A = new int[] { -20, 15, -12, -9, 10, -5, -6, -13, -5, 8 };
             // A = p.Make(10);
@@ -18,33 +17,23 @@ namespace Algo
             // Console.WriteLine($"[{pair.Item1} - {pair.Item2}: {pair.Item3}]");
             // pair = p.FindMaxSubArray_Loop(A);
             // Console.WriteLine($"[{pair.Item1} - {pair.Item2}: {pair.Item3}]");
-            A = p.Make(1000);
-            p.FindMaxSubArray_Force(A);
-            p.FindMaxSubArray_Recur(A);
-            p.FindMaxSubArray_Loop(A);
-            // for (int i = 6; i <= 20; i++)
+            for (int i = 4; i <= 20; i++)
             {
-                // int n = i * 10;
-                int n = 80;
+                int n = i * 10;
+                // int n = 70;
                 Console.WriteLine($"{n} numbers");
-                A = p.Make(n);
-                p.Run(() => p.FindMaxSubArray_Force(A), "force");
-                p.Run(() => p.FindMaxSubArray_Recur(A), "recur");
-                p.Run(() => p.FindMaxSubArray_Recur1(A), "recur1");
-                p.Run(() => p.FindMaxSubArray_Loop(A), "loop");
-                // Stopwatch watch = Stopwatch.StartNew();
-                // p.FindMaxSubArray_Force(A);
-                // Console.WriteLine($"force: {watch.Elapsed}");
-                // watch = Stopwatch.StartNew();
-                // p.FindMaxSubArray_Recur(A);
-                // Console.WriteLine($"recur: {watch.Elapsed}");
-                // watch = Stopwatch.StartNew();
-                // p.FindMaxSubArray_Loop(A);
-                // Console.WriteLine($"loop: {watch.Elapsed}");
+                A = Make(n);
+                for (int j = 0; j < 5; j++)
+                {
+                    Time(() => FindMaxSubArray_Force(A), "force");
+                    Time(() => FindMaxSubArray_Recur(A), "recur");
+                    Time(() => FindMaxSubArray_Recur1(A), "recur1");
+                    Time(() => FindMaxSubArray_Loop(A), "loop");
+                }
             }
         }
 
-        private void Run(Action action, string msg)
+        private void Time(Action action, string msg)
         {
             TimeSpan elpased = new TimeSpan();
             for (int i = 0; i < 5; i++)
@@ -69,8 +58,8 @@ namespace Algo
 
         private Tuple<int, int, int> FindMaxSubArray_Loop(int[] A)
         {
-            int maxSum = int.MinValue, sum = 0;
-            int left = -1, right = -1, curLeft = 0;
+            int maxSum = int.MinValue, maxLeft = -1, maxRight = -1;
+            int sum = 0, curLeft = 0;
             for (int i = 0; i < A.Length; i++)
             {
                 sum += A[i];
@@ -82,11 +71,11 @@ namespace Algo
                 if (sum > maxSum)
                 {
                     maxSum = sum;
-                    left = curLeft;
-                    right = i;
+                    maxLeft = curLeft;
+                    maxRight = i;
                 }
             }
-            return new Tuple<int, int, int>(left, right, maxSum);
+            return new Tuple<int, int, int>(maxLeft, maxRight, maxSum);
         }
 
         private Tuple<int, int, int> FindMaxSubArray_Force(int[] A)
@@ -197,7 +186,7 @@ namespace Algo
 
         private Tuple<int, int, int> FindMaxSubArray_Recur1(int[] A, int lo, int hi)
         {
-            if (hi - lo <= 80)
+            if (hi - lo <= 70)
             {
                 return FindMaxSubArray_Force(A, lo, hi);
             }

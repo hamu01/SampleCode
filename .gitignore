@@ -11,6 +11,7 @@ packages/
 bower_components*/
 node_modules*/
 .vs/
+.vscode/
 aspnet5_nlog/
 project.lock.json
 applicationhost.config
