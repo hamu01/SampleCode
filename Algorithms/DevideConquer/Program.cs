@@ -6,8 +6,11 @@ namespace DevideConquer
     {
         static void Main(string[] args)
         {
-            MajorityElements majorityElements = new MajorityElements();
-            majorityElements.Run();
+            // Element majorityElement = new Element();
+            // majorityElement.Run();
+
+            Closest closest = new Closest();
+            closest.Run();
         }
     }
 }

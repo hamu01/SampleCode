@@ -2,19 +2,24 @@ using System;
 
 namespace DevideConquer
 {
-    public class MajorityElements
+    public class Element
     {
         public void Run()
         {
             int[] nums = new int[] { 3, 2, 3 };
-            int majority = Find(nums);
+            int majority = MajorityElement(nums);
             Console.WriteLine($"{string.Join(",", nums)}: {majority}");
+
             nums = new int[] { 2, 2, 1, 1, 1, 2, 2 };
-            majority = Find(nums);
+            majority = MajorityElement(nums);
+            Console.WriteLine($"{string.Join(",", nums)}: {majority}");
+
+            nums = new int[] { -1, 1, 1, 1, 1, 2 };
+            majority = MajorityElement(nums);
             Console.WriteLine($"{string.Join(",", nums)}: {majority}");
         }
 
-        public int Find(int[] nums)
+        public int MajorityElement(int[] nums)
         {
             Array.Sort(nums);
 
@@ -39,6 +44,10 @@ namespace DevideConquer
             {
                 return nums[n - 1];
             }
+            if (CheckSameOfMid(nums))
+            {
+                return nums[mid];
+            }
             return -1;
         }
 
@@ -54,6 +63,28 @@ namespace DevideConquer
                 return nums[lo] == nums[hi];
             }
             return false;
+        }
+
+        private bool CheckSameOfMid(int[] nums)
+        {
+            int mid = nums.Length / 2;
+            int i;
+            for (i = mid - 1; i >= 0; i--)
+            {
+                if (nums[i] != nums[mid])
+                {
+                    break;
+                }
+            }
+            int j;
+            for (j = mid + 1; j < nums.Length; j++)
+            {
+                if (nums[j] != nums[mid])
+                {
+                    break;
+                }
+            }
+            return j - i + 1 > nums.Length / 2;
         }
     }
 }
