@@ -9,8 +9,11 @@ namespace DevideConquer
             // Element majorityElement = new Element();
             // majorityElement.Run();
 
-            Closest closest = new Closest();
-            closest.Run();
+            // Closest closest = new Closest();
+            // closest.Run();
+
+            BeautyArray array = new BeautyArray();
+            array.Run();
         }
     }
 }
