@@ -12,8 +12,11 @@ namespace DevideConquer
             // Closest closest = new Closest();
             // closest.Run();
 
-            BeautyArray array = new BeautyArray();
-            array.Run();
+            // BeautyArray array = new BeautyArray();
+            // array.Run();
+
+            Parentheses parentheses = new Parentheses();
+            parentheses.Run();
         }
     }
 }
