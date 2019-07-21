@@ -6,8 +6,8 @@ namespace Dp
     {
         static void Main(string[] args)
         {
-            // KnapsackSample knapsack = new KnapsackSample();
-            // knapsack.Run();
+            KnapsackSample knapsack = new KnapsackSample();
+            knapsack.Run();
 
             // LCSSample lcs = new LCSSample();
             // lcs.Run();
@@ -24,8 +24,8 @@ namespace Dp
             // EditDistanceSample editDistance = new EditDistanceSample();
             // editDistance.Test();
 
-            BalancePartitionSample partition = new BalancePartitionSample();
-            partition.Test();
+            // BalancePartitionSample partition = new BalancePartitionSample();
+            // partition.Test();
         }
     }
 }

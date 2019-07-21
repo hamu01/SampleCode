@@ -225,7 +225,7 @@ namespace Dp
             return 0;
         }
 
-        public int PackLimited(int totalWeight, int max)
+        public int PackLimited(int totalWeight, int[] counts)
         {
             throw new NotImplementedException();
         }
