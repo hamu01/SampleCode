@@ -7,24 +7,40 @@ namespace HeapSort
     {
         static void Main(string[] args)
         {
-            MaxHeap maxHeap = new MaxHeap();
-            HeapSort(maxHeap);
-            Verify(maxHeap);
-            MaxHeapify(maxHeap);
-            BuildMaxHeap(maxHeap);
+            // MaxHeap maxHeap = new MaxHeap();
+            // HeapSort(maxHeap);
+            // Verify(maxHeap);
+            // MaxHeapify(maxHeap);
+            // BuildMaxHeap(maxHeap);
 
-            MaxPriorityQueue priorityQueue = new MaxPriorityQueue();
-            ExtractMax(priorityQueue);
-            IncreaseKey(priorityQueue);
-            Delete(priorityQueue);
+            // MaxPriorityQueue priorityQueue = new MaxPriorityQueue();
+            // ExtractMax(priorityQueue);
+            // IncreaseKey(priorityQueue);
+            // Delete(priorityQueue);
 
-            int k = 3;
-            List<int>[] lists = new List<int>[k];
-            lists[0] = new List<int> { 7, 4, 1 };
-            lists[1] = new List<int> { 8, 5, 2 };
-            lists[2] = new List<int> { 9, 6, 3 };
-            var merged = Merge(lists, k);
-            Console.WriteLine($"{string.Join(',', merged)}");
+            // int k = 3;
+            // List<int>[] lists = new List<int>[k];
+            // lists[0] = new List<int> { 7, 4, 1 };
+            // lists[1] = new List<int> { 8, 5, 2 };
+            // lists[2] = new List<int> { 9, 6, 3 };
+            // var merged = Merge(lists, k);
+            // Console.WriteLine($"{string.Join(',', merged)}");
+
+            DHeap();
+        }
+
+        private static void DHeap()
+        {
+            int[] nums = new int[] { 18, 14, 16, 15, 17, 13, 12, 11, 10, 9, 8 };
+            DMaxHeap dHeap = new DMaxHeap(nums, 3);
+            dHeap.MaxHeapify(2);
+            Console.WriteLine($"{string.Join(',', dHeap.GetHeap())}");
+            int max = dHeap.ExtractMax();
+            Console.WriteLine($"{max}, {string.Join(',', dHeap.GetHeap())}");
+            dHeap.Insert(18);
+            Console.WriteLine($"{string.Join(',', dHeap.GetHeap())}");
+            dHeap.IncreaseKey(5, 19);
+            Console.WriteLine($"{string.Join(',', dHeap.GetHeap())}");
         }
 
         private static List<int> Merge(List<int>[] lists, int k)

@@ -49,12 +49,7 @@ namespace HeapSort
                 throw new Exception("key is too small");
             }
 
-            while (i > 1 && key > A[A.Parent(i)])
-            {
-                A[i] = A[A.Parent(i)];
-                i = A.Parent(i);
-            }
-            A[i] = key;
+            MaxHeapifyUp(A, i, key);
         }
 
         public void Insert(Heap<int> A, int key)
