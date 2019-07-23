@@ -1,4 +1,5 @@
 using System;
+using System.Text;
 
 namespace HeapSort
 {
@@ -29,13 +30,13 @@ namespace HeapSort
         private void MinHeapify(int r, int c)
         {
             int minR = r, minC = c, min = _matrix[r, c];
-            if (c < _len && min > _matrix[r, c + 1])
+            if (c + 1 < _len && min > _matrix[r, c + 1])
             {
                 min = _matrix[r, c + 1];
                 minR = r;
                 minC = c + 1;
             }
-            if (r < _len && min > _matrix[r + 1, c])
+            if (r + 1 < _len && min > _matrix[r + 1, c])
             {
                 min = _matrix[r + 1, c];
                 minR = r + 1;
@@ -60,6 +61,8 @@ namespace HeapSort
             int r = _n / _len;
             int c = _n % _len;
             _matrix[r, c] = num;
+
+            MinHeapifyUp(r, c);
         }
 
         private void MinHeapifyUp(int r, int c)
@@ -87,9 +90,44 @@ namespace HeapSort
             }
         }
 
-        public bool Search(int[,] matrix, int num)
+        public bool Search(int num)
         {
-            throw new NotImplementedException();
+            return Search(num, 0, _len - 1, 0, _len - 1);
+        }
+
+        private bool Search(int num, int startR, int endR, int startC, int endC)
+        {
+            if (startR == endR && startC == endC)
+            {
+                return num == _matrix[startR, startC];
+            }
+            if (num == _matrix[startR, startC] || num == _matrix[endR, endC])
+            {
+                return true;
+            }
+            if (num < _matrix[startR, startC] || num > _matrix[endR, endC])
+            {
+                return false;
+            }
+            int midR = (startR + endR) / 2;
+            int midC = (startC + endC) / 2;
+            if (Search(num, startR, midR, startC, midC))
+            {
+                return true;
+            }
+            if (midC + 1 < _len && Search(num, startR, midR, midC + 1, endC))
+            {
+                return true;
+            }
+            if (midR + 1 < _len && Search(num, midR + 1, endR, startC, midC))
+            {
+                return true;
+            }
+            if (midR + 1 < _len && midC + 1 < _len && Search(num, midR + 1, endR, midC + 1, endC))
+            {
+                return true;
+            }
+            return false;
         }
 
         public int[] Sort()
@@ -100,6 +138,23 @@ namespace HeapSort
                 nums[i] = ExtractMin();
             }
             return nums;
+        }
+
+        public override string ToString()
+        {
+            StringBuilder builder = new StringBuilder();
+            for (int r = 0; r < _len; r++)
+            {
+                for (int c = 0; c < _len; c++)
+                {
+                    if (r * _len + c <= _n)
+                    {
+                        builder.Append(_matrix[r, c] + " ");
+                    }
+                }
+                builder.AppendLine();
+            }
+            return builder.ToString();
         }
     }
 }

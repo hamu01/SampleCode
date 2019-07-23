@@ -7,26 +7,27 @@ namespace HeapSort
     {
         static void Main(string[] args)
         {
-            // MaxHeap maxHeap = new MaxHeap();
-            // HeapSort(maxHeap);
-            // Verify(maxHeap);
-            // MaxHeapify(maxHeap);
-            // BuildMaxHeap(maxHeap);
+            MaxHeap maxHeap = new MaxHeap();
+            HeapSort(maxHeap);
+            Verify(maxHeap);
+            MaxHeapify(maxHeap);
+            BuildMaxHeap(maxHeap);
 
-            // MaxPriorityQueue priorityQueue = new MaxPriorityQueue();
-            // ExtractMax(priorityQueue);
-            // IncreaseKey(priorityQueue);
-            // Delete(priorityQueue);
+            MaxPriorityQueue priorityQueue = new MaxPriorityQueue();
+            ExtractMax(priorityQueue);
+            IncreaseKey(priorityQueue);
+            Delete(priorityQueue);
 
-            // int k = 3;
-            // List<int>[] lists = new List<int>[k];
-            // lists[0] = new List<int> { 7, 4, 1 };
-            // lists[1] = new List<int> { 8, 5, 2 };
-            // lists[2] = new List<int> { 9, 6, 3 };
-            // var merged = Merge(lists, k);
-            // Console.WriteLine($"{string.Join(',', merged)}");
+            int k = 3;
+            List<int>[] lists = new List<int>[k];
+            lists[0] = new List<int> { 7, 4, 1 };
+            lists[1] = new List<int> { 8, 5, 2 };
+            lists[2] = new List<int> { 9, 6, 3 };
+            var merged = Merge(lists, k);
+            Console.WriteLine($"{string.Join(',', merged)}");
 
             DHeap();
+            YoungTableau();
         }
 
         private static void DHeap()
@@ -41,6 +42,25 @@ namespace HeapSort
             Console.WriteLine($"{string.Join(',', dHeap.GetHeap())}");
             dHeap.IncreaseKey(5, 19);
             Console.WriteLine($"{string.Join(',', dHeap.GetHeap())}");
+        }
+
+        private static void YoungTableau()
+        {
+            int[,] matrix = new int[3, 3]
+            {
+                {1, 5, 9},
+                {2, 6, 10},
+                {3, 7, 11}
+            };
+            YoungTableau tableau = new YoungTableau(matrix, 8);
+            int min = tableau.ExtractMin();
+            Console.WriteLine($"min: {min}, tableau: \n{tableau.ToString()}");
+            tableau.Insert(8);
+            Console.WriteLine($"tableau: \n{tableau.ToString()}");
+            bool exist = tableau.Search(9);
+            Console.WriteLine($"9 exist: {exist}");
+            exist = tableau.Search(4);
+            Console.WriteLine($"4 exist: {exist}");
         }
 
         private static List<int> Merge(List<int>[] lists, int k)
