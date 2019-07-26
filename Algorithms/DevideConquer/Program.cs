@@ -15,8 +15,11 @@ namespace DevideConquer
             // BeautyArray array = new BeautyArray();
             // array.Run();
 
-            Parentheses parentheses = new Parentheses();
-            parentheses.Run();
+            // Parentheses parentheses = new Parentheses();
+            // parentheses.Run();
+
+            Matrix matrix = new Matrix();
+            matrix.Run();
         }
     }
 }
