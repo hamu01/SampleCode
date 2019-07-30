@@ -28,7 +28,18 @@ namespace HeapSort
 
             DHeap();
             YoungTableau();
+
+            TopK();
         }
+        
+        public static void TopK()
+        {
+            Top top = new Top();
+            int[] nums = new int[] { 3, 6, 1, 10, 7, 16 };
+            int[] tops = top.TopKs(nums, 4);
+            Console.WriteLine(string.Join(',', tops));
+        }
+
 
         private static void DHeap()
         {
