@@ -11,6 +11,7 @@ namespace HeapSort
             {
                 heap[i] = nums[i];
             }
+	        BuildMinHeap(heap);
             for (int i = k; i < nums.Length; i++)
             {
                 if (nums[i] > heap[0])

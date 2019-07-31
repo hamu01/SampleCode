@@ -29,7 +29,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Dp", "Dp\Dp.csproj", "{89FE
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Map", "Map\Map.csproj", "{6EF1E970-0A69-451B-9905-BB0E6B27790F}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DevideConquer", "DevideConquer\DevideConquer.csproj", "{A503FA8A-EF49-4526-889C-1C309E14D8FF}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DevideConquer", "DevideConquer\DevideConquer.csproj", "{A503FA8A-EF49-4526-889C-1C309E14D8FF}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Heap", "Heap\Heap.csproj", "{5064A425-E79A-48DC-9604-65EC40D3F53C}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -93,6 +95,10 @@ Global
 		{A503FA8A-EF49-4526-889C-1C309E14D8FF}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{A503FA8A-EF49-4526-889C-1C309E14D8FF}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{A503FA8A-EF49-4526-889C-1C309E14D8FF}.Release|Any CPU.Build.0 = Release|Any CPU
+		{5064A425-E79A-48DC-9604-65EC40D3F53C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5064A425-E79A-48DC-9604-65EC40D3F53C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5064A425-E79A-48DC-9604-65EC40D3F53C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5064A425-E79A-48DC-9604-65EC40D3F53C}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
