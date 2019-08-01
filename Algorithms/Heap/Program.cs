@@ -27,8 +27,11 @@ namespace Heap
             // Frequency frequency = new Frequency();
             // frequency.Run();
 
-            TopK topK = new TopK();
-            topK.Run();
+            // TopK topK = new TopK();
+            // topK.Run();
+
+            Matrix matrix = new Matrix();
+            matrix.Run();
         }
     }
 }
