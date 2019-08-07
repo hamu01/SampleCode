@@ -7,29 +7,24 @@ namespace HeapSort
     {
         static void Main(string[] args)
         {
-            MaxHeap maxHeap = new MaxHeap();
-            HeapSort(maxHeap);
-            Verify(maxHeap);
-            MaxHeapify(maxHeap);
-            BuildMaxHeap(maxHeap);
+            // MaxHeap maxHeap = new MaxHeap();
+            // HeapSort(maxHeap);
+            // Verify(maxHeap);
+            // MaxHeapify(maxHeap);
+            // BuildMaxHeap(maxHeap);
 
-            MaxPriorityQueue priorityQueue = new MaxPriorityQueue();
-            ExtractMax(priorityQueue);
-            IncreaseKey(priorityQueue);
-            Delete(priorityQueue);
+            // MaxPriorityQueue priorityQueue = new MaxPriorityQueue();
+            // ExtractMax(priorityQueue);
+            // IncreaseKey(priorityQueue);
+            // Delete(priorityQueue);
 
-            int k = 3;
-            List<int>[] lists = new List<int>[k];
-            lists[0] = new List<int> { 7, 4, 1 };
-            lists[1] = new List<int> { 8, 5, 2 };
-            lists[2] = new List<int> { 9, 6, 3 };
-            var merged = Merge(lists, k);
-            Console.WriteLine($"{string.Join(',', merged)}");
+            ListMerge merge = new ListMerge();
+            merge.Run();
 
-            DHeap();
-            YoungTableau();
+            // DHeap();
+            // YoungTableau();
 
-            TopK();
+            // TopK();
         }
         
         public static void TopK()
