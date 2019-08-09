@@ -259,5 +259,14 @@ namespace QuickSort
             nums[r] = temp1;
             return new Tuple<int, int>(q, i);
         }
+
+        private int RandomizedPartition(int[] nums, int p, int r)
+        {
+            int i = new Random().Next(p, r);
+            int temp = nums[i];
+            nums[i] = nums[r];
+            nums[r] = temp;
+            return Partition(nums, p, r);
+        }
     }
 }
