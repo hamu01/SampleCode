@@ -5,42 +5,56 @@ namespace DataStructure
     public class DualQueue
     {
         private int[] _nums;
+        private int _start;
+        private int _end;
+        private int _n;
 
         public DualQueue(int n)
         {
-            _nums = new int[n];
+            _n = n + 1;
+            _nums = new int[n + 1];
         }
 
-        public void Enqueue(int num, int i)
+        public void EnqueueStart(int num)
         {
-            if (i == 1)
+            if (_start == (_end + 1) % _n)
             {
-
+                throw new Exception("overflow");
             }
-            else if (i == 2)
-            {
-
-            }
-            else
-            {
-                throw new Exception("only supoport 1 and 2");
-            }
+            _start = (_start + _n - 1) % _n;
+            _nums[_start] = num;
         }
 
-        public int Dequeue(int i)
+        public int DequeueStart()
         {
-            if (i == 1)
+            if (_start == _end)
             {
+                throw new Exception("underflow");
+            }
+            int num = _nums[_start];
+            _start = (_start + 1) % _n;
+            return num;
+        }
 
-            }
-            else if (i == 2)
+        public void EnqueueEnd(int num)
+        {
+            if (_start == (_end + 1) % _n)
             {
+                throw new Exception("overflow");
+            }
+            _nums[_end] = num;
+            _end = (_end + 1) % _n;
+        }
 
-            }
-            else
+        public int DequeueEnd()
+        {
+            if (_start == _end)
             {
-                throw new Exception("only supoport 1 and 2");
+                throw new Exception("underflow");
             }
+            _end = (_end + _n - 1) % _n;
+            int num = _nums[_end];
+            return num;
         }
     }
 }
