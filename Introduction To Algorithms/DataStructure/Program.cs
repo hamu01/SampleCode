@@ -9,7 +9,9 @@ namespace DataStructure
             // DualStackTest();
             // QueueTest();
             // DualQueueTest();
-            LinkedListTest();
+            // LinkedListTest();
+            MultiTreeTest();
+            // TreeTest();
         }
 
         private static void DualStackTest()
@@ -263,15 +265,55 @@ namespace DataStructure
             }
             Console.WriteLine();
         }
-    
+
         private static void LinkedListTest()
         {
             LinkedList linkedList = new LinkedList();
-            int[] nums = new int[] {1,2,3,4,5};
+            int[] nums = new int[] { 1, 2, 3, 4, 5 };
             Node n = linkedList.Build(nums);
             linkedList.Print(n);
             n = linkedList.Reverse(n);
             linkedList.Print(n);
         }
+
+        private static void MultiTreeTest()
+        {
+            MultiTreeNode root = new MultiTreeNode() { Val = 1 };
+            root.LeftChild = new MultiTreeNode() { Val = 2 };
+            root.LeftChild.RightSibling = new MultiTreeNode() { Val = 3 };
+            root.LeftChild.LeftChild = new MultiTreeNode() { Val = 4 };
+            root.LeftChild.LeftChild.RightSibling = new MultiTreeNode() { Val = 5 };
+            root.LeftChild.RightSibling.LeftChild = new MultiTreeNode() { Val = 6 };
+            root.LeftChild.RightSibling.LeftChild.RightSibling = new MultiTreeNode() { Val = 7 };
+
+            MultiTree tree = new MultiTree();
+            var vals = tree.PreOrderLoop(root);
+            Console.WriteLine("Pre Order Loop: " + string.Join(',', vals));
+            vals = tree.PostOrderLoop(root);
+            Console.WriteLine("Post Order Loop: " + string.Join(',', vals));
+            vals = tree.PreOrder(root);
+            Console.WriteLine("Pre Order: " + string.Join(',', vals));
+            vals = tree.PostOrder(root);
+            Console.WriteLine("Post Order: " + string.Join(',', vals));
+        }
+    
+        private static void TreeTest()
+        {
+            TreeNode root = new TreeNode() { Val = 1 };
+            root.Left = new TreeNode() { Val = 2 };
+            root.Right= new TreeNode() { Val = 3 };
+            root.Left.Left = new TreeNode() { Val = 4 };
+            root.Left.Right = new TreeNode() { Val = 5 };
+            root.Right.Left = new TreeNode() { Val = 6 };
+            root.Right.Right= new TreeNode() { Val = 7 };
+
+            Tree tree = new Tree();
+            var vals = tree.PreOrder(root);
+            Console.WriteLine("Pre Order: " + string.Join(',', vals));
+            vals = tree.InOrder(root);
+            Console.WriteLine("In Order: " + string.Join(',', vals));
+            vals = tree.PostOrder(root);
+            Console.WriteLine("Post Order: " + string.Join(',', vals));
+        }    
     }
 }
