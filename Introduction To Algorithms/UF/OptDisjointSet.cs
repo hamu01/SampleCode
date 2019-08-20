@@ -3,7 +3,8 @@ using System.Collections.Generic;
 
 namespace UF
 {
-    public class DisjointSet
+    //dot net use tail
+    public class OptDisjointSet
     {
         public void Run(int[,] matrix)
         {
@@ -33,7 +34,7 @@ namespace UF
             }
             foreach (var set in hashset)
             {
-                LinkedListNode node = set.Next;
+                LinkedListNode node = set;
                 Console.Write("head");
                 while (node != null)
                 {
@@ -43,12 +44,12 @@ namespace UF
                 Console.WriteLine();
             }
         }
-
+       
         public void Union1(LinkedListNode x, LinkedListNode y)
         {
-            LinkedListNode xHead = Find(x);
-            LinkedListNode yHead = Find(y);
-            if (xHead.Length < yHead.Length)
+            LinkedListNode xSet = Find(x);
+            LinkedListNode ySet = Find(y);
+            if (xSet.Length < ySet.Length)
             {
                 Union(y, x);
             }
@@ -60,18 +61,22 @@ namespace UF
 
         public void Union(LinkedListNode x, LinkedListNode y)
         {
-            LinkedListNode xHead = Find(x);
-            LinkedListNode yHead = Find(y);
-            if (xHead != yHead)
+            LinkedListNode xSet = Find(x);
+            LinkedListNode ySet = Find(y);
+            if (xSet != ySet)
             {
-                xHead.Tail.Next = yHead.Next;
-                LinkedListNode node = yHead.Next;
-                while (node != null)
+                LinkedListNode n = ySet;
+                while (n != null)
                 {
-                    node.Head = xHead;
-                    node = node.Next;
+                    LinkedListNode next = n.Next;
+
+                    n.Head = xSet;
+                    n.Next = xSet.Next;
+                    xSet.Next = n;
+
+                    n = next;
                 }
-                xHead.Tail = yHead.Tail;
+                xSet.Length += ySet.Length;
             }
         }
 
@@ -82,26 +87,9 @@ namespace UF
 
         public LinkedListNode MakeSet(LinkedListNode x)
         {
-            LinkedListNode head = new LinkedListNode();
-            head.Head = head;
-            head.Next = x;
-            head.Tail = x;
-            head.Length = 1;
-            x.Head = head;
-            return head;
+            x.Head = x;
+            x.Length = 1;
+            return x;
         }
-    }
-
-    public class LinkedListNode
-    {
-        public int Val;
-
-        public LinkedListNode Next;
-
-        public LinkedListNode Head;
-
-        public LinkedListNode Tail;
-
-        public int Length;
     }
 }
