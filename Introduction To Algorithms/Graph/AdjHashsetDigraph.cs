@@ -2,11 +2,11 @@ using System.Collections.Generic;
 
 namespace Graph
 {
-    public class AdjacencyHashsetDirectGraph : DirectGraphBase
+    public class AdjHashsetDigraph : DigraphBase
     {
         private HashSet<int>[] _hashSets;
 
-        public AdjacencyHashsetDirectGraph(int v) : base(v)
+        public AdjHashsetDigraph(int v) : base(v)
         {
             _hashSets = new HashSet<int>[v];
             for (int i = 0; i < v; i++)

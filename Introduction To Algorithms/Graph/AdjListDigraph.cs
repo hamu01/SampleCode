@@ -2,11 +2,11 @@ using System.Collections.Generic;
 
 namespace Graph
 {
-    public class AdjacencyListDirectGraph : DirectGraphBase
+    public class AdjListDigraph : DigraphBase
     {
         private Node[] _nodes;
 
-        public AdjacencyListDirectGraph(int v) : base(v)
+        public AdjListDigraph(int v) : base(v)
         {
             _nodes = new Node[v];
             for (int i = 0; i < v; i++)
@@ -50,9 +50,9 @@ namespace Graph
             return false;
         }
 
-        public AdjacencyListDirectGraph Transpose1()
+        public AdjListDigraph Transpose1()
         {
-            AdjacencyListDirectGraph g = new AdjacencyListDirectGraph(V);
+            AdjListDigraph g = new AdjListDigraph(V);
             for (int i = 0; i < V; i++)
             {
                 Node cur = _nodes[i].Next;
@@ -65,9 +65,9 @@ namespace Graph
             return g;
         }
 
-        public AdjacencyListDirectGraph Deduplicate1()
+        public AdjListDigraph Deduplicate1()
         {
-            AdjacencyListDirectGraph g = new AdjacencyListDirectGraph(V);
+            AdjListDigraph g = new AdjListDigraph(V);
             for (int i = 0; i < V; i++)
             {
                 HashSet<int> hashset = new HashSet<int>();
@@ -85,9 +85,9 @@ namespace Graph
             return g;
         }
 
-        public AdjacencyListDirectGraph Square1()
+        public AdjListDigraph Square1()
         {
-            AdjacencyListDirectGraph g = new AdjacencyListDirectGraph(V);
+            AdjListDigraph g = new AdjListDigraph(V);
             for (int i = 0; i < V; i++)
             {
                 Node cur = _nodes[i].Next;

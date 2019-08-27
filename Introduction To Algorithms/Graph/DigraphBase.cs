@@ -1,15 +1,16 @@
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 
 namespace Graph
 {
-    public abstract class GraphBase
+    public abstract class DigraphBase
     {
         private int _v;
         private int _e;
         private Vertex[] _vertices;
 
-        public GraphBase(int v)
+        public DigraphBase(int v)
         {
             _v = v;
             _vertices = new Vertex[v];
@@ -182,6 +183,127 @@ namespace Graph
             }
         }
 
+        public List<int> TopologicalSort()
+        {
+            Stack<int> topologicals = new Stack<int>();
+
+            foreach (var vertex in _vertices)
+            {
+                vertex.Color = Color.White;
+            }
+
+            _time = 0;
+            for (int i = 0; i < V; i++)
+            {
+                if (_vertices[i].Color == Color.White)
+                {
+                    Stack<int> stack = new Stack<int>();
+                    stack.Push(i);
+
+                    while (stack.Count > 0)
+                    {
+                        int u = stack.Peek();
+                        _vertices[u].Color = Color.Gray;
+                        _vertices[u].D = ++_time;
+
+                        bool hasWhite = false;
+                        foreach (var v in WhiteAdj(u))
+                        {
+                            hasWhite = true;
+                            stack.Push(v);
+                            break;
+                        }
+
+                        if (!hasWhite)
+                        {
+                            _vertices[u].F = ++_time;
+                            _vertices[u].Color = Color.Black;
+                            topologicals.Push(u);
+                            stack.Pop();
+                        }
+                    }
+                }
+            }
+
+            return topologicals.ToList();
+        }
+
+        public DigraphBase Deduplicate()
+        {
+            DigraphBase g = new AdjListDigraph(V);
+            for (int i = 0; i < V; i++)
+            {
+                HashSet<int> hashset = new HashSet<int>();
+                ICollection<int> adj = Adj(i);
+                foreach (int j in adj)
+                {
+                    if (j != i && !hashset.Contains(j))
+                    {
+                        g.AddEdge(i, j);
+                        hashset.Add(j);
+                    }
+                }
+            }
+            return g;
+        }
+
+        public DigraphBase Square()
+        {
+            DigraphBase g = new AdjListDigraph(V);
+            for (int i = 0; i < V; i++)
+            {
+                foreach (var j in Adj(i))
+                {
+                    g.AddEdge(i, j);
+                    foreach (var k in Adj(j))
+                    {
+                        g.AddEdge(i, k);
+                    }
+                }
+            }
+            return g;
+        }
+
+        public DigraphBase Transpose()
+        {
+            DigraphBase g = new AdjListDigraph(V);
+            for (int i = 0; i < V; i++)
+            {
+                ICollection<int> adj = Adj(i);
+                foreach (var j in adj)
+                {
+                    g.AddEdge(j, i);
+                }
+            }
+            return g;
+        }
+
+        public List<int> UniversalSink()
+        {
+            List<int> universalSink = new List<int>();
+
+            for (int i = 0; i < V; i++)
+            {
+                if (Adj(i).Count == 0)
+                {
+                    int indegree = 0;
+                    for (int j = 0; j < V; j++)
+                    {
+                        if (Adj(j).Contains(i))
+                        {
+                            indegree++;
+                        }
+                    }
+                    if (indegree == V - 1)
+                    {
+                        universalSink.Add(i);
+                    }
+                }
+            }
+
+            return universalSink;
+        }
+
         public override string ToString()
         {
             StringBuilder builder = new StringBuilder();
@@ -191,36 +313,6 @@ namespace Graph
                 builder.AppendLine($"{i} -> {string.Join(',', adj)}");
             }
             return builder.ToString();
-        }
-    }
-
-    public class AdjMatrixGraph : GraphBase
-    {
-        private byte[,] _matrix;
-
-        public AdjMatrixGraph(int v) : base(v)
-        {
-            _matrix = new byte[v,v];
-        }
-
-         public override void AddEdge(int i, int j)
-        {
-            base.AddEdge(i, j);
-            _matrix[i, j] = 1;
-            _matrix[j, i] = 1;
-        }
-
-        public override ICollection<int> Adj(int i)
-        {
-             List<int> adj = new List<int>();
-            for (int j = 0; j < V; j++)
-            {
-                if (_matrix[i, j] == 1)
-                {
-                    adj.Add(j);
-                }
-            }
-            return adj;
         }
     }
 }

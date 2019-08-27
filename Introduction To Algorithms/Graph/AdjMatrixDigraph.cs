@@ -2,11 +2,11 @@ using System.Collections.Generic;
 
 namespace Graph
 {
-    public class AdjacencyMatrixDirectGraph : DirectGraphBase
+    public class AdjMatrixDigraph : DigraphBase
     {
         private byte[,] _matrix;
 
-        public AdjacencyMatrixDirectGraph(int v) : base(v)
+        public AdjMatrixDigraph(int v) : base(v)
         {
             _matrix = new byte[v, v];
         }
@@ -35,9 +35,9 @@ namespace Graph
             return _matrix[i, j] == 1;
         }
 
-        public AdjacencyMatrixDirectGraph Transpose1()
+        public AdjMatrixDigraph Transpose1()
         {
-            AdjacencyMatrixDirectGraph g = new AdjacencyMatrixDirectGraph(V);
+            AdjMatrixDigraph g = new AdjMatrixDigraph(V);
             for (int i = 0; i < V; i++)
             {
                 for (int j = 0; j < V; j++)
@@ -51,9 +51,9 @@ namespace Graph
             return g;
         }
 
-        public AdjacencyMatrixDirectGraph Square1()
+        public AdjMatrixDigraph Square1()
         {
-            AdjacencyMatrixDirectGraph g = new AdjacencyMatrixDirectGraph(V);
+            AdjMatrixDigraph g = new AdjMatrixDigraph(V);
             for (int i = 0; i < V; i++)
             {
                 for (int j = 0; j < V; j++)
