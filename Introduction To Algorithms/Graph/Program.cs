@@ -18,7 +18,8 @@ namespace Graph
             // BfsTest(v, edges);
             // DfsTest(v, edges);
             // TopologicalTest(v, edges);
-            SccTest(v);
+            // SccTest(v);
+            CycleTest(v);
         }
 
         private static void BfsTest(int v, Tuple<int, int>[] edges)
@@ -97,6 +98,31 @@ namespace Graph
             var g2 = GetDigraph1(v, edges);
             SCC1 scc1 = new SCC1(g2);
             Console.WriteLine($"strongly connected components: {string.Join(",", scc1.Ids)}");
+        }
+
+        private static void CycleTest(int v)
+        {
+            var edges = GetEdges(v, "cycle");
+            var g = GetAdjMatrixGraph(v, edges);
+            var cycle = new Cycle(g);
+            if (cycle.HasCycle)
+            {
+                Console.WriteLine(string.Join(",", cycle.CyclePath));
+            }
+            else
+            {
+                Console.WriteLine("no cycle");
+            }
+
+            var cycle1 = new Cycle1(g);
+            if (cycle1.HasCycle)
+            {
+                Console.WriteLine(string.Join(",", cycle1.CyclePath));
+            }
+            else
+            {
+                Console.WriteLine("no cycle");
+            }
         }
 
         private static void ExistTest(int v, Tuple<int, int>[] edges)
@@ -238,6 +264,19 @@ namespace Graph
             return g;
         }
 
+        private static AdjMatrixGraph GetAdjMatrixGraph(int v, Tuple<int, int>[] edges)
+        {
+            AdjMatrixGraph g = new AdjMatrixGraph(v);
+            foreach (var edge in edges)
+            {
+                g.AddEdge(edge.Item1, edge.Item2);
+            }
+
+            Console.WriteLine("Adjacency Matrix Graph 1: ");
+            Console.WriteLine(g.ToString());
+            return g;
+        }
+
         private static Tuple<int, int>[] GetEdges(int v, string type)
         {
             List<Tuple<int, int>> edges = new List<Tuple<int, int>>();
@@ -272,6 +311,10 @@ namespace Graph
             else if (type == "scc")
             {
                 edges.Add(new Tuple<int, int>(3, 0));
+            }
+            else if (type == "cycle")
+            {
+                // edges.RemoveAt(1);
             }
 
             return edges.ToArray();
