@@ -30,8 +30,11 @@ namespace Heap
             // TopK topK = new TopK();
             // topK.Run();
 
-            Matrix matrix = new Matrix();
-            matrix.Run();
+            // Matrix matrix = new Matrix();
+            // matrix.Run();
+
+            KLargest kLargest = new KLargest();
+            kLargest.Run();
         }
     }
 }
