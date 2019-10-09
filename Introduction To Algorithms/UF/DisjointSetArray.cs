@@ -19,10 +19,9 @@ namespace UF
             {
                 MakeSet(i);
             }
-            
-            for (int k = 0; k < n; k++)
+
+            for (int i = 0; i < n; i++)
             {
-                int i = Find(k);
                 for (int j = 0; j < n; j++)
                 {
                     if (matrix[i, j] == 1)
@@ -66,7 +65,12 @@ namespace UF
 
         public void Union(int i, int j)
         {
-            _disjointSet[i] = _disjointSet[j];
+            int iRoot = Find(i);
+            int jRoot = Find(j);
+            if (iRoot != jRoot)
+            {
+                _disjointSet[iRoot] = _disjointSet[jRoot];
+            }
         }
     }
 }

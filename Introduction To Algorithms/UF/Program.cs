@@ -6,7 +6,7 @@ namespace UF
     {
         static void Main(string[] args)
         {
-            int n = 5;
+            int n = 3;
             int[,] matrix = GetMatrix(n);
             for (int i = 0; i < n; i++)
             {
@@ -59,6 +59,12 @@ namespace UF
             //     {0, 0, 0, 1, 0},
             //     {0, 1, 1, 0, 0},
             //     {0, 0, 0, 0, 0}
+            // };
+            // matrix = new int[,]
+            // {
+            //     {1, 1, 1},
+            //     {1, 1, 1},
+            //     {1, 1, 1}
             // };
             return matrix;
         }
