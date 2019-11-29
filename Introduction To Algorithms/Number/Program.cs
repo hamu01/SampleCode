@@ -9,8 +9,11 @@ namespace Number
             // Gcd gcd = new Gcd();
             // gcd.Run();
 
-            Numeric numeric = new Numeric();
-            numeric.Run();
+            Lcm lcm = new Lcm();
+            lcm.Run();
+
+            // Numeric numeric = new Numeric();
+            // numeric.Run();
         }
     }
 }
