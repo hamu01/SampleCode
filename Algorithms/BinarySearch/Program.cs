@@ -10,28 +10,31 @@ namespace BinarySearch
         static void Main(string[] args)
         {
             var search = new Search();
-            var numberTypes = new string[] { "random", "default" };
-            var targetTypes = new string[] { "first", "last", "outofrange", "default" };
+            var numberTypes = new string[] { "same", "default" };
+            var counts = new int[] { 1, 2, 10 };
+            var targetTypes = new string[] { "first", "last", "<first", ">last", "default" };
             var searchFuncs = new Func<int[], int, int>[] {
-                search.SearchEqual, search.SearchEqual1, 
-                search.SearchNotLessThan, search.SearchLessThan, 
+                search.SearchEqual, search.SearchNotLessThan, search.SearchLessThan,
                 search.SearchNotGreaterThan, search.SearchGreaterThan
             };
             foreach (var numberType in numberTypes)
             {
                 Console.WriteLine($"number type: {numberType}");
-                int[] numbers = GetNumbers(10, numberType);
-                foreach (var searchFunc in searchFuncs)
+                foreach (var count in counts)
                 {
-                    Console.WriteLine(searchFunc.Method.Name);
-                    foreach (var targetType in targetTypes)
+                    int[] numbers = GetNumbers(count, numberType);
+                    foreach (var searchFunc in searchFuncs)
                     {
-                        int target = GetTarget(numbers, targetType);
-                        int index = searchFunc(numbers, target);
-                        Print(numbers, targetType, target, index);
+                        Console.WriteLine(searchFunc.Method.Name);
+                        foreach (var targetType in targetTypes)
+                        {
+                            int target = GetTarget(numbers, targetType);
+                            int index = searchFunc(numbers, target);
+                            Print(numbers, targetType, target, index);
+                        }
                     }
+                    Console.WriteLine();
                 }
-                Console.WriteLine();
             }
         }
 
@@ -54,8 +57,12 @@ namespace BinarySearch
                     target = numbers.Last();
                     break;
 
-                case "outofrange":
+                case "<first":
                     target = numbers.First() - 1;
+                    break;
+
+                case ">last":
+                    target = numbers.Last() + 1;
                     break;
 
                 default:
@@ -70,18 +77,18 @@ namespace BinarySearch
             int[] numbers = new int[n];
             switch (type)
             {
-                case "random":
-                    for (int i = 0; i < n; i++)
-                    {
-                        numbers[i] = random.Next(10, 1000);
-                    }
-                    break;
-
-                default:
+                case "same":
                     int num = random.Next(10, 1000);
                     for (int i = 0; i < n; i++)
                     {
                         numbers[i] = num;
+                    }
+                    break;
+
+                default:
+                    for (int i = 0; i < n; i++)
+                    {
+                        numbers[i] = random.Next(10, 1000);
                     }
                     break;
             }
